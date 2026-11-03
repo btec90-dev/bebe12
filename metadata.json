@@ -1,0 +1,8 @@
+{
+  "name": "F\u0026B",
+  "description": "Pregnancy and postpartum tracker with fetal kick counter, daily symptoms log, baby feeding timers, weekly development milestones, and Gemini AI obstetric companion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

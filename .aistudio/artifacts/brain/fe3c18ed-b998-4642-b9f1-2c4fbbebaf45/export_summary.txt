@@ -1,0 +1,73 @@
+================================================================================
+             MAMAN & BÉBÉ - COMPLETE CODEBASE & APPLICATION EXPORT
+================================================================================
+
+Your complete application codebase and project contents have been successfully 
+exported into a unified text file:
+
+📄 FILE NAME: maman_bebe_complete_project_export.txt
+📦 FILE SIZE: ~750 KB
+📁 TOTAL EXPORTED FILES: 77 files
+📱 PLATFORM: Android (Jetpack Compose + Kotlin + Material 3)
+
+--------------------------------------------------------------------------------
+WHERE TO DOWNLOAD THIS FILE IN AI STUDIO:
+--------------------------------------------------------------------------------
+1. In the AI Studio Build interface, look at the Artifacts panel / list (top-right
+   or chat attachments section).
+2. You will see two downloadable artifact cards:
+   - "maman_bebe_complete_project_export.txt" (The complete full codebase text file)
+   - "export_summary.txt" (This summary index file)
+3. Click on "maman_bebe_complete_project_export.txt" to view or download the file 
+   directly to your computer.
+
+--------------------------------------------------------------------------------
+SUMMARY OF WHAT IS INSIDE THE COMPLETE PROJECT EXPORT:
+--------------------------------------------------------------------------------
+1. Core Build & System Configurations:
+   - build.gradle.kts (Root & App module with Jetpack Compose, Room, Health Connect, KSP)
+   - settings.gradle.kts
+   - AndroidManifest.xml (Permissions, edge-to-edge theme, FileProvider)
+   - metadata.json, firestore.rules, firebase.json, firebase-blueprint.json
+
+2. Data & Persistence Layer:
+   - AppDatabase.kt (Room database setup)
+   - Entities.kt (PregnancyLogEntity, KickSessionEntity, BabyLogEntity, JournalEntryEntity, AppointmentEntity, ChecklistItemEntity, MedicalContactEntity)
+   - PregnancyDao.kt (Complete reactive Room DAO with Kotlin Flow queries)
+   - CareNetworkRepository.kt & CachedContact.kt
+   - PregnancySyncRepository.kt, PregnancySyncManager.kt, PregnancySyncWorker.kt
+
+3. Business Logic & ViewModels:
+   - PregnancyViewModel.kt (Full state management: gestation calculator, Health Connect, kick sessions, logs, photo attachments, language switching, PIN security, twin mode)
+   - PregnancyWeeksData.kt & MilestoneRoadmapData.kt (Medical developmental milestones for weeks 1–40)
+   - HealthConnectManager.kt (Vitals, weight, hydration integration)
+   - MamanNetworkService.kt
+
+4. UI Screens & Composable Views:
+   - TodayScreen.kt (Countdown card, monthly calendar tracker, audio visual model, doctor visits, bump photo albums, quick actions)
+   - MamanTopBar.kt & UserProfileHeader.kt (Top app bar with prominent logo and custom caramel profile header)
+   - UserProfileDialog.kt (Profile name, age, circular photo picker, title color picker)
+   - SettingsPrivacyDialog.kt (PIN lock, biometrics, notifications, twin mode, data export)
+   - StatsScreen.kt (Vitals charts, weight trends, kick analytics)
+   - KickCounterScreen.kt (Live kick timer, kick interval tracker, historical sessions)
+   - PregnancyLogScreen.kt (Daily logs for mood, water, weight, blood pressure, symptoms)
+   - BabyLogScreen.kt (Postpartum feeding, nursing timer, diaper, sleep tracking)
+   - MilestoneJournalScreen.kt (Weekly bump photo albums, custom notes, memories)
+   - AppointmentsScreen.kt (Care directory, doctor visits, clinic map/contacts, PDF export)
+   - ChecklistScreen.kt (Hospital bag packing list, trimester to-dos, custom tasks)
+   - MamanAssistantScreen.kt (Gemini AI pregnancy companion)
+   - WeekDetailScreen.kt, KnowledgeScreen.kt, RoadmapScreen.kt
+
+5. Design System & Theme:
+   - Color.kt (Warm Caramel #9E5727, Soft Toffee #DDA15E, Crisp Cream #FFFDF9, Dark Espresso #2D1B10)
+   - Shapes.kt (24dp rounded corners)
+   - Type.kt & Theme.kt (Dynamic M3 styling)
+   - Localized strings: English, French, Spanish, Portuguese, Italian, Arabic
+
+6. Utilities:
+   - MamanDataTextExporter.kt (Generates Maman_Bebe_Complete_Archive_Week_X.txt for user records)
+   - CareDirectoryPdfExporter.kt (Generates printable medical PDF directory)
+
+================================================================================
+Generated for: Maman & Bébé (AI Studio Build)
+================================================================================

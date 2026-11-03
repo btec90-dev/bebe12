@@ -1,0 +1,6 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "database": "ai-studio-android-mamanbb-fe3c18ed-b998-4642-b9f1-2c4fbbebaf45"
+  }
+}

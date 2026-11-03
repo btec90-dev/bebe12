@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "path": "users/{userId}",
+      "schema": {
+        "userId": "string",
+        "email": "string",
+        "displayName": "string",
+        "createdAt": "timestamp"
+      }
+    },
+    "PregnancyLog": {
+      "path": "users/{userId}/pregnancyLogs/{logId}",
+      "schema": {
+        "id": "string",
+        "dateString": "string",
+        "timestamp": "number",
+        "weightKg": "number",
+        "waterGlasses": "number",
+        "mood": "string",
+        "symptoms": "string",
+        "bloodPressure": "string",
+        "notes": "string",
+        "userId": "string",
+        "updatedAt": "timestamp"
+      }
+    },
+    "JournalEntry": {
+      "path": "users/{userId}/journalEntries/{entryId}",
+      "schema": {
+        "id": "string",
+        "weekNumber": "number",
+        "title": "string",
+        "reflection": "string",
+        "photoUri": "string",
+        "category": "string",
+        "timestamp": "number",
+        "userId": "string",
+        "createdAt": "timestamp"
+      }
+    },
+    "Appointment": {
+      "path": "users/{userId}/appointments/{appointmentId}",
+      "schema": {
+        "id": "string",
+        "title": "string",
+        "doctorName": "string",
+        "location": "string",
+        "dateTimestamp": "number",
+        "notes": "string",
+        "isCompleted": "boolean",
+        "userId": "string",
+        "createdAt": "timestamp"
+      }
+    },
+    "CachedContact": {
+      "path": "users/{userId}/cachedContacts/{contactId}",
+      "schema": {
+        "id": "string",
+        "type": "string",
+        "name": "string",
+        "phone": "string",
+        "address": "string",
+        "notes": "string",
+        "userId": "string",
+        "createdAt": "timestamp"
+      }
+    }
+  }
+}

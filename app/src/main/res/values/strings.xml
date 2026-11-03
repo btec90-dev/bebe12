@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">Maman &amp; bébé Pregnancy Tracker</string>
+    <string name="app_title">Maman &amp; Bébé</string>
+
+    <!-- Header & Greetings -->
+    <string name="good_morning">Good morning</string>
+    <string name="todays_journey">TODAY\'S JOURNEY</string>
+    <string name="estimated_due_date">Estimated Due Date</string>
+    <string name="select_log_date">Select Log Date</string>
+    <string name="pregnancy_countdown">Pregnancy Countdown</string>
+    <string name="days_left">%1$d days left</string>
+    <string name="days_remaining">%1$d days to due date</string>
+    <string name="edit_due_date">Edit Due Date</string>
+    <string name="due_date_saved">Due date updated successfully</string>
+    <string name="tap_to_edit">Tap to edit date</string>
+
+    <!-- Dashboard Stats -->
+    <string name="week_trimester">Week %1$d • Trimester %2$d</string>
+    <string name="twin_week_trimester">Twin Mode • Week %1$d</string>
+    <string name="baby_size_title">Baby is as big as a %1$s!</string>
+    <string name="approx_dimensions">Approx. %1$d cm | %2$d g</string>
+    <string name="week_of_40">Week %1$d of 40</string>
+    <string name="daily_kick_goal">Daily Goal</string>
+    <string name="search_placeholder">Search symptoms, articles, notes…</string>
+    <string name="recently_logged">Recently logged</string>
+    <string name="see_all">See all</string>
+
+    <!-- Medical Disclaimer -->
+    <string name="medical_disclaimer">Maman &amp; bébé is designed for informational and educational support only and does not provide medical advice, diagnosis, or treatment.</string>
+
+    <!-- Navigation Tabs -->
+    <string name="tab_home">Home</string>
+    <string name="tab_plan">Plan</string>
+    <string name="tab_stats">Stats</string>
+    <string name="tab_log">Log</string>
+    <string name="tab_ai">AI</string>
+    <string name="tab_kicks">Kicks</string>
+    <string name="tab_baby">Baby</string>
+
+    <!-- Logging Actions & Dialogs -->
+    <string name="log_todays_symptoms">Log today\'s symptoms</string>
+    <string name="kick_counter">Kick Counter</string>
+    <string name="feeding_log">Feeding Log</string>
+    <string name="diaper_change">Diaper Change</string>
+    <string name="sleep_session">Sleep Session</string>
+    <string name="pump_session">Pump Session</string>
+    <string name="save_essentials">Save essentials (%1$d of %2$d packed)</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="hydration_water">Water Intake</string>
+    <string name="mood">Mood</string>
+    <string name="symptoms">Symptoms</string>
+    <string name="save_daily_log">Save Daily Log</string>
+    <string name="log_saved_success">Daily log saved successfully!</string>
+    <string name="health_connect_sync">Health Connect Synced</string>
+    <string name="connect_health">Connect Android Health</string>
+
+    <!-- Settings & Multi-Language -->
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="select_language">Select Language</string>
+    <string name="english">English</string>
+    <string name="french">Français</string>
+    <string name="spanish">Español</string>
+    <string name="portuguese">Português</string>
+    <string name="italian">Italiano</string>
+    <string name="arabic">العربية</string>
+    <string name="single_twin_mode">Single Baby / Twin Mode</string>
+    <string name="size_theme">Size Theme</string>
+    <string name="fruits_theme">Fruits &amp; Veggies</string>
+    <string name="animals_theme">Cute Animals</string>
+    <string name="snacks_theme">Snacks &amp; Treats</string>
+    <string name="sports_theme">Sports Equipment</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="close">Close</string>
+
+    <!-- AI Companion -->
+    <string name="assistant_title">Maman AI Companion</string>
+    <string name="assistant_subtitle">Your compassionate prenatal assistant</string>
+    <string name="assistant_welcome">Bonjour! Welcome to Maman &amp; bébé. How can I support you and your baby today?</string>
+    <string name="assistant_placeholder">Ask about symptoms, nutrition, kicks…</string>
+    <string name="send">Send</string>
+    <string name="assistant_disclaimer">AI advice is educational. Always consult your healthcare provider for medical concerns.</string>
+
+    <!-- Appointments & Bump Photo Studio -->
+    <string name="upcoming_appointments">Upcoming Appointments</string>
+    <string name="schedule_appointment">Schedule Visit</string>
+    <string name="no_upcoming_appointments">No upcoming doctor appointments scheduled</string>
+    <string name="view_agenda">View Agenda</string>
+    <string name="bump_photo_studio">Bump &amp; Baby Photo Studio</string>
+    <string name="take_bump_photo">Take Photo</string>
+    <string name="pick_from_gallery">Gallery</string>
+    <string name="photo_saved_success">Bump photo saved to your journal!</string>
+    <string name="privacy_pin">Privacy PIN</string>
+    <string name="fetal_3d_video_title">3D Fetal Video Player</string>
+    <string name="fetal_3d_video_subtitle">Weekly 3D Fetal Development Simulation</string>
+    <string name="tab_3d_model">3D Interactive</string>
+    <string name="tab_3d_video">3D Video Clip</string>
+    <string name="video_play">Play</string>
+    <string name="video_pause">Pause</string>
+    <string name="video_mute">Mute</string>
+    <string name="video_unmute">Unmute</string>
+    <string name="video_custom_url">Custom Video URL</string>
+    <string name="video_enter_url">Enter .mp4 video URL</string>
+    <string name="video_fullscreen">Fullscreen</string>
+    <string name="video_source_cdn">CDN Video Active</string>
+</resources>
