@@ -100,7 +100,8 @@ fun TodayScreen(
     onNavigateWeekDetail: () -> Unit,
     onOpenHealthConnectDialog: () -> Unit,
     onOpenLanguageDialog: () -> Unit = {},
-    onOpenSettings: () -> Unit = {}
+    onOpenSettings: () -> Unit = {},
+    onOpenPublicShareDialog: () -> Unit = {}
 ) {
     val currentWeek by viewModel.currentWeekNumber.collectAsState()
     val weekData by viewModel.currentWeekData.collectAsState()
@@ -840,12 +841,80 @@ fun TodayScreen(
                         }
                     }
 
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Compact Public App Share Quick Banner
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onOpenPublicShareDialog() }
+                            .shadow(2.dp, RoundedCornerShape(12.dp))
+                            .testTag("banner_public_share"),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = SquircleItemBg),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, LatteBorderSoft)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                                Text(text = "🌐", fontSize = 22.sp)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Column {
+                                    Text(
+                                        text = "Partager l'App Maman & Bébé",
+                                        style = MaterialTheme.typography.titleSmall.copy(
+                                            fontWeight = FontWeight.Bold,
+                                            color = TextDarkEspresso,
+                                            fontSize = 12.sp
+                                        )
+                                    )
+                                    Text(
+                                        text = "Lien public cloud • Inviter Papa Bala & les proches",
+                                        style = MaterialTheme.typography.bodySmall.copy(
+                                            color = TextWarmTaupe,
+                                            fontSize = 10.sp
+                                        )
+                                    )
+                                }
+                            }
+
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(DeepEspressoPrimary)
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(
+                                    text = "Partager",
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White,
+                                        fontSize = 10.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
+
                     Spacer(modifier = Modifier.height(10.dp))
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
+                        item {
+                            RecentLogCard(
+                                title = "Partager l'App",
+                                subtitle = "Lien public & famille",
+                                icon = "🌐",
+                                onClick = onOpenPublicShareDialog
+                            )
+                        }
                         item {
                             RecentLogCard(
                                 title = "Espace Couple",

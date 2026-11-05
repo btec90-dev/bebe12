@@ -22,7 +22,7 @@ import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.*
@@ -448,7 +448,7 @@ fun SettingsPrivacyDialog(
                                     shape = RoundedCornerShape(12.dp)
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.ExitToApp,
+                                        imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                                         contentDescription = null,
                                         tint = DeepEspressoPrimary,
                                         modifier = Modifier.size(16.dp)
@@ -540,6 +540,110 @@ fun SettingsPrivacyDialog(
                             onCheckedChange = { viewModel.toggleTwinMode() },
                             colors = SwitchDefaults.colors(checkedTrackColor = DeepEspressoPrimary)
                         )
+                    }
+                }
+
+                // 5b. Public App Share Link
+                Card(
+                    modifier = Modifier.fillMaxWidth().testTag("settings_card_public_share"),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = SquircleItemBg)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = null,
+                                tint = DeepEspressoPrimary,
+                                modifier = Modifier.size(22.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    text = "Lien Public de l'Application",
+                                    style = MaterialTheme.typography.titleSmall.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = TextDarkEspresso
+                                    )
+                                )
+                                Text(
+                                    text = "Partagez l'application avec vos proches",
+                                    style = MaterialTheme.typography.bodySmall.copy(
+                                        color = TextWarmTaupe,
+                                        fontSize = 11.sp
+                                    )
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = "https://ais-pre-kt3sdklat2jmtws76kqso4-533662333695.us-west1.run.app",
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = TextDarkEspresso,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Medium
+                            ),
+                            maxLines = 2,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.White.copy(alpha = 0.8f))
+                                .padding(8.dp)
+                        )
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Button(
+                                onClick = {
+                                    val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                    val clip = android.content.ClipData.newPlainText("Maman & Bébé App Link", "https://ais-pre-kt3sdklat2jmtws76kqso4-533662333695.us-west1.run.app")
+                                    clipboard.setPrimaryClip(clip)
+                                    android.widget.Toast.makeText(context, "Lien public copié !", android.widget.Toast.LENGTH_SHORT).show()
+                                },
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary),
+                                modifier = Modifier.weight(1f).testTag("btn_settings_copy_link")
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ContentCopy,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Copier", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
+
+                            Button(
+                                onClick = {
+                                    val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                                        type = "text/plain"
+                                        putExtra(android.content.Intent.EXTRA_SUBJECT, "Maman & Bébé App")
+                                        putExtra(android.content.Intent.EXTRA_TEXT, "👶 Suivez notre grossesse sur Maman & Bébé !\nLien public : https://ais-pre-kt3sdklat2jmtws76kqso4-533662333695.us-west1.run.app")
+                                    }
+                                    context.startActivity(android.content.Intent.createChooser(shareIntent, "Partager l'application"))
+                                },
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = SoftToffeeSecondary),
+                                modifier = Modifier.weight(1f).testTag("btn_settings_share_link")
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Share,
+                                    contentDescription = null,
+                                    tint = DeepEspressoPrimary,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Partager", color = DeepEspressoPrimary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
                     }
                 }
 

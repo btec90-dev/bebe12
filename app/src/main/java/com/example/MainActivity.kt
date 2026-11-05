@@ -29,6 +29,7 @@ import com.example.ui.components.LanguageSelectorDialog
 import com.example.ui.components.MamanBottomBar
 import com.example.ui.components.MamanTopBar
 import com.example.ui.components.PinLockScreen
+import com.example.ui.components.PublicShareDialog
 import com.example.ui.components.SettingsPrivacyDialog
 import com.example.ui.components.UserProfileDialog
 import com.example.ui.screens.AppointmentsScreen
@@ -57,46 +58,80 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import java.util.Locale
 
-class MainActivity : ComponentActivity() {
+class MainActivity : androidx.fragment.app.FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        if (com.google.firebase.FirebaseApp.getApps(this).isEmpty()) {
-            com.google.firebase.FirebaseApp.initializeApp(this)
+        try {
+            if (com.google.firebase.FirebaseApp.getApps(this).isEmpty()) {
+                com.google.firebase.FirebaseApp.initializeApp(this)
+            }
+        } catch (e: Throwable) {
+            android.util.Log.w("MainActivity", "FirebaseApp init skipped: ${e.message}")
         }
-        com.example.repository.PregnancySyncWorker.scheduleSync(this)
+        try {
+            com.example.repository.PregnancySyncWorker.scheduleSync(this)
+        } catch (e: Throwable) {
+            android.util.Log.w("MainActivity", "PregnancySyncWorker init skipped: ${e.message}")
+        }
         setContent {
             MamanBebeTheme {
-                val auth = Firebase.auth
-                var currentUser by remember { mutableStateOf(auth.currentUser) }
+                val auth = remember {
+                    try {
+                        Firebase.auth
+                    } catch (_: Throwable) {
+                        null
+                    }
+                }
+                var currentUser by remember {
+                    mutableStateOf(
+                        try {
+                            auth?.currentUser
+                        } catch (_: Throwable) {
+                            null
+                        }
+                    )
+                }
                 // Persistently remember session for bala1fatou@gmail.com so user is never prompted to sign on
                 var isSessionConnected by remember {
                     mutableStateOf(UserSessionManager.isConnected(this@MainActivity))
                 }
 
-                DisposableEffect(Unit) {
-                    val authStateListener = FirebaseAuth.AuthStateListener { fbAuth ->
-                        currentUser = fbAuth.currentUser
-                        if (fbAuth.currentUser != null) {
-                            UserSessionManager.saveSession(
-                                context = this@MainActivity,
-                                email = fbAuth.currentUser?.email ?: UserSessionManager.DEFAULT_EMAIL,
-                                displayName = fbAuth.currentUser?.displayName ?: "Fatou & Bala",
-                                uid = fbAuth.currentUser?.uid
-                            )
-                            isSessionConnected = true
-                            com.example.repository.PregnancySyncManager.startBackgroundSync(this@MainActivity)
+                DisposableEffect(auth) {
+                    if (auth != null) {
+                        val authStateListener = FirebaseAuth.AuthStateListener { fbAuth ->
+                            try {
+                                currentUser = fbAuth.currentUser
+                                if (fbAuth.currentUser != null) {
+                                    UserSessionManager.saveSession(
+                                        context = this@MainActivity,
+                                        email = fbAuth.currentUser?.email ?: UserSessionManager.DEFAULT_EMAIL,
+                                        displayName = fbAuth.currentUser?.displayName ?: "Fatou & Bala",
+                                        uid = fbAuth.currentUser?.uid
+                                    )
+                                    isSessionConnected = true
+                                    com.example.repository.PregnancySyncManager.startBackgroundSync(this@MainActivity)
+                                }
+                            } catch (_: Throwable) {}
                         }
-                    }
-                    auth.addAuthStateListener(authStateListener)
-                    onDispose {
-                        auth.removeAuthStateListener(authStateListener)
+                        try {
+                            auth.addAuthStateListener(authStateListener)
+                        } catch (_: Throwable) {}
+                        onDispose {
+                            try {
+                                auth.removeAuthStateListener(authStateListener)
+                            } catch (_: Throwable) {}
+                        }
+                    } else {
+                        onDispose {}
                     }
                 }
 
                 LaunchedEffect(isSessionConnected) {
                     if (isSessionConnected) {
-                        com.example.repository.PregnancySyncManager.startBackgroundSync(this@MainActivity)
+                        try {
+                            com.example.repository.PregnancySyncManager.startBackgroundSync(this@MainActivity)
+                        } catch (_: Throwable) {}
                     }
                 }
 
@@ -104,14 +139,18 @@ class MainActivity : ComponentActivity() {
                     SignInScreen(
                         onSignInSuccess = {
                             isSessionConnected = true
-                            currentUser = Firebase.auth.currentUser
+                            try {
+                                currentUser = Firebase.auth.currentUser
+                            } catch (_: Throwable) {}
                             UserSessionManager.saveSession(
                                 context = this@MainActivity,
-                                email = Firebase.auth.currentUser?.email ?: UserSessionManager.DEFAULT_EMAIL,
-                                displayName = Firebase.auth.currentUser?.displayName ?: "Fatou & Bala",
-                                uid = Firebase.auth.currentUser?.uid
+                                email = UserSessionManager.getConnectedEmail(this@MainActivity),
+                                displayName = UserSessionManager.getDisplayName(this@MainActivity),
+                                uid = UserSessionManager.getUserId(this@MainActivity)
                             )
-                            com.example.repository.PregnancySyncManager.startBackgroundSync(this@MainActivity)
+                            try {
+                                com.example.repository.PregnancySyncManager.startBackgroundSync(this@MainActivity)
+                            } catch (_: Throwable) {}
                         }
                     )
                 } else {
@@ -133,6 +172,7 @@ fun MamanBebeApp(
     val isPinEnabled by viewModel.isPinEnabled.collectAsState()
     val isAppLocked by viewModel.isAppLocked.collectAsState()
     val profileName by viewModel.profileName.collectAsState()
+    val fatherName by viewModel.fatherName.collectAsState()
     val profileAge by viewModel.profileAge.collectAsState()
     val profilePhotoUri by viewModel.profilePhotoUri.collectAsState()
     val titleColorHex by viewModel.titleColorHex.collectAsState()
@@ -142,6 +182,7 @@ fun MamanBebeApp(
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
     var showProfileDialog by remember { mutableStateOf(false) }
+    var showPublicShareDialog by remember { mutableStateOf(false) }
 
     val locale = remember(currentLanguage) {
         when (currentLanguage) {
@@ -160,44 +201,23 @@ fun MamanBebeApp(
         }
     }
 
-    val localizedContext = remember(locale, baseContext) {
-        val conf = Configuration(baseContext.resources.configuration).apply {
-            setLocale(locale)
-            setLayoutDirection(locale)
-        }
-        val configContext = baseContext.createConfigurationContext(conf)
-        object : android.content.ContextWrapper(baseContext) {
-            override fun getResources(): android.content.res.Resources = configContext.resources
-        }
-    }
-
-    LaunchedEffect(locale) {
+    LaunchedEffect(locale, localizedConfig) {
         Locale.setDefault(locale)
+        try {
+            baseContext.resources.updateConfiguration(localizedConfig, baseContext.resources.displayMetrics)
+        } catch (_: Throwable) {}
         try {
             val appLocale = androidx.core.os.LocaleListCompat.forLanguageTags(currentLanguage)
             androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(appLocale)
-        } catch (_: Exception) {}
+        } catch (_: Throwable) {}
     }
 
     val layoutDirection = if (currentLanguage == "ar") LayoutDirection.Rtl else LayoutDirection.Ltr
-    val activityResultRegistryOwner = androidx.activity.compose.LocalActivityResultRegistryOwner.current
-        ?: (baseContext as? androidx.activity.result.ActivityResultRegistryOwner)
-    val backPressedDispatcherOwner = androidx.activity.compose.LocalOnBackPressedDispatcherOwner.current
-        ?: (baseContext as? androidx.activity.OnBackPressedDispatcherOwner)
 
-    val locals = buildList {
-        add(LocalConfiguration provides localizedConfig)
-        add(LocalContext provides localizedContext)
-        add(LocalLayoutDirection provides layoutDirection)
-        if (activityResultRegistryOwner != null) {
-            add(androidx.activity.compose.LocalActivityResultRegistryOwner provides activityResultRegistryOwner)
-        }
-        if (backPressedDispatcherOwner != null) {
-            add(androidx.activity.compose.LocalOnBackPressedDispatcherOwner provides backPressedDispatcherOwner)
-        }
-    }
-
-    CompositionLocalProvider(*locals.toTypedArray()) {
+    CompositionLocalProvider(
+        LocalConfiguration provides localizedConfig,
+        LocalLayoutDirection provides layoutDirection
+    ) {
         if (isPinEnabled && isAppLocked) {
             PinLockScreen(
                 viewModel = viewModel
@@ -226,7 +246,8 @@ fun MamanBebeApp(
                         titleColorHex = titleColorHex,
                         onWeekClick = { isShowingWeekDetail = true },
                         onProfileClick = { showProfileDialog = true },
-                        onSettingsClick = { showSettingsDialog = true }
+                        onSettingsClick = { showSettingsDialog = true },
+                        onPublicShareClick = { showPublicShareDialog = true }
                     )
                 }
             },
@@ -264,7 +285,8 @@ fun MamanBebeApp(
                             onNavigateWeekDetail = { isShowingWeekDetail = true },
                             onOpenHealthConnectDialog = { showHealthConnectDialog = true },
                             onOpenLanguageDialog = { showLanguageDialog = true },
-                            onOpenSettings = { showSettingsDialog = true }
+                            onOpenSettings = { showSettingsDialog = true },
+                            onOpenPublicShareDialog = { showPublicShareDialog = true }
                         )
                         ScreenTab.STATS -> com.example.ui.screens.StatsScreen(
                             viewModel = viewModel,
@@ -359,6 +381,15 @@ fun MamanBebeApp(
             UserProfileDialog(
                 viewModel = viewModel,
                 onDismiss = { showProfileDialog = false }
+            )
+        }
+
+        if (showPublicShareDialog) {
+            PublicShareDialog(
+                currentWeek = currentWeek,
+                momName = profileName.ifBlank { "Fatou" },
+                dadName = fatherName.ifBlank { "Bala" },
+                onDismiss = { showPublicShareDialog = false }
             )
         }
     }

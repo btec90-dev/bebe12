@@ -88,4 +88,11 @@ class ExampleRobolectricTest {
         assertTrue(items.any { it.category == "À Acheter Avant la Naissance" })
         assertTrue(items.any { it.category == "À Acheter Après la Naissance" })
     }
+
+    @Test
+    fun `verify public shared app url is valid and secure`() {
+        val url = com.example.ui.components.PUBLIC_SHARED_APP_URL
+        assertTrue(url.startsWith("https://"))
+        assertTrue(url.contains("run.app"))
+    }
 }

@@ -15,27 +15,42 @@ import kotlinx.coroutines.tasks.await
 class PregnancySyncRepository(
     private val context: Context,
     private val pregnancyDao: PregnancyDao,
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore?
 ) {
     constructor(context: Context, pregnancyDao: PregnancyDao) : this(
         context = context,
         pregnancyDao = pregnancyDao,
-        firestore = FirebaseFirestore.getInstance(
-            context.applicationContext.getString(R.string.firestore_database_id)
-        )
+        firestore = try {
+            val dbId = context.applicationContext.getString(R.string.firestore_database_id)
+            if (dbId.isNotBlank() && dbId != "(default)") {
+                try {
+                    FirebaseFirestore.getInstance(dbId)
+                } catch (_: Throwable) {
+                    FirebaseFirestore.getInstance()
+                }
+            } else {
+                FirebaseFirestore.getInstance()
+            }
+        } catch (e: Throwable) {
+            Log.w("PregnancySyncRepo", "Firestore not available: ${e.message}")
+            null
+        }
     )
 
-    private val auth = Firebase.auth
-
     private fun requireUserId(): String {
-        return auth.currentUser?.uid
-            ?: com.example.util.UserSessionManager.getUserId(context)
+        return try {
+            Firebase.auth.currentUser?.uid
+                ?: com.example.util.UserSessionManager.getUserId(context)
+        } catch (_: Throwable) {
+            com.example.util.UserSessionManager.getUserId(context)
+        }
     }
 
     /**
      * Uploads local pregnancy symptom log to Firestore for cloud backup.
      */
     suspend fun backupPregnancyLog(log: PregnancyLogEntity) {
+        val fs = firestore ?: return
         try {
             val uid = requireUserId()
             val logData = mapOf(
@@ -52,7 +67,7 @@ class PregnancySyncRepository(
                 "updatedAt" to FieldValue.serverTimestamp()
             )
 
-            firestore.collection("users")
+            fs.collection("users")
                 .document(uid)
                 .collection("pregnancyLogs")
                 .document(log.dateString)
@@ -69,6 +84,7 @@ class PregnancySyncRepository(
      * Uploads local journal/milestone entry to Firestore for cloud backup.
      */
     suspend fun backupJournalEntry(entry: JournalEntryEntity) {
+        val fs = firestore ?: return
         try {
             val uid = requireUserId()
             val entryData = mapOf(
@@ -84,7 +100,7 @@ class PregnancySyncRepository(
                 "updatedAt" to FieldValue.serverTimestamp()
             )
 
-            firestore.collection("users")
+            fs.collection("users")
                 .document(uid)
                 .collection("journalEntries")
                 .document(entry.id.toString())
@@ -101,11 +117,12 @@ class PregnancySyncRepository(
      * Pulls remote backups from Firestore and restores/merges them into local Room database.
      */
     suspend fun restoreFromCloud() {
+        val fs = firestore ?: return
         try {
             val uid = requireUserId()
 
             // Restore Pregnancy Logs (Symptoms)
-            val logsSnapshot = firestore.collection("users")
+            val logsSnapshot = fs.collection("users")
                 .document(uid)
                 .collection("pregnancyLogs")
                 .get()
@@ -136,7 +153,7 @@ class PregnancySyncRepository(
             }
 
             // Restore Journal & Milestone Entries
-            val journalSnapshot = firestore.collection("users")
+            val journalSnapshot = fs.collection("users")
                 .document(uid)
                 .collection("journalEntries")
                 .get()

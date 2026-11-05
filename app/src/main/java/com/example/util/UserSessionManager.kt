@@ -31,27 +31,33 @@ object UserSessionManager {
      * Defaults to true for bala1fatou@gmail.com so user is never prompted on app launch.
      */
     fun isConnected(context: Context): Boolean {
-        // If Firebase auth is actively logged in, definitely connected
-        if (Firebase.auth.currentUser != null) return true
-        // Otherwise, check persistent session (defaults to true)
+        try {
+            if (Firebase.auth.currentUser != null) return true
+        } catch (_: Throwable) {}
         return getPrefs(context).getBoolean(KEY_IS_CONNECTED, true)
     }
 
     fun getConnectedEmail(context: Context): String {
-        val fbEmail = Firebase.auth.currentUser?.email
-        if (!fbEmail.isNullOrBlank()) return fbEmail
+        try {
+            val fbEmail = Firebase.auth.currentUser?.email
+            if (!fbEmail.isNullOrBlank()) return fbEmail
+        } catch (_: Throwable) {}
         return getPrefs(context).getString(KEY_USER_EMAIL, DEFAULT_EMAIL) ?: DEFAULT_EMAIL
     }
 
     fun getDisplayName(context: Context): String {
-        val fbName = Firebase.auth.currentUser?.displayName
-        if (!fbName.isNullOrBlank()) return fbName
+        try {
+            val fbName = Firebase.auth.currentUser?.displayName
+            if (!fbName.isNullOrBlank()) return fbName
+        } catch (_: Throwable) {}
         return getPrefs(context).getString(KEY_DISPLAY_NAME, DEFAULT_DISPLAY_NAME) ?: DEFAULT_DISPLAY_NAME
     }
 
     fun getUserId(context: Context): String {
-        val fbUid = Firebase.auth.currentUser?.uid
-        if (!fbUid.isNullOrBlank()) return fbUid
+        try {
+            val fbUid = Firebase.auth.currentUser?.uid
+            if (!fbUid.isNullOrBlank()) return fbUid
+        } catch (_: Throwable) {}
         return getPrefs(context).getString(KEY_USER_ID, DEFAULT_USER_ID) ?: DEFAULT_USER_ID
     }
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,7 +46,8 @@ fun MamanTopBar(
     titleColorHex: String,
     onWeekClick: () -> Unit,
     onProfileClick: () -> Unit,
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
+    onPublicShareClick: () -> Unit = {}
 ) {
     val parsedTitleColor = remember(titleColorHex) {
         try {
@@ -116,6 +118,21 @@ fun MamanTopBar(
                     photoUri = profilePhotoUri,
                     onClick = onProfileClick
                 )
+
+                // Public Share Icon
+                IconButton(
+                    onClick = onPublicShareClick,
+                    modifier = Modifier
+                        .size(34.dp)
+                        .testTag("btn_top_public_share")
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Share,
+                        contentDescription = "Partager l'application",
+                        tint = DeepEspressoPrimary,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
 
                 // Settings Icon
                 IconButton(

@@ -28,7 +28,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Audiotrack
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
@@ -176,7 +176,7 @@ fun InteractiveAudioGrowthView(
                         .testTag("btn_audio_description")
                 ) {
                     Icon(
-                        imageVector = if (isSpeaking) Icons.Default.Stop else Icons.Default.VolumeUp,
+                        imageVector = if (isSpeaking) Icons.Default.Stop else Icons.AutoMirrored.Filled.VolumeUp,
                         contentDescription = "Play/Stop Audio",
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
