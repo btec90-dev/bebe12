@@ -7,6 +7,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 object PregnancySyncManager {
     private const val TAG = "PregnancySyncManager"
@@ -17,6 +19,13 @@ object PregnancySyncManager {
      */
     fun startBackgroundSync(context: Context) {
         val appContext = context.applicationContext
+        // Skip sync if not authenticated
+        val auth = try { com.google.firebase.Firebase.auth } catch (_: Throwable) { null }
+        if (auth?.currentUser == null) {
+            Log.d(TAG, "Skipping sync: User not authenticated")
+            return
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val db = AppDatabase.getInstance(appContext)

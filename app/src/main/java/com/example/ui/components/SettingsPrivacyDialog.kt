@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CloudSync
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LockOpen
@@ -76,21 +75,6 @@ fun SettingsPrivacyDialog(
     var cloudSyncEnabled by remember { mutableStateOf(true) }
 
     val context = LocalContext.current
-    val pregnancyLogs by viewModel.pregnancyLogs.collectAsState()
-    val kickSessions by viewModel.kickSessions.collectAsState()
-    val babyLogs by viewModel.babyLogs.collectAsState()
-    val journalEntries by viewModel.journalEntries.collectAsState()
-    val appointments by viewModel.appointments.collectAsState()
-    val checklistItems by viewModel.checklistItems.collectAsState()
-    val medicalContacts by viewModel.medicalContacts.collectAsState()
-    val profileName by viewModel.profileName.collectAsState()
-    val profileAge by viewModel.profileAge.collectAsState()
-    val profilePhotoUri by viewModel.profilePhotoUri.collectAsState()
-    val currentWeek by viewModel.currentWeekNumber.collectAsState()
-    val dueDateMillis by viewModel.dueDateMillis.collectAsState()
-
-    var lastExportedText by remember { mutableStateOf<String?>(null) }
-    var lastExportedFile by remember { mutableStateOf<java.io.File?>(null) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -642,144 +626,6 @@ fun SettingsPrivacyDialog(
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text("Partager", color = DeepEspressoPrimary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
-                }
-
-                // 6. Export All Contents as a Text File
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = SquircleItemBg.copy(alpha = 0.5f))
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                imageVector = Icons.Default.Description,
-                                contentDescription = null,
-                                tint = DeepEspressoPrimary,
-                                modifier = Modifier.size(22.dp)
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Column {
-                                Text(
-                                    text = "Export All Contents as Text File",
-                                    style = MaterialTheme.typography.titleSmall.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        color = TextDarkEspresso
-                                    )
-                                )
-                                Text(
-                                    text = "Generates a complete .txt archive of all logs, visits & profile",
-                                    style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe, fontSize = 11.sp)
-                                )
-                            }
-                        }
-
-                        Button(
-                            onClick = {
-                                val text = com.example.util.MamanDataTextExporter.buildCompleteArchiveText(
-                                    profileName = profileName,
-                                    profileAge = profileAge,
-                                    profilePhotoUri = profilePhotoUri,
-                                    currentWeek = currentWeek,
-                                    dueDateMillis = dueDateMillis,
-                                    isTwinMode = isTwinMode,
-                                    userEmail = userEmail,
-                                    pregnancyLogs = pregnancyLogs,
-                                    kickSessions = kickSessions,
-                                    babyLogs = babyLogs,
-                                    journalEntries = journalEntries,
-                                    appointments = appointments,
-                                    checklistItems = checklistItems,
-                                    medicalContacts = medicalContacts
-                                )
-                                lastExportedText = text
-                                val file = com.example.util.MamanDataTextExporter.saveArchiveToFile(context, text, currentWeek)
-                                lastExportedFile = file
-                                if (file != null) {
-                                    android.widget.Toast.makeText(context, "Archive saved: ${file.name}", android.widget.Toast.LENGTH_LONG).show()
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth().testTag("btn_export_all_text"),
-                            shape = RoundedCornerShape(14.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Description,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = if (lastExportedFile != null) "Re-Generate Text File (.txt)" else "Export All Contents as Text File",
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 12.sp
-                            )
-                        }
-
-                        if (lastExportedFile != null && lastExportedText != null) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Button(
-                                    onClick = {
-                                        lastExportedFile?.let { file ->
-                                            com.example.util.MamanDataTextExporter.shareTextFile(context, file)
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f).testTag("btn_share_exported_text"),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = SoftToffeeSecondary)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Share,
-                                        contentDescription = null,
-                                        tint = DeepEspressoPrimary,
-                                        modifier = Modifier.size(16.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text(
-                                        text = "Share File",
-                                        color = DeepEspressoPrimary,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 11.sp
-                                    )
-                                }
-
-                                Button(
-                                    onClick = {
-                                        lastExportedText?.let { text ->
-                                            com.example.util.MamanDataTextExporter.copyToClipboard(context, text)
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f).testTag("btn_copy_exported_text"),
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = SoftToffeeSecondary)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.ContentCopy,
-                                        contentDescription = null,
-                                        tint = DeepEspressoPrimary,
-                                        modifier = Modifier.size(16.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text(
-                                        text = "Copy Text",
-                                        color = DeepEspressoPrimary,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 11.sp
-                                    )
-                                }
                             }
                         }
                     }

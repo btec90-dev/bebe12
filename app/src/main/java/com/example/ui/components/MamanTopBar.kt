@@ -30,8 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.R
 import com.example.ui.theme.CrispWhiteSurface
-import com.example.ui.theme.DeepEspressoPrimary
-import com.example.ui.theme.PeachHeaderBackground
+import com.example.ui.theme.CaramelPrimary
 import com.example.ui.theme.TextDarkEspresso
 import com.example.ui.theme.TextWarmTaupe
 import com.example.ui.viewmodel.ScreenTab
@@ -53,13 +52,13 @@ fun MamanTopBar(
         try {
             Color(android.graphics.Color.parseColor(titleColorHex))
         } catch (_: Exception) {
-            DeepEspressoPrimary
+            Color.White
         }
     }
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.White,
+        color = CaramelPrimary,
         shadowElevation = 2.dp,
         tonalElevation = 0.dp
     ) {
@@ -67,7 +66,7 @@ fun MamanTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
-                .padding(horizontal = 14.dp, vertical = 4.dp),
+                .padding(horizontal = 14.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -83,26 +82,26 @@ fun MamanTopBar(
                     contentDescription = "Maman & Bébé Logo",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(44.dp)
+                        .size(54.dp)
                         .clip(CircleShape)
-                        .border(1.8.dp, DeepEspressoPrimary, CircleShape)
+                        .border(1.8.dp, Color.White, CircleShape)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(12.dp))
                 Column(horizontalAlignment = Alignment.Start) {
                     Text(
                         text = stringResource(id = R.string.app_title),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = parsedTitleColor,
-                            fontSize = 16.sp
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White,
+                            fontSize = 20.sp
                         )
                     )
                     Text(
                         text = "Week $currentWeek",
                         style = MaterialTheme.typography.labelSmall.copy(
-                            color = DeepEspressoPrimary,
+                            color = Color.White.copy(alpha = 0.9f),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp
+                            fontSize = 12.sp
                         )
                     )
                 }
@@ -129,8 +128,8 @@ fun MamanTopBar(
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Partager l'application",
-                        tint = DeepEspressoPrimary,
-                        modifier = Modifier.size(18.dp)
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
                     )
                 }
 
@@ -144,8 +143,8 @@ fun MamanTopBar(
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = "Settings",
-                        tint = DeepEspressoPrimary,
-                        modifier = Modifier.size(18.dp)
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }

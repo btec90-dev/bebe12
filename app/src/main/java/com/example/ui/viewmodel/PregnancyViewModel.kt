@@ -67,7 +67,8 @@ enum class ScreenTab {
     EXPENSES,
     WALLET,
     NEWBORN_GUIDE,
-    COUPLE_HUB
+    COUPLE_HUB,
+    IVF
 }
 
 data class ChatMessage(

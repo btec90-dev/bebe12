@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Maman &amp; bébé Pregnancy Tracker</string>
-    <string name="app_title">Maman &amp; Bébé</string>
+    <string name="app_name">B&amp;F Pregnancy Tracker</string>
+    <string name="app_title">B&amp;F</string>
 
     <!-- Header & Greetings -->
     <string name="good_morning">Good morning</string>

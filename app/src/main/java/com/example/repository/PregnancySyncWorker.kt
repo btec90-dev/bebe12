@@ -14,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class PregnancySyncWorker(
     appContext: Context,
@@ -48,6 +50,13 @@ class PregnancySyncWorker(
     }
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        // Skip sync if not authenticated
+        val auth = try { com.google.firebase.Firebase.auth } catch (_: Throwable) { null }
+        if (auth?.currentUser == null) {
+            Log.d("PregnancySyncWorker", "Skipping sync: User not authenticated")
+            return@withContext Result.success()
+        }
+
         try {
             val database = AppDatabase.getInstance(applicationContext)
             val dao = database.pregnancyDao()

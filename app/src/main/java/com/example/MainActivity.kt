@@ -348,6 +348,9 @@ fun MamanBebeApp(
                             viewModel = viewModel,
                             onBack = { viewModel.selectTab(ScreenTab.TODAY) }
                         )
+                        ScreenTab.IVF -> com.example.ui.screens.IVFScreen(
+                            onBack = { viewModel.selectTab(ScreenTab.TODAY) }
+                        )
                     }
                 }
             }

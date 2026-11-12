@@ -95,4 +95,30 @@ class ExampleRobolectricTest {
         assertTrue(url.startsWith("https://"))
         assertTrue(url.contains("run.app"))
     }
+
+    @Test
+    fun `verify IVFViewModel provides 4 phases and updates medication instructions`() {
+        val context = ApplicationProvider.getApplicationContext<android.app.Application>()
+        val ivfVm = com.example.ui.viewmodel.IVFViewModel(context)
+        val initialState = ivfVm.uiState.value
+
+        assertEquals(4, initialState.phases.size)
+        assertTrue(initialState.medicationInstruction.medicationName.isNotBlank())
+        assertTrue(initialState.medicationInstruction.instructionSummary.isNotBlank())
+
+        // Expand/collapse phase 1
+        val wasExpanded = initialState.phases[0].isExpanded
+        ivfVm.togglePhaseExpanded("phase_1")
+        assertEquals(!wasExpanded, ivfVm.uiState.value.phases[0].isExpanded)
+
+        // Switching active phase updates header medication instructions
+        ivfVm.setActivePhase(4)
+        assertEquals(4, ivfVm.uiState.value.currentPhaseNumber)
+        assertTrue(ivfVm.uiState.value.medicationInstruction.medicationName.contains("Utrogestan"))
+
+        // Confirming daily dose toggles taken status
+        assertEquals(false, ivfVm.uiState.value.medicationInstruction.isDoseTakenToday)
+        ivfVm.toggleDailyDoseTaken()
+        assertEquals(true, ivfVm.uiState.value.medicationInstruction.isDoseTakenToday)
+    }
 }

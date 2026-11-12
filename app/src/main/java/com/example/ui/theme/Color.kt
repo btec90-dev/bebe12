@@ -71,3 +71,9 @@ val SoftPinkCard = CrispWhiteSurface
 val SoftSageCard = CrispWhiteSurface
 val SoftPeachCard = CrispWhiteSurface
 val SoftLavenderCard = CrispWhiteSurface
+
+// Brand Colors (Navy Blue)
+val NavyPrimary = Color(0xFF1E40AF)
+val NavyOnPrimary = Color(0xFFFFFFFF)
+val NavySecondary = Color(0xFF60A5FA)
+

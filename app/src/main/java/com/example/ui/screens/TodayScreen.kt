@@ -32,7 +32,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.HealthAndSafety
 import androidx.compose.material.icons.filled.MedicalServices
@@ -177,59 +176,6 @@ fun TodayScreen(
         appointments.filter { !it.isCompleted }.sortedBy { it.dateTimestamp }
     }
     val nextAppointment = upcomingAppointments.firstOrNull()
-
-    val pregnancyLogs by viewModel.pregnancyLogs.collectAsState()
-    val babyLogs by viewModel.babyLogs.collectAsState()
-    val checklistItems by viewModel.checklistItems.collectAsState()
-    val cachedContacts by viewModel.cachedContacts.collectAsState()
-    val profileName by viewModel.profileName.collectAsState()
-    val profileAge by viewModel.profileAge.collectAsState()
-    val profilePhotoUri by viewModel.profilePhotoUri.collectAsState()
-
-    var showTextExportViewer by remember { mutableStateOf(false) }
-
-    val fullArchiveText = remember(
-        currentWeek,
-        dueDateMillis,
-        isTwinMode,
-        appointments,
-        journalEntries,
-        kickSessions,
-        pregnancyLogs,
-        babyLogs,
-        checklistItems,
-        cachedContacts,
-        profileName,
-        profileAge,
-        profilePhotoUri
-    ) {
-        val convertedContacts = cachedContacts.map { c ->
-            com.example.data.local.MedicalContactEntity(
-                id = 0,
-                type = c.type,
-                name = c.name,
-                phone = c.phone ?: "",
-                address = c.address ?: "",
-                notes = c.notes ?: ""
-            )
-        }
-        com.example.util.MamanDataTextExporter.buildCompleteArchiveText(
-            profileName = profileName,
-            profileAge = profileAge,
-            profilePhotoUri = profilePhotoUri,
-            currentWeek = currentWeek,
-            dueDateMillis = dueDateMillis,
-            isTwinMode = isTwinMode,
-            userEmail = "app@balatec.com",
-            pregnancyLogs = pregnancyLogs,
-            kickSessions = kickSessions,
-            babyLogs = babyLogs,
-            journalEntries = journalEntries,
-            appointments = appointments,
-            checklistItems = checklistItems,
-            medicalContacts = convertedContacts
-        )
-    }
 
     Column(
         modifier = Modifier
@@ -432,15 +378,7 @@ fun TodayScreen(
                         } else {
                             Toast.makeText(context, "Failed to generate PDF", Toast.LENGTH_SHORT).show()
                         }
-                    },
-                    onExportTextClick = { showTextExportViewer = true }
-                )
-            }
-
-            // 4b. Highly visible Complete Data & Codebase Text Export Banner
-            item {
-                CompleteDataTextExportBanner(
-                    onExportClick = { showTextExportViewer = true }
+                    }
                 )
             }
 
@@ -917,6 +855,14 @@ fun TodayScreen(
                         }
                         item {
                             RecentLogCard(
+                                title = "Module FIV",
+                                subtitle = "4 phases & traitements",
+                                icon = "🧬",
+                                onClick = { viewModel.selectTab(ScreenTab.IVF) }
+                            )
+                        }
+                        item {
+                            RecentLogCard(
                                 title = "Espace Couple",
                                 subtitle = "Contractions & Papa",
                                 icon = "💑",
@@ -1064,14 +1010,6 @@ fun TodayScreen(
             )
         }
 
-        if (showTextExportViewer) {
-            com.example.ui.components.TextExportViewerDialog(
-                textContent = fullArchiveText,
-                currentWeek = currentWeek,
-                onDismiss = { showTextExportViewer = false }
-            )
-        }
-
         if (showGlycemiaDialog) {
             GlycemiaTrackerDialog(
                 viewModel = viewModel,
@@ -1098,84 +1036,6 @@ fun TodayScreen(
     }
 }
 
-@Composable
-private fun CompleteDataTextExportBanner(
-    onExportClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(22.dp), spotColor = Color.Black.copy(alpha = 0.05f))
-            .clickable { onExportClick() }
-            .testTag("card_home_text_export"),
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = PeachHeaderBackground)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(DeepEspressoPrimary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Description,
-                        contentDescription = "Complete Text Export",
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-                Column {
-                    Text(
-                        text = "Complete Text Export (.txt)",
-                        style = MaterialTheme.typography.titleSmall.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = TextDarkEspresso,
-                            fontSize = 14.sp
-                        )
-                    )
-                    Text(
-                        text = "View, copy & download complete archive text",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            color = TextWarmTaupe,
-                            fontSize = 11.sp
-                        )
-                    )
-                }
-            }
-
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(DeepEspressoPrimary)
-                    .padding(horizontal = 12.dp, vertical = 7.dp)
-                    .testTag("btn_banner_open_text_export")
-            ) {
-                Text(
-                    text = "View Text",
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        fontSize = 11.sp
-                    )
-                )
-            }
-        }
-    }
-}
-
 // Doctor Appointments Card directly on Home Screen
 @Composable
 private fun UpcomingDoctorAppointmentsCard(
@@ -1184,8 +1044,7 @@ private fun UpcomingDoctorAppointmentsCard(
     onAddAppointmentClick: () -> Unit,
     onViewAgendaClick: () -> Unit,
     onToggleComplete: (AppointmentEntity) -> Unit,
-    onExportPdfClick: (() -> Unit)? = null,
-    onExportTextClick: (() -> Unit)? = null
+    onExportPdfClick: (() -> Unit)? = null
 ) {
     Card(
         modifier = Modifier
@@ -1260,35 +1119,6 @@ private fun UpcomingDoctorAppointmentsCard(
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = DeepEspressoPrimary,
-                                        fontSize = 10.sp
-                                    )
-                                )
-                            }
-                        }
-                    }
-
-                    if (onExportTextClick != null) {
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(DeepEspressoPrimary)
-                                .clickable { onExportTextClick() }
-                                .padding(horizontal = 7.dp, vertical = 3.dp)
-                                .testTag("btn_home_export_txt")
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Default.Description,
-                                    contentDescription = "TXT Export",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(11.dp)
-                                )
-                                Spacer(modifier = Modifier.width(3.dp))
-                                Text(
-                                    text = "TXT",
-                                    style = MaterialTheme.typography.labelSmall.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White,
                                         fontSize = 10.sp
                                     )
                                 )

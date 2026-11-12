@@ -39,10 +39,14 @@ class PregnancySyncRepository(
 
     private fun requireUserId(): String {
         return try {
-            Firebase.auth.currentUser?.uid
+            val uid = Firebase.auth.currentUser?.uid
                 ?: com.example.util.UserSessionManager.getUserId(context)
+            Log.d("PregnancySync", "Using UID for sync: $uid")
+            uid
         } catch (_: Throwable) {
-            com.example.util.UserSessionManager.getUserId(context)
+            val uid = com.example.util.UserSessionManager.getUserId(context)
+            Log.d("PregnancySync", "Using default UID for sync: $uid")
+            uid
         }
     }
 
@@ -67,11 +71,12 @@ class PregnancySyncRepository(
                 "updatedAt" to FieldValue.serverTimestamp()
             )
 
-            fs.collection("users")
+            val docRef = fs.collection("users")
                 .document(uid)
                 .collection("pregnancyLogs")
                 .document(log.dateString)
-                .set(logData)
+            Log.d("PregnancySync", "Attempting backup at: ${docRef.path}")
+            docRef.set(logData)
                 .await()
 
             Log.d("PregnancySync", "Successfully backed up symptom log for ${log.dateString}")
