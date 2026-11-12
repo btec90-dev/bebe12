@@ -64,7 +64,7 @@ fun UserProfileHeader(
             if (effectivePhoto.isNotBlank()) {
                 AsyncImage(
                     model = effectivePhoto,
-                    contentDescription = "Profile Photo",
+                    contentDescription = "Photo de profil",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )

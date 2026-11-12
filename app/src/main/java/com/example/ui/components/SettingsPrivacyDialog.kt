@@ -98,7 +98,7 @@ fun SettingsPrivacyDialog(
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "App Settings & Privacy",
+                    text = "Paramètres & Confidentialité",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = TextDarkEspresso
@@ -156,14 +156,14 @@ fun SettingsPrivacyDialog(
                             Spacer(modifier = Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    text = "Privacy PIN Lock",
+                                    text = "Verrouillage par Code PIN",
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = TextDarkEspresso
                                     )
                                 )
                                 Text(
-                                    text = if (isPinEnabled) "PIN protection active" else "Secure logs & photos",
+                                    text = if (isPinEnabled) "Protection par code PIN active" else "Protéger journal et photos",
                                     style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe, fontSize = 11.sp)
                                 )
                             }
@@ -199,7 +199,7 @@ fun SettingsPrivacyDialog(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            text = "Set 4-Digit Security PIN",
+                            text = "Définir un Code PIN à 4 Chiffres",
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = DeepEspressoPrimary
@@ -208,7 +208,7 @@ fun SettingsPrivacyDialog(
                         OutlinedTextField(
                             value = newPinInput,
                             onValueChange = { if (it.length <= 4 && it.all { c -> c.isDigit() }) newPinInput = it },
-                            label = { Text("Enter 4 digits", fontSize = 11.sp) },
+                            label = { Text("Entrez 4 chiffres", fontSize = 11.sp) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                             visualTransformation = PasswordVisualTransformation(),
                             singleLine = true,
@@ -218,7 +218,7 @@ fun SettingsPrivacyDialog(
                         OutlinedTextField(
                             value = confirmPinInput,
                             onValueChange = { if (it.length <= 4 && it.all { c -> c.isDigit() }) confirmPinInput = it },
-                            label = { Text("Confirm 4 digits", fontSize = 11.sp) },
+                            label = { Text("Confirmez les 4 chiffres", fontSize = 11.sp) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                             visualTransformation = PasswordVisualTransformation(),
                             singleLine = true,
@@ -235,14 +235,14 @@ fun SettingsPrivacyDialog(
                                     showPinInputMode = false
                                     pinError = null
                                 } else {
-                                    pinError = "PINs must match and be 4 digits"
+                                    pinError = "Les codes PIN doivent être identiques (4 chiffres)"
                                 }
                             },
                             modifier = Modifier.fillMaxWidth().testTag("btn_save_pin"),
                             shape = RoundedCornerShape(16.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary)
                         ) {
-                            Text("Save PIN", fontWeight = FontWeight.Bold)
+                            Text("Enregistrer le Code PIN", fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -270,14 +270,14 @@ fun SettingsPrivacyDialog(
                             Spacer(modifier = Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    text = "Biometric Unlock",
+                                    text = "Déverrouillage Biométrique",
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = TextDarkEspresso
                                     )
                                 )
                                 Text(
-                                    text = "Use fingerprint or Face ID",
+                                    text = "Empreinte digitale ou Face ID",
                                     style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe, fontSize = 11.sp)
                                 )
                             }
@@ -326,14 +326,14 @@ fun SettingsPrivacyDialog(
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Column {
                                     Text(
-                                        text = "Firestore Cloud Backup",
+                                        text = "Sauvegarde Cloud Firestore",
                                         style = MaterialTheme.typography.titleSmall.copy(
                                             fontWeight = FontWeight.Bold,
                                             color = TextDarkEspresso
                                         )
                                     )
                                     Text(
-                                        text = if (cloudSyncEnabled) "Active & syncing securely" else "Paused",
+                                        text = if (cloudSyncEnabled) "Actif et synchronisé" else "En pause",
                                         style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe, fontSize = 11.sp)
                                     )
                                 }
@@ -390,7 +390,7 @@ fun SettingsPrivacyDialog(
                                     onClick = {
                                         isSyncingNow = true
                                         com.example.repository.PregnancySyncManager.startBackgroundSync(context)
-                                        android.widget.Toast.makeText(context, "Cloud sync started...", android.widget.Toast.LENGTH_SHORT).show()
+                                        android.widget.Toast.makeText(context, "Synchronisation cloud démarrée...", android.widget.Toast.LENGTH_SHORT).show()
                                         coroutineScope.launch {
                                             kotlinx.coroutines.delay(1200)
                                             isSyncingNow = false
@@ -409,7 +409,7 @@ fun SettingsPrivacyDialog(
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = if (isSyncingNow) "Syncing..." else "Sync Now",
+                                        text = if (isSyncingNow) "Synchro..." else "Synchroniser",
                                         color = Color.White,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 11.sp
@@ -439,7 +439,7 @@ fun SettingsPrivacyDialog(
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = "Sign Out",
+                                        text = "Déconnexion",
                                         color = DeepEspressoPrimary,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 11.sp
@@ -473,14 +473,14 @@ fun SettingsPrivacyDialog(
                             Spacer(modifier = Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    text = "Daily Reminders",
+                                    text = "Rappels Quotidiens",
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = TextDarkEspresso
                                     )
                                 )
                                 Text(
-                                    text = "Water, kick counter & symptoms",
+                                    text = "Eau, compteur de coups & symptômes",
                                     style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe, fontSize = 11.sp)
                                 )
                             }
@@ -493,7 +493,7 @@ fun SettingsPrivacyDialog(
                     }
                 }
 
-                // 5. Single vs. Twin Mode
+                // 5. Bébé unique / Jumeaux
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
@@ -508,14 +508,14 @@ fun SettingsPrivacyDialog(
                     ) {
                         Column {
                             Text(
-                                text = "Single vs. Twin Pregnancy",
+                                text = "Grossesse Unique / Gémellaire",
                                 style = MaterialTheme.typography.titleSmall.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = TextDarkEspresso
                                 )
                             )
                             Text(
-                                text = if (isTwinMode) "Twin pregnancy tracked" else "Single baby tracked",
+                                text = if (isTwinMode) "Suivi de grossesse gémellaire" else "Suivi d'un seul bébé",
                                 style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe, fontSize = 11.sp)
                             )
                         }
@@ -638,7 +638,7 @@ fun SettingsPrivacyDialog(
                 shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary)
             ) {
-                Text("Close", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("Fermer", color = Color.White, fontWeight = FontWeight.Bold)
             }
         }
     )

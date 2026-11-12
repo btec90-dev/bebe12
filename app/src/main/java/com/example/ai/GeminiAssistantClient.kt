@@ -9,10 +9,11 @@ import kotlinx.coroutines.withContext
 class GeminiAssistantClient {
 
     private val systemInstruction = """
-        You are 'Maman Assistant', an empathetic, clinically sound pregnancy and postpartum companion.
-        Always follow reassuring, evidence-based obstetric guidelines (ACOG / WHO / RCOG).
-        Provide clear, warm, actionable guidance, reminding mothers to consult their OB/GYN, midwife, or care team for urgent symptoms.
-        Format your answers with clean paragraphs, supportive tone, and helpful tips.
+        Tu es « Assistant Maman », une accompagnante virtuelle bienveillante et rigoureuse spécialisée dans la grossesse et le post-partum.
+        Réponds TOUJOURS en français clair, chaleureux et rassurant (sauf demande explicite d'une autre langue).
+        Appuie-toi sur des recommandations obstétricales fondées sur les preuves (HAS / CNGOF / OMS / ACOG).
+        Fournis des conseils pratiques et concrets tout en rappelant de consulter un(e) gynécologue, une sage-femme ou les urgences maternité en cas de symptôme inhabituel ou urgent.
+        Structure tes réponses avec des paragraphes aérés et des listes à puces lisibles.
     """.trimIndent()
 
     private val generativeModel by lazy {
@@ -36,14 +37,14 @@ class GeminiAssistantClient {
     suspend fun askAssistant(
         prompt: String,
         currentWeek: Int? = null,
-        userLanguage: String = "en"
+        userLanguage: String = "fr"
     ): Result<String> = withContext(Dispatchers.IO) {
         val model = generativeModel
         if (model != null) {
             try {
                 val contextualPrompt = buildString {
                     if (currentWeek != null) {
-                        append("[Context: Mother is currently at Pregnancy Week $currentWeek, preferred language: $userLanguage]\n\n")
+                        append("[Contexte : La maman est actuellement à la semaine $currentWeek de grossesse. Langue souhaitée : $userLanguage (répondre en français).]\n\n")
                     }
                     append(prompt)
                 }
@@ -53,111 +54,114 @@ class GeminiAssistantClient {
                     return@withContext Result.success(reply)
                 }
             } catch (e: Exception) {
-                // If API call throws (e.g. invalid key or network issue), provide smart obstetric fallback
                 return@withContext Result.success(getCuratedObstetricGuidance(prompt, currentWeek))
             }
         }
 
-        // Curated, immediate clinical fallback when API key is pending in Secrets panel
         Result.success(getCuratedObstetricGuidance(prompt, currentWeek))
     }
 
     private fun getCuratedObstetricGuidance(prompt: String, currentWeek: Int?): String {
         val query = prompt.lowercase()
-        val weekContext = if (currentWeek != null) "At Week $currentWeek of your pregnancy, " else ""
+        val weekContext = if (currentWeek != null) "À la semaine $currentWeek de votre grossesse, " else ""
 
         return when {
-            query.contains("heartburn") || query.contains("acid") || query.contains("reflux") -> {
+            query.contains("brûlure") || query.contains("brulure") || query.contains("reflux") ||
+                    query.contains("estomac") || query.contains("heartburn") || query.contains("acid") -> {
                 """
-                ${weekContext}heartburn is very common due to progesterone relaxing the esophageal sphincter, plus the growing baby gently nudging your stomach upward.
+                ${weekContext}les brûlures d'estomac et remontées acides sont très fréquentes : la progestérone relâche le sphincter de l'œsophage et bébé appuie progressivement sur l'estomac.
 
-                💡 Practical tips to find relief:
-                • Eat smaller, more frequent meals rather than large portions.
-                • Stay upright for at least 45–60 minutes after eating.
-                • Avoid known triggers like citrus, spicy foods, caffeine, and heavy fried meals.
-                • Sip ginger or chamomile tea, or cold milk.
-                • Elevate your head and torso slightly with a wedge pillow at bedtime.
+                💡 Conseils pratiques pour vous soulager :
+                • Fractionnez vos repas : mangez en plus petites quantités, plus souvent.
+                • Restez en position assise ou semi-assise au moins 45 à 60 minutes après le repas.
+                • Évitez les aliments déclencheurs (plats très épicés, fritures, agrumes, caféine, boissons gazeuses).
+                • Testez une tisane au gingembre ou à la camomille, ou un verre de lait frais.
+                • Surélevez légèrement votre buste la nuit avec un coussin supplémentaire.
 
-                ⚠️ Consult your doctor or midwife before starting calcium antacids or medications.
+                ⚠️ Demandez toujours l'avis de votre sage-femme ou médecin avant de prendre un antiacide.
                 """.trimIndent()
             }
-            query.contains("kick") || query.contains("movement") || query.contains("flutter") -> {
+            query.contains("coup") || query.contains("mouvement") || query.contains("bouge") ||
+                    query.contains("kick") || query.contains("movement") -> {
                 """
-                ${weekContext}monitoring fetal movements provides great reassurance about your baby's wellbeing!
+                ${weekContext}surveiller les mouvements de bébé est un excellent moyen de se rassurer au quotidien !
 
-                🩺 Clinical Kick Counting Guidelines (ACOG):
-                • Best time: After a snack or meal, or when relaxing on your left side in the evening.
-                • Goal: You should feel 10 distinct movements (kicks, rolls, swishes, or flutters) within 2 hours.
-                • Most babies reach 10 kicks in less than 30 minutes when active.
+                🩺 Repères pratiques pour compter les mouvements :
+                • Meilleur moment : après un repas ou au calme le soir, allongée sur le côté gauche.
+                • Objectif : percevoir environ 10 mouvements distincts (coups, vagues, rotations) en moins de 2 heures.
+                • La plupart des bébés atteignent ces 10 mouvements en moins de 30 minutes lorsqu'ils sont éveillés.
 
-                ⚠️ If you notice a sudden decrease in movements or have not felt 10 kicks within 2 hours after having a cold drink and resting on your side, contact your maternity triage or OB/GYN immediately.
+                ⚠️ En cas de diminution nette ou d'absence de mouvements après vous être allongée au calme en buvant un verre d'eau fraîche, contactez rapidement votre maternité.
                 """.trimIndent()
             }
-            query.contains("exercise") || query.contains("stretch") || query.contains("workout") -> {
+            query.contains("exercice") || query.contains("étirement") || query.contains("etirement") ||
+                    query.contains("sport") || query.contains("exercise") || query.contains("stretch") -> {
                 """
-                ${weekContext}staying active offers wonderful benefits for stamina, mood, and preparing for labor!
+                ${weekContext}rester active en douceur est bénéfique pour votre dos, votre moral et la préparation à l'accouchement !
 
-                🧘 Safe Pregnancy Activities:
-                • Walking, prenatal yoga, stationary cycling, and swimming (which takes weight off your joints!).
-                • Gentle cat-cow stretches and pelvic tilts to relieve lower back tension.
-                • Pelvic floor (Kegel) conditioning exercises.
+                🧘 Activités sûres pendant la grossesse :
+                • Marche quotidienne, yoga prénatal, vélo d'appartement et natation (qui soulage le poids sur les articulations).
+                • Étirements doux du dos (posture du chat / de la vache) et bascules du bassin.
+                • Exercices de renforcement doux du périnée.
 
-                ⛔ Avoid activities with fall risks, contact sports, or lying flat on your back for prolonged periods after 20 weeks. Always stay well-hydrated.
+                ⛔ Évitez les sports à risque de chute ou de choc, ainsi que la position allongée à plat dos prolongée après 20 semaines. Pensez à bien vous hydrater.
                 """.trimIndent()
             }
-            query.contains("bag") || query.contains("pack") || query.contains("hospital") -> {
+            query.contains("valise") || query.contains("maternité") || query.contains("maternite") ||
+                    query.contains("sac") || query.contains("bag") || query.contains("hospital") -> {
                 """
-                Packing your hospital bag around Weeks 34–36 brings wonderful peace of mind!
+                Préparer votre valise de maternité vers les semaines 34–36 apporte une grande sérénité !
 
-                🎒 Essentials for Mom:
-                • Photo ID, insurance card, medical records, and birth preferences plan.
-                • 2–3 pairs of loose, dark nursing pajamas or gowns with easy front access.
-                • Cozy non-skid socks, warm slippers, and lip balm.
-                • Extra-long phone charger cable.
-                • High-waisted postpartum underwear and maternity pads.
+                🎒 Essentiels pour Maman :
+                • Pièce d'identité, carte Vitale, mutuelle, dossier médical complet et projet de naissance.
+                • 2–3 chemises de nuit ou pyjamas amples ouvrables devant pour le peau-à-peau et l'allaitement.
+                • Chaussettes chaudes, chaussons antidérapants et baume à lèvres.
+                • Câble chargeur de téléphone extra-long.
+                • Culottes confortables post-partum et serviettes maternité.
 
-                👶 Essentials for Baby:
-                • Installed infant car seat (inspected!).
-                • 2 going-home outfits (Newborn and 0–3M sizes).
-                • Soft swaddle blanket, hat, and scratch mittens.
+                👶 Essentiels pour Bébé :
+                • Siège auto homologué (groupe 0+) prêt pour le retour à la maison.
+                • Tenues de naissance (bodies croisés, pyjamas velours, bonnet, brassière, chaussons).
+                • Gigoteuse / turbulette adaptée et langes en coton doux.
                 """.trimIndent()
             }
-            query.contains("colic") || query.contains("cry") || query.contains("soothe") || query.contains("nursing") -> {
+            query.contains("colique") || query.contains("pleur") || query.contains("calmer") ||
+                    query.contains("tétée") || query.contains("allaitement") || query.contains("colic") || query.contains("cry") -> {
                 """
-                Soothing a newborn can test your patience, but gentle comfort techniques work wonders!
+                Apaiser un nouveau-né demande parfois beaucoup de patience, mais des gestes doux font des merveilles !
 
-                👶 The 5 S's Technique (Dr. Harvey Karp):
-                • Swaddle: A snug swaddle creates the cozy security of the womb.
-                • Side or Stomach position: Hold baby on their side or across your forearm while awake and supervised.
-                • Shushing: Gentle white noise or rhythmic 'shhh' sounds louder than their crying.
-                • Swinging: Gentle, rhythmic swaying or rocking motions.
-                • Sucking: Pacifier or nursing latch for non-nutritive soothing.
+                👶 Gestes apaisants recommandés :
+                • Le portage en écharpe ou en peau-à-peau contre votre poitrine rassure instantanément bébé.
+                • Un léger bercement rythmé ou une promenade en douceur.
+                • Un bruit blanc doux ou un « chuuut » régulier à voix basse.
+                • Vérifiez les besoins simples : couche propre, faim, rot, ou besoin de succion.
 
-                Remember to take turns with your partner when you feel overwhelmed. You are doing an incredible job!
+                N'hésitez pas à passer le relais au co-parent si vous ressentez de la fatigue : vous faites un travail formidable !
                 """.trimIndent()
             }
-            query.contains("food") || query.contains("eat") || query.contains("nutrition") || query.contains("diet") -> {
+            query.contains("alimentation") || query.contains("manger") || query.contains("nutrition") ||
+                    query.contains("repas") || query.contains("food") || query.contains("eat") -> {
                 """
-                ${weekContext}nourishing your body with wholesome nutrition supports your baby's rapid growth.
+                ${weekContext}une alimentation variée et équilibrée soutient la croissance rapide de votre bébé.
 
-                🥗 Focus on:
-                • Protein: Eggs, lentils, tofu, well-cooked poultry, and Greek yogurt for tissue building.
-                • Iron & Folate: Dark leafy greens, fortified cereals, and lean meats to support higher blood volume.
-                • Choline & Omega-3 (DHA): Eggs and low-mercury cooked fish (salmon) for fetal brain development.
-                • Plenty of water: Aim for 2.5 to 3 liters daily.
+                🥗 À privilégier au quotidien :
+                • Protéines : œufs bien cuits, lentilles, volaille bien cuite, yaourts nature ou fromage pasteurisé.
+                • Fer & Folates : légumes verts à feuilles, légumineuses et céréales complètes.
+                • Oméga-3 (DHA) : poissons gras cuits pauvres en mercure (saumon, sardine) et huile de colza ou noix.
+                • Hydratation : 2 à 2,5 litres d'eau par jour.
 
-                🚫 Foods to avoid: Raw/undercooked meats and sushi, unpasteurized cheeses, deli meats unless heated to steaming, and excess caffeine (>200mg/day).
+                🚫 Par précaution : évitez viandes et poissons crus, fromages au lait cru, charcuterie non cuite et limitez la caféine.
                 """.trimIndent()
             }
             else -> {
                 """
-                ${weekContext}I'm here as your Maman Assistant companion. 
+                ${weekContext}je suis votre Assistante Maman, là pour vous accompagner à chaque étape.
 
-                Every pregnancy journey is unique. Your body is undergoing remarkable transformations as your baby grows each day. 
+                Chaque grossesse est unique. Votre corps accomplit un travail remarquable chaque jour tandis que votre bébé grandit.
 
-                Remember to listen closely to your body, stay gently hydrated, and rest whenever fatigue sets in. If you have questions about specific symptoms (like backaches, kicks, Braxton Hicks, or tests), feel free to ask!
+                Prenez le temps de vous reposer, hydratez-vous régulièrement et écoutez vos sensations. Vous pouvez me poser vos questions sur les symptômes, les mouvements de bébé, la valise de maternité ou la nutrition !
 
-                👩‍⚕️ For symptoms like sudden severe swelling, persistent severe headache, visual disturbances, or vaginal bleeding, contact your healthcare provider right away.
+                👩‍⚕️ En cas d'œdèmes soudains, de maux de tête intenses et persistants, de troubles visuels ou de saignements, contactez immédiatement votre professionnel de santé.
                 """.trimIndent()
             }
         }

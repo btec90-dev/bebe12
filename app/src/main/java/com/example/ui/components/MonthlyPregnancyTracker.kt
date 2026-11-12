@@ -73,7 +73,8 @@ fun MonthlyPregnancyTracker(
     }
 
     val monthYearTitle = remember(calendar) {
-        SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(calendar.time)
+        SimpleDateFormat("MMMM yyyy", Locale.FRENCH).format(calendar.time)
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.FRENCH) else it.toString() }
     }
 
     val todayCalendar = Calendar.getInstance()
@@ -146,7 +147,7 @@ fun MonthlyPregnancyTracker(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Previous Month",
+                            contentDescription = "Mois précédent",
                             tint = DeepEspressoPrimary,
                             modifier = Modifier.size(14.dp)
                         )
@@ -158,7 +159,7 @@ fun MonthlyPregnancyTracker(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = "Next Month",
+                            contentDescription = "Mois suivant",
                             tint = DeepEspressoPrimary,
                             modifier = Modifier.size(14.dp)
                         )
@@ -205,7 +206,7 @@ fun MonthlyPregnancyTracker(
                             val isToday = dayIndex == todayDayOfMonth
                             val dateCal = calendar.clone() as Calendar
                             dateCal.set(Calendar.DAY_OF_MONTH, dayIndex)
-                            val dateStr = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(dateCal.time)
+                            val dateStr = SimpleDateFormat("MMM dd, yyyy", Locale.FRENCH).format(dateCal.time)
                             val isSelected = dateStr == selectedDateString
 
                             Box(

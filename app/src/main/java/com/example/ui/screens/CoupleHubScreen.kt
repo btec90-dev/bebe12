@@ -123,7 +123,7 @@ fun CoupleHubScreen(
                 IconButton(onClick = onBack, modifier = Modifier.size(34.dp)) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = "Retour",
                         tint = DeepEspressoPrimary,
                         modifier = Modifier.size(18.dp)
                     )
@@ -541,8 +541,8 @@ private fun ContractionsTimerTab(
             }
         } else {
             items(contractions) { item ->
-                val timeStr = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(item.startTimestamp))
-                val dateStr = SimpleDateFormat("dd MMM", Locale.getDefault()).format(Date(item.startTimestamp))
+                val timeStr = SimpleDateFormat("HH:mm", Locale.FRENCH).format(Date(item.startTimestamp))
+                val dateStr = SimpleDateFormat("dd MMM", Locale.FRENCH).format(Date(item.startTimestamp))
                 val intervalText = if (item.intervalSeconds > 0) {
                     val intMin = item.intervalSeconds / 60
                     val intSec = item.intervalSeconds % 60
@@ -627,7 +627,7 @@ private fun ContractionsTimerTab(
                             onClick = { onDelete(item) },
                             modifier = Modifier.size(28.dp)
                         ) {
-                            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color.LightGray, modifier = Modifier.size(14.dp))
+                            Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer", tint = Color.LightGray, modifier = Modifier.size(14.dp))
                         }
                     }
                 }
@@ -920,7 +920,7 @@ private fun BabyNamesTab(
                                     onClick = { onDelete(nameItem) },
                                     modifier = Modifier.size(28.dp)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color.LightGray, modifier = Modifier.size(14.dp))
+                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer", tint = Color.LightGray, modifier = Modifier.size(14.dp))
                                 }
                             }
                         }
@@ -1046,7 +1046,7 @@ private fun CoupleNotesTab(
             }
         } else {
             items(notes) { note ->
-                val dateStr = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(note.timestamp))
+                val dateStr = SimpleDateFormat("dd MMM yyyy", Locale.FRENCH).format(Date(note.timestamp))
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -1090,7 +1090,7 @@ private fun CoupleNotesTab(
                                 onClick = { onDelete(note) },
                                 modifier = Modifier.size(24.dp)
                             ) {
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color.LightGray, modifier = Modifier.size(14.dp))
+                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer", tint = Color.LightGray, modifier = Modifier.size(14.dp))
                             }
                         }
 

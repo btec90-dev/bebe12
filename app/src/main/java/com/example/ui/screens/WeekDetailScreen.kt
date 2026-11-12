@@ -105,13 +105,13 @@ fun WeekDetailScreen(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = "Retour",
                         tint = DeepEspressoPrimary
                     )
                 }
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Week $currentWeek",
+                    text = "Semaine $currentWeek",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = TextDarkEspresso
@@ -126,7 +126,7 @@ fun WeekDetailScreen(
                 ) {
                     Icon(
                         imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "Favorite",
+                        contentDescription = "Favori",
                         tint = DeepEspressoPrimary
                     )
                 }
@@ -136,7 +136,7 @@ fun WeekDetailScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Share,
-                        contentDescription = "Share",
+                        contentDescription = "Partager",
                         tint = DeepEspressoPrimary
                     )
                 }
@@ -204,7 +204,7 @@ fun WeekDetailScreen(
                             .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
                         Text(
-                            text = "Trimester ${weekData.trimester}",
+                            text = "Trimestre ${weekData.trimester}",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = DeepEspressoPrimary,
@@ -220,7 +220,7 @@ fun WeekDetailScreen(
                             .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
                         Text(
-                            text = "Week $currentWeek of 40",
+                            text = "Semaine $currentWeek sur 40",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = DeepEspressoPrimary,
@@ -260,7 +260,7 @@ fun WeekDetailScreen(
             item {
                 Column {
                     Text(
-                        text = "BABY'S SIZE",
+                        text = "TAILLE DE BÉBÉ",
                         style = MaterialTheme.typography.labelSmall.copy(
                             letterSpacing = 1.sp,
                             fontWeight = FontWeight.Bold,
@@ -287,17 +287,17 @@ fun WeekDetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     StatPillBox(
-                        label = "WEIGHT",
+                        label = "POIDS",
                         value = "${weekData.weightGrams} g",
                         modifier = Modifier.weight(1f)
                     )
                     StatPillBox(
-                        label = "LENGTH",
+                        label = "TAILLE",
                         value = "${weekData.lengthCm} cm",
                         modifier = Modifier.weight(1f)
                     )
                     StatPillBox(
-                        label = "HEARTBEAT",
+                        label = "RYTHME",
                         value = "140 bpm",
                         modifier = Modifier.weight(1f)
                     )
@@ -307,7 +307,7 @@ fun WeekDetailScreen(
             // Info line below stats
             item {
                 Text(
-                    text = "Size of a ${comparison.title.lowercase()} · $diffDays days remaining until delivery",
+                    text = "Taille d'un(e) ${comparison.title.lowercase()} · $diffDays jours restants avant l'accouchement",
                     style = MaterialTheme.typography.bodySmall.copy(
                         color = TextWarmTaupe,
                         fontSize = 12.sp
@@ -325,7 +325,7 @@ fun WeekDetailScreen(
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
                         Text(
-                            text = "Fetal Development",
+                            text = "Développement Fœtal",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextDarkEspresso
@@ -341,7 +341,7 @@ fun WeekDetailScreen(
                         )
                         Spacer(modifier = Modifier.height(14.dp))
                         Text(
-                            text = "Mom's Guidance & Symptoms",
+                            text = "Conseils pour Maman & Symptômes",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextDarkEspresso
@@ -372,14 +372,14 @@ fun WeekDetailScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Browse Weeks (1–42)",
+                                text = "Parcourir les semaines (1–42)",
                                 style = MaterialTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = TextDarkEspresso
                                 )
                             )
                             Text(
-                                text = "Week $currentWeek",
+                                text = "Semaine $currentWeek",
                                 style = MaterialTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = DeepEspressoPrimary
@@ -433,12 +433,12 @@ fun WeekDetailScreen(
                     Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Ask AI Doctor",
+                        text = "Demander à l'IA",
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                     )
                 }
 
-                // Primary Pill Button ("Wear today" -> "Log today")
+                // Primary Pill Button ("Wear today" -> "Noter aujourd'hui")
                 Button(
                     onClick = {
                         onBack()
@@ -457,7 +457,7 @@ fun WeekDetailScreen(
                     Icon(imageVector = Icons.Default.EditNote, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Log today",
+                        text = "Suivi du jour",
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                     )
                 }

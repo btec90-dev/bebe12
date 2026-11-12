@@ -99,7 +99,7 @@ fun PregnancyLogScreen(
     var bpInput by remember { mutableStateOf("118/76") }
     var notesInput by remember { mutableStateOf("") }
 
-    val dueDateFormatted = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(dueDateMillis))
+    val dueDateFormatted = SimpleDateFormat("dd MMM yyyy", Locale.FRENCH).format(Date(dueDateMillis))
     val diffDays = ((dueDateMillis - System.currentTimeMillis()) / (1000L * 3600 * 24)).toInt().coerceAtLeast(0)
 
     val flagEmoji = when (currentLanguage) {
@@ -110,26 +110,27 @@ fun PregnancyLogScreen(
     }
 
     val moodOptions = listOf(
-        Pair("Radiant", "🌟"),
-        Pair("Calm", "🌸"),
-        Pair("Tired", "🥱"),
-        Pair("Emotional", "🥹"),
-        Pair("Nauseous", "🤢"),
-        Pair("Anxious", "💭")
+        Pair("Radieuse", "🌟"),
+        Pair("Calme", "🌸"),
+        Pair("Fatiguée", "🥱"),
+        Pair("Émotive", "🥹"),
+        Pair("Nauséeuse", "🤢"),
+        Pair("Anxieuse", "💭")
     )
 
     val symptomOptions = listOf(
-        "Morning sickness",
-        "Heartburn",
-        "Braxton Hicks",
-        "Back pain",
-        "Swollen feet",
-        "Insomnia",
+        "Fatigue légère",
+        "Nausées matinales",
+        "Brûlures d'estomac",
+        "Contractions de Braxton Hicks",
+        "Mal de dos",
+        "Pieds gonflés",
+        "Insomnie",
         "Fatigue",
-        "Frequent urination",
-        "Headache",
-        "Leg cramps",
-        "Food cravings"
+        "Envies fréquentes d'uriner",
+        "Maux de tête",
+        "Crampes aux jambes",
+        "Envies alimentaires"
     )
 
     Column(
@@ -208,7 +209,7 @@ fun PregnancyLogScreen(
                                     )
                                 )
                                 Text(
-                                    text = "Week $currentWeek • Due: $dueDateFormatted",
+                                    text = "Semaine $currentWeek • Terme : $dueDateFormatted",
                                     style = MaterialTheme.typography.bodySmall.copy(
                                         color = TextWarmTaupe,
                                         fontSize = 11.sp
@@ -281,7 +282,7 @@ fun PregnancyLogScreen(
                                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = TextDarkEspresso)
                                     )
                                     Text(
-                                        text = "${todayWater * 250} ml of 2,000 ml goal",
+                                        text = "${todayWater * 250} ml sur l'objectif de 2 000 ml",
                                         style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe)
                                     )
                                 }
@@ -292,7 +293,7 @@ fun PregnancyLogScreen(
                                     onClick = { if (todayWater > 0) viewModel.setTodayWater(todayWater - 1) },
                                     modifier = Modifier.size(36.dp).clip(CircleShape).background(SquircleItemBg)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Remove, contentDescription = "Decrease", tint = DeepEspressoPrimary, modifier = Modifier.size(18.dp))
+                                    Icon(imageVector = Icons.Default.Remove, contentDescription = "Diminuer", tint = DeepEspressoPrimary, modifier = Modifier.size(18.dp))
                                 }
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
@@ -304,7 +305,7 @@ fun PregnancyLogScreen(
                                     onClick = { viewModel.setTodayWater(todayWater + 1) },
                                     modifier = Modifier.size(36.dp).clip(CircleShape).background(DeepEspressoPrimary)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Add, contentDescription = "Increase", tint = Color.White, modifier = Modifier.size(18.dp))
+                                    Icon(imageVector = Icons.Default.Add, contentDescription = "Augmenter", tint = Color.White, modifier = Modifier.size(18.dp))
                                 }
                             }
                         }
@@ -351,7 +352,7 @@ fun PregnancyLogScreen(
                                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = TextDarkEspresso)
                                     )
                                     Text(
-                                        text = if (hasHealthPerms) "Synced with Health Connect" else "Manual logging",
+                                        text = if (hasHealthPerms) "Synchronisé avec Santé Connect" else "Saisie manuelle",
                                         style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe)
                                     )
                                 }
@@ -362,11 +363,11 @@ fun PregnancyLogScreen(
                                     onClick = { viewModel.setTodayWeight(todayWeight - 0.1) },
                                     modifier = Modifier.size(36.dp).clip(CircleShape).background(SquircleItemBg)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Remove, contentDescription = "Minus", tint = DeepEspressoPrimary, modifier = Modifier.size(16.dp))
+                                    Icon(imageVector = Icons.Default.Remove, contentDescription = "Moins", tint = DeepEspressoPrimary, modifier = Modifier.size(16.dp))
                                 }
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = String.format(Locale.US, "%.1f", todayWeight),
+                                    text = String.format(Locale.FRENCH, "%.1f", todayWeight),
                                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = DeepEspressoPrimary)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -495,14 +496,14 @@ fun PregnancyLogScreen(
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
                         Text(
-                            text = "Blood Pressure & Journal Notes",
+                            text = "Tension Artérielle & Notes du Journal",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = TextDarkEspresso)
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         OutlinedTextField(
                             value = bpInput,
                             onValueChange = { bpInput = it },
-                            label = { Text("Blood Pressure (mmHg)", fontSize = 12.sp) },
+                            label = { Text("Tension artérielle (mmHg)", fontSize = 12.sp) },
                             singleLine = true,
                             textStyle = androidx.compose.ui.text.TextStyle(color = TextDarkEspresso, fontWeight = FontWeight.Medium),
                             modifier = Modifier.fillMaxWidth().testTag("input_blood_pressure"),
@@ -516,7 +517,7 @@ fun PregnancyLogScreen(
                         OutlinedTextField(
                             value = notesInput,
                             onValueChange = { notesInput = it },
-                            label = { Text("Daily thoughts or symptoms notes…", fontSize = 12.sp) },
+                            label = { Text("Pensées du jour ou notes sur vos symptômes…", fontSize = 12.sp) },
                             maxLines = 3,
                             textStyle = androidx.compose.ui.text.TextStyle(color = TextDarkEspresso, fontWeight = FontWeight.Medium),
                             modifier = Modifier.fillMaxWidth().testTag("input_health_notes"),

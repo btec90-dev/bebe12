@@ -92,7 +92,7 @@ enum class AssistantColorTheme(
     val badgeBg: Color
 ) {
     ROSE(
-        title = "Rose Blush",
+        title = "Rose Doux",
         emoji = "🌸",
         primary = Color(0xFFE26D77),
         onPrimary = Color.White,
@@ -105,7 +105,7 @@ enum class AssistantColorTheme(
         badgeBg = Color(0xFFFFEEF0)
     ),
     SAGE(
-        title = "Gentle Sage",
+        title = "Sauge Apaisante",
         emoji = "🌿",
         primary = Color(0xFF4D7C66),
         onPrimary = Color.White,
@@ -118,7 +118,7 @@ enum class AssistantColorTheme(
         badgeBg = Color(0xFFEDF7F1)
     ),
     LAVENDER(
-        title = "Soft Lavender",
+        title = "Lavande Tendre",
         emoji = "💜",
         primary = Color(0xFF8A68B0),
         onPrimary = Color.White,
@@ -131,7 +131,7 @@ enum class AssistantColorTheme(
         badgeBg = Color(0xFFF5EFFF)
     ),
     PEACH(
-        title = "Warm Sunset",
+        title = "Soleil Couchant",
         emoji = "🌅",
         primary = Color(0xFFE67E44),
         onPrimary = Color.White,
@@ -180,11 +180,11 @@ fun MamanAssistantScreen(
     }
 
     val suggestedQuestions = listOf(
-        "Is heartburn normal in week $currentWeek?",
-        "How many kicks should I feel daily?",
-        "Safe exercises and stretches",
-        "What to pack in my hospital bag?",
-        "Tips to soothe newborn colic"
+        "Les brûlures d'estomac sont-elles normales à la semaine $currentWeek ?",
+        "Combien de coups de pied dois-je sentir par jour ?",
+        "Exercices et étirements sans danger",
+        "Que mettre dans ma valise de maternité ?",
+        "Conseils pour calmer les coliques de bébé"
     )
 
     val flagEmoji = when (currentLanguage) {
@@ -232,7 +232,7 @@ fun MamanAssistantScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back",
+                                contentDescription = "Retour",
                                 tint = selectedTheme.primary,
                                 modifier = Modifier.size(20.dp)
                             )
@@ -240,7 +240,7 @@ fun MamanAssistantScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Image(
                             painter = painterResource(id = R.drawable.img_maman_bebe_logo),
-                            contentDescription = "Maman & Bébé Logo",
+                            contentDescription = "Logo Maman & Bébé",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(36.dp)
@@ -258,7 +258,7 @@ fun MamanAssistantScreen(
                                 )
                             )
                             Text(
-                                text = "Week $currentWeek • Prenatal AI Companion",
+                                text = "Semaine $currentWeek • Compagnon IA Prénatal",
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     color = Color(0xFF6E5647),
                                     fontSize = 10.sp
@@ -282,7 +282,7 @@ fun MamanAssistantScreen(
                                     val all = AssistantColorTheme.values()
                                     val nextIndex = (selectedTheme.ordinal + 1) % all.size
                                     selectedTheme = all[nextIndex]
-                                    Toast.makeText(context, "Theme: ${selectedTheme.title}", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Thème : ${selectedTheme.title}", Toast.LENGTH_SHORT).show()
                                 }
                                 .padding(horizontal = 8.dp, vertical = 5.dp)
                                 .testTag("assistant_theme_toggle")
@@ -292,7 +292,7 @@ fun MamanAssistantScreen(
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Icon(
                                     imageVector = Icons.Default.Palette,
-                                    contentDescription = "Change Color",
+                                    contentDescription = "Changer de couleur",
                                     tint = selectedTheme.primary,
                                     modifier = Modifier.size(13.dp)
                                 )
@@ -329,7 +329,7 @@ fun MamanAssistantScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Theme:",
+                        text = "Thème :",
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontSize = 10.sp,
                             color = Color(0xFF7A6458),
@@ -414,8 +414,8 @@ fun MamanAssistantScreen(
                     theme = selectedTheme,
                     onCopy = {
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("Maman Guidance", msg.text))
-                        Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+                        clipboard.setPrimaryClip(ClipData.newPlainText("Conseil Maman IA", msg.text))
+                        Toast.makeText(context, "Copié dans le presse-papiers", Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -435,7 +435,7 @@ fun MamanAssistantScreen(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "Maman Assistant is preparing personalized guidance…",
+                            text = "L'Assistant Maman prépare une réponse personnalisée…",
                             style = MaterialTheme.typography.bodySmall.copy(
                                 color = Color(0xFF6E5647),
                                 fontSize = 11.sp
@@ -489,7 +489,7 @@ fun MamanAssistantScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Close,
-                                        contentDescription = "Clear",
+                                        contentDescription = "Effacer",
                                         tint = Color(0xFF8A7568),
                                         modifier = Modifier.size(16.dp)
                                     )
@@ -635,7 +635,7 @@ private fun ChatBubbleWarm(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ContentCopy,
-                            contentDescription = "Copy",
+                            contentDescription = "Copier",
                             tint = theme.primary.copy(alpha = 0.8f),
                             modifier = Modifier
                                 .size(14.dp)

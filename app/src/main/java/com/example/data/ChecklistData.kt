@@ -55,58 +55,58 @@ object PrenatalAgendaData {
     val defaultAgenda = listOf(
         PrenatalAgendaItem(
             id = 1,
-            title = "First Prenatal Visit & Dating Ultrasound",
-            weekRange = "Week 8–10",
+            title = "Première visite prénatale & Échographie de datation",
+            weekRange = "Semaines 8–10",
             targetWeek = 8,
-            description = "Confirm gestational age, detect heartbeat, complete baseline maternal blood panels.",
+            description = "Confirmer l'âge gestationnel, écouter le cœur et réaliser le bilan sanguin initial.",
             isCrucial = true
         ),
         PrenatalAgendaItem(
             id = 2,
-            title = "First Trimester Screening (NIPT / NT Scan)",
-            weekRange = "Week 11–13",
+            title = "Dépistage du 1er trimestre (T1 / DPNI)",
+            weekRange = "Semaines 11–13",
             targetWeek = 12,
-            description = "Cell-free DNA blood test for chromosomal health and optional early gender reveal.",
+            description = "Mesure de la clarté nucale et prise de sang des marqueurs sériques ou ADN fœtal libre.",
             isCrucial = false
         ),
         PrenatalAgendaItem(
             id = 3,
-            title = "Detailed Mid-Pregnancy Anatomy Ultrasound",
-            weekRange = "Week 18–22",
+            title = "Échographie morphologique détaillée (T2)",
+            weekRange = "Semaines 18–22",
             targetWeek = 20,
-            description = "Comprehensive head-to-toe structural survey of brain, heart, spine, kidneys, and placenta.",
+            description = "Examen complet de la croissance et des organes de bébé : cerveau, cœur, colonne vertébrale, reins et placenta.",
             isCrucial = true
         ),
         PrenatalAgendaItem(
             id = 4,
-            title = "Gestational Diabetes Glucose Screening",
-            weekRange = "Week 24–28",
+            title = "Dépistage du diabète gestationnel (HGPO)",
+            weekRange = "Semaines 24–28",
             targetWeek = 26,
-            description = "1-hour glucola test to screen for gestational diabetes and check iron levels for anemia.",
+            description = "Test de glycémie provoquée par voie orale et contrôle du taux de fer pour prévenir l'anémie.",
             isCrucial = true
         ),
         PrenatalAgendaItem(
             id = 5,
-            title = "Tdap Vaccination & Rhogam Shot",
-            weekRange = "Week 27–36",
+            title = "Rappel Coqueluche (Tdap) & Prévention Rhésus",
+            weekRange = "Semaines 27–36",
             targetWeek = 28,
-            description = "Maternal whooping cough immunization passes antibodies to baby; Rhogam if Rh-negative.",
+            description = "Vaccination maternelle contre la coqueluche pour protéger le nouveau-né ; injection Rhophylac si Rhésus négatif.",
             isCrucial = true
         ),
         PrenatalAgendaItem(
             id = 6,
-            title = "Group B Strep (GBS) Screening Swab",
-            weekRange = "Week 35–37",
+            title = "Dépistage Streptocoque B (SGB)",
+            weekRange = "Semaines 35–37",
             targetWeek = 36,
-            description = "Quick routine swab to determine if IV antibiotics are needed during active labor.",
+            description = "Prélèvement vaginal rapide de routine pour anticiper si une antibioprophylaxie est utile le jour J.",
             isCrucial = true
         ),
         PrenatalAgendaItem(
             id = 7,
-            title = "Weekly Full-Term Prenatal Checkups",
-            weekRange = "Week 36–40",
+            title = "Consultations hebdomadaires de fin de grossesse",
+            weekRange = "Semaines 36–40",
             targetWeek = 38,
-            description = "Monitor cervical effacement, blood pressure, fetal position, and kick counts until delivery.",
+            description = "Suivi du col, de la tension artérielle, de la position de bébé et des mouvements fœtaux jusqu'à l'accouchement.",
             isCrucial = true
         )
     )

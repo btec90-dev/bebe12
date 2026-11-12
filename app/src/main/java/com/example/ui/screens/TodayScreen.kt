@@ -118,8 +118,8 @@ fun TodayScreen(
     val journalEntries by viewModel.journalEntries.collectAsState()
     val context = LocalContext.current
 
-    val fullTodayDate = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault()).format(Date()).uppercase()
-    val dueDateFormatted = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(dueDateMillis))
+    val fullTodayDate = SimpleDateFormat("EEEE d MMMM", Locale.FRENCH).format(Date()).uppercase()
+    val dueDateFormatted = SimpleDateFormat("dd MMM yyyy", Locale.FRENCH).format(Date(dueDateMillis))
     val diffDays = ((dueDateMillis - System.currentTimeMillis()) / (1000L * 3600 * 24)).toInt().coerceAtLeast(0)
 
     val currentComparison = weekData.getComparison(sizeTheme)
@@ -148,11 +148,11 @@ fun TodayScreen(
             viewModel.saveBumpPhoto(
                 bitmap = bitmap,
                 week = currentWeek,
-                title = "Week $currentWeek Bump Photo",
-                notes = "Captured with camera on $fullTodayDate"
+                title = "Photo ventre rond • Semaine $currentWeek",
+                notes = "Prise avec l'appareil photo le $fullTodayDate"
             )
-            photoFeedbackMessage = "Week $currentWeek bump photo captured and saved!"
-            Toast.makeText(context, "Bump photo saved to your journal!", Toast.LENGTH_SHORT).show()
+            photoFeedbackMessage = "Photo de la semaine $currentWeek capturée et enregistrée !"
+            Toast.makeText(context, "Photo enregistrée dans votre journal !", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -163,11 +163,11 @@ fun TodayScreen(
             viewModel.saveBumpPhotoUri(
                 uriString = uri.toString(),
                 week = currentWeek,
-                title = "Week $currentWeek Bump Photo",
-                notes = "Imported from gallery"
+                title = "Photo ventre rond • Semaine $currentWeek",
+                notes = "Importée depuis la galerie"
             )
-            photoFeedbackMessage = "Photo imported from gallery and saved!"
-            Toast.makeText(context, "Photo added to your journal!", Toast.LENGTH_SHORT).show()
+            photoFeedbackMessage = "Photo importée depuis la galerie et enregistrée !"
+            Toast.makeText(context, "Photo ajoutée à votre journal !", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -219,7 +219,7 @@ fun TodayScreen(
                     .padding(horizontal = 10.dp, vertical = 4.dp)
             ) {
                 Text(
-                    text = "Week $currentWeek",
+                    text = "Semaine $currentWeek",
                     style = MaterialTheme.typography.labelSmall.copy(
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
@@ -373,10 +373,10 @@ fun TodayScreen(
                             contacts = exportedContacts
                         )
                         if (file != null) {
-                            Toast.makeText(context, "Care directory PDF generated!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "PDF du carnet de suivi généré !", Toast.LENGTH_SHORT).show()
                             com.example.util.CareDirectoryPdfExporter.sharePdf(context, file)
                         } else {
-                            Toast.makeText(context, "Failed to generate PDF", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Échec de la génération du PDF", Toast.LENGTH_SHORT).show()
                         }
                     }
                 )
@@ -477,7 +477,7 @@ fun TodayScreen(
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Icon(
                                         imageVector = Icons.Default.Edit,
-                                        contentDescription = "Edit due date",
+                                        contentDescription = "Modifier la date d'accouchement",
                                         tint = Color.White,
                                         modifier = Modifier.size(12.dp)
                                     )
@@ -503,13 +503,13 @@ fun TodayScreen(
                             SquircleThumbnail(
                                 title = "${todayWeight} kg",
                                 emojiOrIcon = "⚖️",
-                                subtitle = if (hasHealthPerms) "Synced" else "Logged",
+                                subtitle = if (hasHealthPerms) "Synchronisé" else "Enregistré",
                                 modifier = Modifier.weight(1f),
                                 onClick = { viewModel.selectTab(ScreenTab.HEALTH_LOG) }
                             )
 
                             SquircleThumbnail(
-                                title = "10 Kicks",
+                                title = "10 Coups",
                                 emojiOrIcon = "🦶",
                                 subtitle = stringResource(id = R.string.daily_kick_goal),
                                 modifier = Modifier.weight(1f),
@@ -550,7 +550,7 @@ fun TodayScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.OpenInFull,
-                                    contentDescription = "Expand Guide",
+                                    contentDescription = "Ouvrir le guide",
                                     tint = DeepEspressoPrimary,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -612,7 +612,7 @@ fun TodayScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Search",
+                            contentDescription = "Rechercher",
                             tint = TextWarmTaupe,
                             modifier = Modifier.size(18.dp)
                         )
@@ -629,7 +629,7 @@ fun TodayScreen(
             item {
                 Column {
                     Text(
-                        text = "14-Day Daily Timeline",
+                        text = "Suivi quotidien sur 14 jours",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = TextDarkEspresso)
                     )
                     Spacer(modifier = Modifier.height(10.dp))
@@ -937,32 +937,32 @@ fun TodayScreen(
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         item {
                             RecentLogCard(
-                                title = "Maternal Weight",
-                                subtitle = "${todayWeight} kg logged",
+                                title = "Poids Maternel",
+                                subtitle = "${todayWeight} kg enregistré",
                                 icon = "⚖️",
                                 onClick = { viewModel.selectTab(ScreenTab.HEALTH_LOG) }
                             )
                         }
                         item {
                             RecentLogCard(
-                                title = "Kick Session",
-                                subtitle = "${kickSessions.size} recorded",
+                                title = "Séances de Coups",
+                                subtitle = "${kickSessions.size} enregistrées",
                                 icon = "🦶",
                                 onClick = { viewModel.selectTab(ScreenTab.KICK_COUNTER) }
                             )
                         }
                         item {
                             RecentLogCard(
-                                title = "Baby Care",
-                                subtitle = "Nursing & sleep logs",
+                                title = "Soins Bébé",
+                                subtitle = "Tétées & sommeil",
                                 icon = "🍼",
                                 onClick = { viewModel.selectTab(ScreenTab.BABY_LOG) }
                             )
                         }
                         item {
                             RecentLogCard(
-                                title = "AI Guidance",
-                                subtitle = "Clinical Q&A",
+                                title = "Conseils IA",
+                                subtitle = "Questions cliniques",
                                 icon = "✨",
                                 onClick = { viewModel.selectTab(ScreenTab.ASSISTANT) }
                             )
@@ -1109,7 +1109,7 @@ private fun UpcomingDoctorAppointmentsCard(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     imageVector = Icons.Default.PictureAsPdf,
-                                    contentDescription = "PDF Export",
+                                    contentDescription = "Export PDF",
                                     tint = DeepEspressoPrimary,
                                     modifier = Modifier.size(11.dp)
                                 )
@@ -1142,7 +1142,7 @@ private fun UpcomingDoctorAppointmentsCard(
 
             if (nextAppointment != null) {
                 // Next scheduled appointment card
-                val dateFmt = SimpleDateFormat("EEE, dd MMM • HH:mm", Locale.getDefault())
+                val dateFmt = SimpleDateFormat("EEE dd MMM • HH:mm", Locale.FRENCH)
                     .format(Date(nextAppointment.dateTimestamp))
 
                 Box(
@@ -1211,7 +1211,7 @@ private fun UpcomingDoctorAppointmentsCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
-                                contentDescription = "Complete appointment",
+                                contentDescription = "Terminer le rendez-vous",
                                 tint = DeepEspressoPrimary,
                                 modifier = Modifier.size(18.dp)
                             )
@@ -1310,14 +1310,14 @@ private fun BumpPhotoStudioCard(
                             )
                         )
                         Text(
-                            text = "Week $currentWeek • $savedPhotosCount memories saved",
+                            text = "Semaine $currentWeek • $savedPhotosCount souvenirs enregistrés",
                             style = MaterialTheme.typography.labelSmall.copy(color = TextWarmTaupe, fontSize = 10.sp)
                         )
                     }
                 }
 
                 Text(
-                    text = "View Album",
+                    text = "Voir l'album",
                     style = MaterialTheme.typography.labelSmall.copy(
                         fontWeight = FontWeight.Bold,
                         color = DeepEspressoPrimary
@@ -1346,7 +1346,7 @@ private fun BumpPhotoStudioCard(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.CameraAlt,
-                            contentDescription = "Camera",
+                            contentDescription = "Appareil photo",
                             tint = Color.White,
                             modifier = Modifier.size(18.dp)
                         )
@@ -1375,7 +1375,7 @@ private fun BumpPhotoStudioCard(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.PhotoLibrary,
-                            contentDescription = "Gallery",
+                            contentDescription = "Galerie",
                             tint = DeepEspressoPrimary,
                             modifier = Modifier.size(18.dp)
                         )

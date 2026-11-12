@@ -281,7 +281,7 @@ fun FetalDevelopmentVideoPlayer(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Week $currentWeek 3D Video",
+                        text = "Vidéo 3D • Semaine $currentWeek",
                         style = MaterialTheme.typography.labelSmall.copy(
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
@@ -290,12 +290,12 @@ fun FetalDevelopmentVideoPlayer(
                     )
                 }
 
-                // Quick Action Buttons (Edit URL, ResizeMode Cover, Fullscreen)
+                // Boutons rapides (URL, Recadrage, Plein écran)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Edit CDN URL button
+                    // Modifier l'URL CDN
                     Box(
                         modifier = Modifier
                             .size(30.dp)
@@ -307,13 +307,13 @@ fun FetalDevelopmentVideoPlayer(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit Video URL",
+                            contentDescription = "Modifier l'URL vidéo",
                             tint = Color.White,
                             modifier = Modifier.size(14.dp)
                         )
                     }
 
-                    // ResizeMode Cover toggle
+                    // Bascule Remplissage
                     Box(
                         modifier = Modifier
                             .size(30.dp)
@@ -325,13 +325,13 @@ fun FetalDevelopmentVideoPlayer(
                     ) {
                         Icon(
                             imageVector = Icons.Default.AspectRatio,
-                            contentDescription = "Toggle Cover Mode",
+                            contentDescription = "Changer le format",
                             tint = Color.White,
                             modifier = Modifier.size(14.dp)
                         )
                     }
 
-                    // Fullscreen button
+                    // Plein écran
                     Box(
                         modifier = Modifier
                             .size(30.dp)
@@ -343,7 +343,7 @@ fun FetalDevelopmentVideoPlayer(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Fullscreen,
-                            contentDescription = "Fullscreen",
+                            contentDescription = "Plein écran",
                             tint = Color.White,
                             modifier = Modifier.size(16.dp)
                         )
@@ -375,7 +375,7 @@ fun FetalDevelopmentVideoPlayer(
                 ) {
                     Icon(
                         imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                        contentDescription = if (isPlaying) "Pause" else "Play",
+                        contentDescription = if (isPlaying) "Pause" else "Lecture",
                         tint = Color.White,
                         modifier = Modifier.size(30.dp)
                     )
@@ -470,7 +470,7 @@ fun FetalDevelopmentVideoPlayer(
                             ) {
                                 Icon(
                                     imageVector = if (isMuted) Icons.AutoMirrored.Filled.VolumeMute else Icons.AutoMirrored.Filled.VolumeUp,
-                                    contentDescription = if (isMuted) "Unmute" else "Mute",
+                                    contentDescription = if (isMuted) "Activer le son" else "Muet",
                                     tint = Color.White,
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -482,7 +482,7 @@ fun FetalDevelopmentVideoPlayer(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Refresh,
-                                    contentDescription = "Replay",
+                                    contentDescription = "Rejouer",
                                     tint = Color.White,
                                     modifier = Modifier.size(16.dp)
                                 )
@@ -490,7 +490,7 @@ fun FetalDevelopmentVideoPlayer(
                         }
 
                         Text(
-                            text = if (isCoverMode) "Mode: Cover" else "Mode: Fit",
+                            text = if (isCoverMode) "Mode : Remplir" else "Mode : Ajusté",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 color = Color.White.copy(alpha = 0.75f),
                                 fontSize = 9.sp
@@ -509,9 +509,9 @@ fun FetalDevelopmentVideoPlayer(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             val presets = listOf(
-                "3D Ultrasound" to "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                "Womb Movement" to "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                "Heartbeat 3D" to "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+                "Écho 3D" to "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                "Mouvements" to "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                "Cœur 3D" to "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
             )
 
             presets.forEach { (name, url) ->
@@ -581,7 +581,7 @@ fun FetalDevelopmentVideoPlayer(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Exit Fullscreen",
+                            contentDescription = "Quitter le plein écran",
                             tint = Color.White
                         )
                     }
@@ -615,13 +615,13 @@ fun FetalDevelopmentVideoPlayer(
                         value = tempUrl,
                         onValueChange = { tempUrl = it },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("https://your-cdn.com/assets/fetal_development_3d.mp4") },
+                        placeholder = { Text("https://exemple.com/echographie_3d.mp4") },
                         singleLine = false,
                         maxLines = 3
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Example: https://your-cdn.com/assets/fetal_development_3d.mp4",
+                        text = "Exemple : https://exemple.com/echographie_3d.mp4",
                         style = MaterialTheme.typography.labelSmall.copy(color = TextWarmTaupe, fontSize = 10.sp)
                     )
                 }

@@ -54,10 +54,10 @@ fun KnowledgeScreen(
     onBack: () -> Unit
 ) {
     val articles = MilestoneRoadmapData.knowledgeArticles
-    var selectedCategory by remember { mutableStateOf("All") }
-    val categories = listOf("All", "Vaccines", "1st Trimester", "3rd Trimester", "Postpartum")
+    var selectedCategory by remember { mutableStateOf("Tous") }
+    val categories = listOf("Tous", "Vaccins", "1er Trimestre", "3e Trimestre", "Post-partum")
 
-    val filteredList = if (selectedCategory == "All") {
+    val filteredList = if (selectedCategory == "Tous") {
         articles
     } else {
         articles.filter { it.category == selectedCategory }
@@ -77,16 +77,16 @@ fun KnowledgeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBack, modifier = Modifier.testTag("btn_knowledge_back")) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = SoftRose)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour", tint = SoftRose)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Column {
                     Text(
-                        text = "Clinical Knowledge Base",
+                        text = "Base de Connaissances Cliniques",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = SoftRose)
                     )
                     Text(
-                        text = "Evidence-based guides, vaccine agendas, and labor preparation",
+                        text = "Guides médicaux, calendrier vaccinal et préparation à la naissance",
                         style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline)
                     )
                 }
@@ -111,7 +111,7 @@ fun KnowledgeScreen(
         }
 
         items(filteredList) { article ->
-            val isVaccine = article.category == "Vaccines"
+            val isVaccine = article.category == "Vaccins"
             Card(
                 modifier = Modifier
                     .fillMaxWidth()

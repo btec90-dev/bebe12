@@ -51,8 +51,8 @@ data class AppLanguage(
 )
 
 val SupportedLanguagesList = listOf(
-    AppLanguage("en", "English", "English", "🇺🇸"),
-    AppLanguage("fr", "French", "Français", "🇫🇷")
+    AppLanguage("fr", "Français", "Français", "🇫🇷"),
+    AppLanguage("en", "Anglais", "English", "🇺🇸")
 )
 
 @Composable

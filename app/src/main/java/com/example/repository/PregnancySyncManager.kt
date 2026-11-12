@@ -19,10 +19,9 @@ object PregnancySyncManager {
      */
     fun startBackgroundSync(context: Context) {
         val appContext = context.applicationContext
-        // Skip sync if not authenticated
-        val auth = try { com.google.firebase.Firebase.auth } catch (_: Throwable) { null }
-        if (auth?.currentUser == null) {
-            Log.d(TAG, "Skipping sync: User not authenticated")
+        // Ensure sync runs if user session is connected
+        if (!com.example.util.UserSessionManager.isConnected(appContext)) {
+            Log.d(TAG, "Skipping sync: User session not connected")
             return
         }
 

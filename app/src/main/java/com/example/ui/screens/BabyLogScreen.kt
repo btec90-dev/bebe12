@@ -73,8 +73,18 @@ fun BabyLogScreen(
 
     val totalNursingSeconds = nursingLogs.sumOf { it.durationSeconds }
     val totalBottleMl = bottleLogs.sumOf { it.amountMl }
-    val wetDiaperCount = diaperLogs.count { it.detail.contains("Wet", ignoreCase = true) || it.detail.contains("Both", ignoreCase = true) }
-    val dirtyDiaperCount = diaperLogs.count { it.detail.contains("Dirty", ignoreCase = true) || it.detail.contains("Both", ignoreCase = true) }
+    val wetDiaperCount = diaperLogs.count {
+        it.detail.contains("Wet", ignoreCase = true) ||
+            it.detail.contains("Both", ignoreCase = true) ||
+            it.detail.contains("Mouillée", ignoreCase = true) ||
+            it.detail.contains("Les deux", ignoreCase = true)
+    }
+    val dirtyDiaperCount = diaperLogs.count {
+        it.detail.contains("Dirty", ignoreCase = true) ||
+            it.detail.contains("Both", ignoreCase = true) ||
+            it.detail.contains("Selle", ignoreCase = true) ||
+            it.detail.contains("Les deux", ignoreCase = true)
+    }
     val totalSleepMinutes = sleepLogs.sumOf { it.durationSeconds / 60 }
 
     LazyColumn(
@@ -104,7 +114,7 @@ fun BabyLogScreen(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.illustration_baby_peaceful),
-                            contentDescription = "Newborn baby",
+                            contentDescription = "Nouveau-né",
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
@@ -298,7 +308,7 @@ fun BabyLogScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             OutlinedButton(
-                                onClick = { viewModel.logDiaper("Wet 💧") },
+                                onClick = { viewModel.logDiaper("Mouillée 💧") },
                                 modifier = Modifier.weight(1f),
                                 contentPadding = PaddingValues(horizontal = 6.dp, vertical = 4.dp),
                                 shape = RoundedCornerShape(10.dp)
@@ -307,7 +317,7 @@ fun BabyLogScreen(
                             }
 
                             OutlinedButton(
-                                onClick = { viewModel.logDiaper("Dirty 💩") },
+                                onClick = { viewModel.logDiaper("Selle 💩") },
                                 modifier = Modifier.weight(1f),
                                 contentPadding = PaddingValues(horizontal = 6.dp, vertical = 4.dp),
                                 shape = RoundedCornerShape(10.dp)
@@ -355,8 +365,8 @@ fun BabyLogScreen(
                             appendLine("-----------------------------")
                             appendLine("Événements :")
                             babyLogs.take(10).forEach { log ->
-                                val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(log.timestamp))
-                                appendLine("[$time] ${log.logType} : ${log.detail}")
+                                val time = SimpleDateFormat("HH:mm", Locale.FRENCH).format(Date(log.timestamp))
+                                appendLine("[$time] ${logTypeLabel(log.logType)} : ${log.detail}")
                             }
                         }
                         val sendIntent = android.content.Intent().apply {
@@ -418,7 +428,7 @@ fun BabyLogScreen(
                                 Icon(imageVector = Icons.Default.Spa, contentDescription = null, tint = RosePrimary)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Breastfeeding Timer",
+                                    text = "Chronomètre d'Allaitement",
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                                 )
                             }
@@ -455,7 +465,7 @@ fun BabyLogScreen(
                                     modifier = Modifier.size(18.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text("Left Breast")
+                                Text("Sein gauche")
                             }
 
                             Button(
@@ -474,7 +484,7 @@ fun BabyLogScreen(
                                     modifier = Modifier.size(18.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text("Right Breast")
+                                Text("Sein droit")
                             }
                         }
 
@@ -487,7 +497,7 @@ fun BabyLogScreen(
                                     .testTag("btn_save_nursing"),
                                 colors = ButtonDefaults.buttonColors(containerColor = SageTertiary)
                             ) {
-                                Text("Save Nursing Session ($nursingTimerFormatted)")
+                                Text("Enregistrer la tétée ($nursingTimerFormatted)")
                             }
                         }
                     }
@@ -513,12 +523,12 @@ fun BabyLogScreen(
                                 Icon(imageVector = Icons.Default.LocalDrink, contentDescription = null, tint = Color(0xFFD97724))
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Bottle Feeding",
+                                    text = "Prise de Biberon",
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                                 )
                             }
                             Text(
-                                text = "$bottleAmountMl ml (${String.format(Locale.getDefault(), "%.1f", bottleAmountMl / 29.57)} oz)",
+                                text = "$bottleAmountMl ml (${String.format(Locale.FRENCH, "%.1f", bottleAmountMl / 29.57)} oz)",
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                             )
                         }
@@ -532,13 +542,13 @@ fun BabyLogScreen(
                             FilterChip(
                                 selected = !isFormula,
                                 onClick = { isFormula = false },
-                                label = { Text("Breastmilk") },
+                                label = { Text("Lait maternel") },
                                 colors = FilterChipDefaults.filterChipColors(selectedContainerColor = RoseContainer)
                             )
                             FilterChip(
                                 selected = isFormula,
                                 onClick = { isFormula = true },
-                                label = { Text("Formula") },
+                                label = { Text("Lait infantile") },
                                 colors = FilterChipDefaults.filterChipColors(selectedContainerColor = RoseContainer)
                             )
                         }
@@ -568,7 +578,7 @@ fun BabyLogScreen(
                                 .testTag("btn_save_bottle"),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD97724))
                         ) {
-                            Text("Log Bottle Feeding ($bottleAmountMl ml)")
+                            Text("Enregistrer le biberon ($bottleAmountMl ml)")
                         }
                     }
                 }
@@ -589,7 +599,7 @@ fun BabyLogScreen(
                             Icon(imageVector = Icons.Default.Wc, contentDescription = null, tint = RosePrimary)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Diaper Change",
+                                text = "Changement de Couche",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                             )
                         }
@@ -601,33 +611,33 @@ fun BabyLogScreen(
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Button(
-                                onClick = { viewModel.logDiaper("Wet 💧") },
+                                onClick = { viewModel.logDiaper("Mouillée 💧") },
                                 modifier = Modifier
                                     .weight(1f)
                                     .testTag("btn_diaper_wet"),
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE1F5FE), contentColor = Color(0xFF0288D1))
                             ) {
-                                Text("Wet 💧")
+                                Text("Mouillée 💧")
                             }
 
                             Button(
-                                onClick = { viewModel.logDiaper("Dirty 💩") },
+                                onClick = { viewModel.logDiaper("Selle 💩") },
                                 modifier = Modifier
                                     .weight(1f)
                                     .testTag("btn_diaper_dirty"),
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFF3E0), contentColor = Color(0xFFE65100))
                             ) {
-                                Text("Dirty 💩")
+                                Text("Selle 💩")
                             }
 
                             Button(
-                                onClick = { viewModel.logDiaper("Both 💧💩") },
+                                onClick = { viewModel.logDiaper("Les deux 💧💩") },
                                 modifier = Modifier
                                     .weight(1f)
                                     .testTag("btn_diaper_both"),
                                 colors = ButtonDefaults.buttonColors(containerColor = RoseContainer, contentColor = RosePrimary)
                             ) {
-                                Text("Both")
+                                Text("Les deux")
                             }
                         }
                     }
@@ -653,7 +663,7 @@ fun BabyLogScreen(
                                 Icon(imageVector = Icons.Default.Bedtime, contentDescription = null, tint = SageTertiary)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Sleep & Nap Tracker",
+                                    text = "Sommeil & Siestes",
                                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                                 )
                             }
@@ -668,7 +678,7 @@ fun BabyLogScreen(
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = "Health Connect",
+                                        text = "Santé Connect",
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             color = SageTertiary,
                                             fontWeight = FontWeight.Bold
@@ -681,7 +691,7 @@ fun BabyLogScreen(
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
-                            text = "Duration: ${sleepMinutesSlider.toInt()} minutes (${String.format(Locale.getDefault(), "%.1f", sleepMinutesSlider / 60)} hours)",
+                            text = "Durée : ${sleepMinutesSlider.toInt()} minutes (${String.format(Locale.FRENCH, "%.1f", sleepMinutesSlider / 60)} heures)",
                             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
                         )
 
@@ -705,7 +715,7 @@ fun BabyLogScreen(
                                     .testTag("btn_log_baby_sleep"),
                                 colors = ButtonDefaults.buttonColors(containerColor = SageTertiary)
                             ) {
-                                Text("Log Baby Sleep")
+                                Text("Sommeil Bébé")
                             }
 
                             Button(
@@ -715,7 +725,7 @@ fun BabyLogScreen(
                                     .testTag("btn_log_mom_sleep"),
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                             ) {
-                                Text("Log Mom Sleep")
+                                Text("Sommeil Maman")
                             }
                         }
                     }
@@ -725,7 +735,7 @@ fun BabyLogScreen(
             // Section 5: Recent Baby Logs List
             item {
                 Text(
-                    text = "Today's Baby Activity Log",
+                    text = "Activité de Bébé Aujourd'hui",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -739,7 +749,7 @@ fun BabyLogScreen(
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                     ) {
                         Text(
-                            text = "No baby events logged yet. Tap any tool above to record nursing, bottle, or diaper!",
+                            text = "Aucun événement enregistré pour le moment. Appuyez sur un outil ci-dessus pour noter tétée, biberon ou couche !",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 textAlign = TextAlign.Center
@@ -752,7 +762,7 @@ fun BabyLogScreen(
                 }
             } else {
                 items(babyLogs) { log ->
-                    val timeStr = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date(log.timestamp))
+                    val timeStr = SimpleDateFormat("HH:mm", Locale.FRENCH).format(Date(log.timestamp))
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -779,20 +789,20 @@ fun BabyLogScreen(
 
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "${log.logType.lowercase().replaceFirstChar { it.uppercase() }}: ${log.detail}",
+                                    text = "${logTypeLabel(log.logType)} : ${log.detail}",
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
                                 )
                                 if (log.durationSeconds > 0) {
                                     val m = log.durationSeconds / 60
                                     val s = log.durationSeconds % 60
                                     Text(
-                                        text = "Duration: ${m}m ${s}s",
+                                        text = "Durée : ${m}m ${s}s",
                                         style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline)
                                     )
                                 }
                                 if (log.amountMl > 0) {
                                     Text(
-                                        text = "Amount: ${log.amountMl} ml",
+                                        text = "Quantité : ${log.amountMl} ml",
                                         style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline)
                                     )
                                 }
@@ -860,7 +870,7 @@ private fun CompactStatCard(
 
 @Composable
 private fun CompactLogRow(log: BabyLogEntity) {
-    val timeStr = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(log.timestamp))
+    val timeStr = SimpleDateFormat("HH:mm", Locale.FRENCH).format(Date(log.timestamp))
     val icon = when (log.logType) {
         "NURSING" -> "🤱"
         "BOTTLE" -> "🍼"
@@ -897,7 +907,7 @@ private fun CompactLogRow(log: BabyLogEntity) {
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "${log.logType} — ${log.detail}",
+                    text = "${logTypeLabel(log.logType)} — ${log.detail}",
                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
                 )
                 if (log.amountMl > 0 || log.durationSeconds > 0) {
@@ -923,4 +933,13 @@ private fun CompactLogRow(log: BabyLogEntity) {
             )
         }
     }
+}
+
+private fun logTypeLabel(logType: String): String = when (logType) {
+    "NURSING" -> "Allaitement"
+    "BOTTLE" -> "Biberon"
+    "DIAPER" -> "Couche"
+    "SLEEP" -> "Sommeil"
+    "PUMPING" -> "Tire-lait"
+    else -> logType.lowercase().replaceFirstChar { it.uppercase() }
 }

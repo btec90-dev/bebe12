@@ -1,108 +1,108 @@
 <resources>
-    <string name="app_name">B&amp;F Pregnancy Tracker</string>
-    <string name="app_title">B&amp;F</string>
+    <string name="app_name">Maman &amp; Bébé</string>
+    <string name="app_title">Maman &amp; Bébé</string>
 
-    <!-- Header & Greetings -->
-    <string name="good_morning">Good morning</string>
-    <string name="todays_journey">TODAY\'S JOURNEY</string>
-    <string name="estimated_due_date">Estimated Due Date</string>
-    <string name="select_log_date">Select Log Date</string>
-    <string name="pregnancy_countdown">Pregnancy Countdown</string>
-    <string name="days_left">%1$d days left</string>
-    <string name="days_remaining">%1$d days to due date</string>
-    <string name="edit_due_date">Edit Due Date</string>
-    <string name="due_date_saved">Due date updated successfully</string>
-    <string name="tap_to_edit">Tap to edit date</string>
+    <!-- En-tête & Accueil -->
+    <string name="good_morning">Bonjour</string>
+    <string name="todays_journey">PARCOURS DU JOUR</string>
+    <string name="estimated_due_date">Date d\'accouchement prévue</string>
+    <string name="select_log_date">Sélectionner la date</string>
+    <string name="pregnancy_countdown">Compte à rebours</string>
+    <string name="days_left">%1$d jours restants</string>
+    <string name="days_remaining">%1$d jours avant le terme</string>
+    <string name="edit_due_date">Modifier la date d\'accouchement</string>
+    <string name="due_date_saved">Date mise à jour avec succès</string>
+    <string name="tap_to_edit">Appuyer pour modifier</string>
 
-    <!-- Dashboard Stats -->
-    <string name="week_trimester">Week %1$d • Trimester %2$d</string>
-    <string name="twin_week_trimester">Twin Mode • Week %1$d</string>
-    <string name="baby_size_title">Baby is as big as a %1$s!</string>
-    <string name="approx_dimensions">Approx. %1$d cm | %2$d g</string>
-    <string name="week_of_40">Week %1$d of 40</string>
-    <string name="daily_kick_goal">Daily Goal</string>
-    <string name="search_placeholder">Search symptoms, articles, notes…</string>
-    <string name="recently_logged">Recently logged</string>
-    <string name="see_all">See all</string>
+    <!-- Statistiques du tableau de bord -->
+    <string name="week_trimester">Semaine %1$d • Trimestre %2$d</string>
+    <string name="twin_week_trimester">Mode Gémellaire • Semaine %1$d</string>
+    <string name="baby_size_title">Bébé a la taille d\'un(e) %1$s !</string>
+    <string name="approx_dimensions">Env. %1$d cm | %2$d g</string>
+    <string name="week_of_40">Semaine %1$d sur 40</string>
+    <string name="daily_kick_goal">Objectif quotidien</string>
+    <string name="search_placeholder">Rechercher symptômes, articles, notes…</string>
+    <string name="recently_logged">Récemment enregistré</string>
+    <string name="see_all">Voir tout</string>
 
-    <!-- Medical Disclaimer -->
-    <string name="medical_disclaimer">Maman &amp; bébé is designed for informational and educational support only and does not provide medical advice, diagnosis, or treatment.</string>
+    <!-- Mention médicale -->
+    <string name="medical_disclaimer">Maman &amp; Bébé est conçu uniquement à des fins d\'information et d\'éducation et ne fournit pas d\'avis médical, de diagnostic ou de traitement.</string>
 
-    <!-- Navigation Tabs -->
-    <string name="tab_home">Home</string>
+    <!-- Onglets de navigation -->
+    <string name="tab_home">Accueil</string>
     <string name="tab_plan">Plan</string>
     <string name="tab_stats">Stats</string>
-    <string name="tab_log">Log</string>
-    <string name="tab_ai">AI</string>
-    <string name="tab_kicks">Kicks</string>
-    <string name="tab_baby">Baby</string>
+    <string name="tab_log">Journal</string>
+    <string name="tab_ai">IA</string>
+    <string name="tab_kicks">Coups</string>
+    <string name="tab_baby">Bébé</string>
 
-    <!-- Logging Actions & Dialogs -->
-    <string name="log_todays_symptoms">Log today\'s symptoms</string>
-    <string name="kick_counter">Kick Counter</string>
-    <string name="feeding_log">Feeding Log</string>
-    <string name="diaper_change">Diaper Change</string>
-    <string name="sleep_session">Sleep Session</string>
-    <string name="pump_session">Pump Session</string>
-    <string name="save_essentials">Save essentials (%1$d of %2$d packed)</string>
-    <string name="weight_kg">Weight (kg)</string>
-    <string name="hydration_water">Water Intake</string>
-    <string name="mood">Mood</string>
-    <string name="symptoms">Symptoms</string>
-    <string name="save_daily_log">Save Daily Log</string>
-    <string name="log_saved_success">Daily log saved successfully!</string>
-    <string name="health_connect_sync">Health Connect Synced</string>
-    <string name="connect_health">Connect Android Health</string>
+    <!-- Journalisation & Actions -->
+    <string name="log_todays_symptoms">Noter les symptômes du jour</string>
+    <string name="kick_counter">Compteur de coups</string>
+    <string name="feeding_log">Journal des tétées</string>
+    <string name="diaper_change">Changement de couche</string>
+    <string name="sleep_session">Séance de sommeil</string>
+    <string name="pump_session">Séance tire-lait</string>
+    <string name="save_essentials">Valise de maternité (%1$d sur %2$d)</string>
+    <string name="weight_kg">Poids (kg)</string>
+    <string name="hydration_water">Hydratation</string>
+    <string name="mood">Humeur</string>
+    <string name="symptoms">Symptômes</string>
+    <string name="save_daily_log">Enregistrer le journal du jour</string>
+    <string name="log_saved_success">Journal du jour enregistré avec succès !</string>
+    <string name="health_connect_sync">Health Connect synchronisé</string>
+    <string name="connect_health">Connecter Santé Android</string>
 
-    <!-- Settings & Multi-Language -->
-    <string name="settings">Settings</string>
-    <string name="language">Language</string>
-    <string name="select_language">Select Language</string>
-    <string name="english">English</string>
+    <!-- Paramètres & Langues -->
+    <string name="settings">Paramètres</string>
+    <string name="language">Langue</string>
+    <string name="select_language">Sélectionner la langue</string>
+    <string name="english">Anglais</string>
     <string name="french">Français</string>
-    <string name="spanish">Español</string>
-    <string name="portuguese">Português</string>
-    <string name="italian">Italiano</string>
-    <string name="arabic">العربية</string>
-    <string name="single_twin_mode">Single Baby / Twin Mode</string>
-    <string name="size_theme">Size Theme</string>
-    <string name="fruits_theme">Fruits &amp; Veggies</string>
-    <string name="animals_theme">Cute Animals</string>
-    <string name="snacks_theme">Snacks &amp; Treats</string>
-    <string name="sports_theme">Sports Equipment</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
-    <string name="dismiss">Dismiss</string>
-    <string name="close">Close</string>
+    <string name="spanish">Espagnol</string>
+    <string name="portuguese">Portugais</string>
+    <string name="italian">Italien</string>
+    <string name="arabic">Arabe</string>
+    <string name="single_twin_mode">Bébé unique / Mode Jumeaux</string>
+    <string name="size_theme">Thème de taille</string>
+    <string name="fruits_theme">Fruits &amp; Légumes</string>
+    <string name="animals_theme">Animaux mignons</string>
+    <string name="snacks_theme">Gourmandises</string>
+    <string name="sports_theme">Équipement sportif</string>
+    <string name="cancel">Annuler</string>
+    <string name="save">Enregistrer</string>
+    <string name="dismiss">Ignorer</string>
+    <string name="close">Fermer</string>
 
-    <!-- AI Companion -->
-    <string name="assistant_title">Maman AI Companion</string>
-    <string name="assistant_subtitle">Your compassionate prenatal assistant</string>
-    <string name="assistant_welcome">Bonjour! Welcome to Maman &amp; bébé. How can I support you and your baby today?</string>
-    <string name="assistant_placeholder">Ask about symptoms, nutrition, kicks…</string>
-    <string name="send">Send</string>
-    <string name="assistant_disclaimer">AI advice is educational. Always consult your healthcare provider for medical concerns.</string>
+    <!-- Assistant IA -->
+    <string name="assistant_title">Assistant Maman IA</string>
+    <string name="assistant_subtitle">Votre assistante prénatale bienveillante</string>
+    <string name="assistant_welcome">Bonjour ! Bienvenue sur Maman &amp; Bébé. Comment puis-je vous accompagner aujourd\'hui, vous et votre bébé ?</string>
+    <string name="assistant_placeholder">Posez vos questions sur les symptômes, la nutrition…</string>
+    <string name="send">Envoyer</string>
+    <string name="assistant_disclaimer">Les conseils de l\'IA sont informatifs. Consultez toujours votre professionnel de santé en cas de doute médical.</string>
 
-    <!-- Appointments & Bump Photo Studio -->
-    <string name="upcoming_appointments">Upcoming Appointments</string>
-    <string name="schedule_appointment">Schedule Visit</string>
-    <string name="no_upcoming_appointments">No upcoming doctor appointments scheduled</string>
-    <string name="view_agenda">View Agenda</string>
-    <string name="bump_photo_studio">Bump &amp; Baby Photo Studio</string>
-    <string name="take_bump_photo">Take Photo</string>
-    <string name="pick_from_gallery">Gallery</string>
-    <string name="photo_saved_success">Bump photo saved to your journal!</string>
-    <string name="privacy_pin">Privacy PIN</string>
-    <string name="fetal_3d_video_title">3D Fetal Video Player</string>
-    <string name="fetal_3d_video_subtitle">Weekly 3D Fetal Development Simulation</string>
+    <!-- Rendez-vous & Studio Photo -->
+    <string name="upcoming_appointments">Prochains rendez-vous</string>
+    <string name="schedule_appointment">Planifier une visite</string>
+    <string name="no_upcoming_appointments">Aucun rendez-vous médical prévu</string>
+    <string name="view_agenda">Voir l\'agenda</string>
+    <string name="bump_photo_studio">Studio Photo Ventre &amp; Bébé</string>
+    <string name="take_bump_photo">Prendre une photo</string>
+    <string name="pick_from_gallery">Galerie</string>
+    <string name="photo_saved_success">Photo enregistrée dans votre journal !</string>
+    <string name="privacy_pin">Code PIN de confidentialité</string>
+    <string name="fetal_3d_video_title">Lecteur Vidéo Fœtal 3D</string>
+    <string name="fetal_3d_video_subtitle">Simulation hebdomadaire du développement fœtal</string>
     <string name="tab_3d_model">3D Interactive</string>
-    <string name="tab_3d_video">3D Video Clip</string>
-    <string name="video_play">Play</string>
+    <string name="tab_3d_video">Vidéo 3D</string>
+    <string name="video_play">Lecture</string>
     <string name="video_pause">Pause</string>
-    <string name="video_mute">Mute</string>
-    <string name="video_unmute">Unmute</string>
-    <string name="video_custom_url">Custom Video URL</string>
-    <string name="video_enter_url">Enter .mp4 video URL</string>
-    <string name="video_fullscreen">Fullscreen</string>
-    <string name="video_source_cdn">CDN Video Active</string>
+    <string name="video_mute">Muet</string>
+    <string name="video_unmute">Activer le son</string>
+    <string name="video_custom_url">URL Vidéo Personnalisée</string>
+    <string name="video_enter_url">Entrer l\'URL vidéo .mp4</string>
+    <string name="video_fullscreen">Plein écran</string>
+    <string name="video_source_cdn">CDN Vidéo Actif</string>
 </resources>

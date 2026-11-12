@@ -125,7 +125,7 @@ fun SignInScreen(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.app_logo),
-                        contentDescription = "Maman & Bébé Logo",
+                        contentDescription = "Logo Maman & Bébé",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
@@ -146,7 +146,7 @@ fun SignInScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Sign in to securely sync your pregnancy milestones, kick counter records, symptoms, and health logs to the cloud.",
+                    text = "Connectez-vous pour synchroniser en toute sécurité vos jalons de grossesse, coups de pied, symptômes et suivis santé dans le cloud.",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = TextWarmTaupe,
                         lineHeight = 20.sp
@@ -174,7 +174,7 @@ fun SignInScreen(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "Cloud Backup with Google Cloud Firestore",
+                            text = "Sauvegarde Cloud avec Google Cloud Firestore",
                             style = MaterialTheme.typography.bodySmall.copy(
                                 fontWeight = FontWeight.SemiBold,
                                 color = TextDarkEspresso
@@ -191,7 +191,7 @@ fun SignInScreen(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "Private & Secure End-to-End User Isolation",
+                            text = "Espace privé et chiffré de bout en bout",
                             style = MaterialTheme.typography.bodySmall.copy(
                                 fontWeight = FontWeight.SemiBold,
                                 color = TextDarkEspresso
@@ -327,7 +327,7 @@ fun SignInScreen(
                     } else {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = "Sign in with Google",
+                                text = "Se connecter avec Google",
                                 style = MaterialTheme.typography.labelLarge.copy(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
@@ -394,7 +394,7 @@ fun executeGoogleSignIn(
     val clientId = try {
         context.getString(R.string.default_web_client_id)
     } catch (e: Exception) {
-        onError("Google Sign-In configuration missing: default_web_client_id not found")
+        onError("Configuration Google Sign-In manquante : default_web_client_id introuvable")
         return
     }
 
@@ -416,14 +416,14 @@ fun executeGoogleSignIn(
                 Log.d(TAG, "Google Sign-In successful: ${Firebase.auth.currentUser?.email}")
                 onSuccess()
             } else {
-                onError("Unexpected credential type returned")
+                onError("Type d'identifiant inattendu")
             }
         } catch (e: GetCredentialCancellationException) {
             Log.w(TAG, "Google Sign-In flow cancelled: ${e.message}", e)
             onCancelled()
         } catch (e: Exception) {
             Log.e(TAG, "Google Sign-In failed", e)
-            onError(e.localizedMessage ?: "Sign-in failed. Please try again.")
+            onError(e.localizedMessage ?: "Échec de connexion. Veuillez réessayer.")
         }
     }
 }

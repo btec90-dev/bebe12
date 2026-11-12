@@ -97,7 +97,7 @@ fun MamanTopBar(
                         )
                     )
                     Text(
-                        text = "Week $currentWeek",
+                        text = "Semaine $currentWeek",
                         style = MaterialTheme.typography.labelSmall.copy(
                             color = Color.White.copy(alpha = 0.9f),
                             fontWeight = FontWeight.Bold,
@@ -142,7 +142,7 @@ fun MamanTopBar(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
-                        contentDescription = "Settings",
+                        contentDescription = "Paramètres",
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
                     )

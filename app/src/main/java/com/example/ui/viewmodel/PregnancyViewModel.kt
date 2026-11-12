@@ -133,21 +133,21 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
     )
     val selectedSizeTheme: StateFlow<SizeTheme> = _selectedSizeTheme.asStateFlow()
 
-    // Multi-Language Support (persisted)
+    // Multi-Language Support (persisted, default French)
     private val _currentLanguage = MutableStateFlow(
-        prefs.getString("pref_language", null) ?: run {
-            val phoneLang = Locale.getDefault().language
-            when (phoneLang) {
-                "fr", "es", "pt" -> phoneLang
-                else -> "en"
-            }
-        }
+        prefs.getString("pref_language", null) ?: "fr"
     )
     val currentLanguage: StateFlow<String> = _currentLanguage.asStateFlow()
+
+    private fun activeLocale(): Locale = if (_currentLanguage.value == "en") Locale.ENGLISH else Locale.FRENCH
 
     fun setLanguage(code: String) {
         _currentLanguage.value = code
         prefs.edit().putString("pref_language", code).apply()
+        val loc = if (code == "en") Locale.ENGLISH else Locale.FRENCH
+        val newTodayFormatted = SimpleDateFormat("MMM dd, yyyy", loc).format(Date())
+        _selectedCalendarDate.value = newTodayFormatted
+        build14DayCalendarStrip()
         try {
             val appLocale = androidx.core.os.LocaleListCompat.forLanguageTags(code)
             androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(appLocale)
@@ -271,7 +271,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
     val pinResetStatus: StateFlow<String?> = _pinResetStatus.asStateFlow()
 
     // 14-Day Calendar Strip State
-    val todayDateFormatted: String = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date())
+    val todayDateFormatted: String = SimpleDateFormat("MMM dd, yyyy", activeLocale()).format(Date())
     private val _selectedCalendarDate = MutableStateFlow(todayDateFormatted)
     val selectedCalendarDate: StateFlow<String> = _selectedCalendarDate.asStateFlow()
 
@@ -599,15 +599,15 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
     private val _todayWeightKg = MutableStateFlow(64.5)
     val todayWeightKg: StateFlow<Double> = _todayWeightKg.asStateFlow()
 
-    private val _todayMood = MutableStateFlow("Calm")
+    private val _todayMood = MutableStateFlow("Calme")
     val todayMood: StateFlow<String> = _todayMood.asStateFlow()
 
-    private val _todaySymptoms = MutableStateFlow<Set<String>>(setOf("Mild fatigue"))
+    private val _todaySymptoms = MutableStateFlow<Set<String>>(setOf("Fatigue légère"))
     val todaySymptoms: StateFlow<Set<String>> = _todaySymptoms.asStateFlow()
 
-    // Symptom severity map: symptom name -> "Mild" / "Moderate" / "Severe"
+    // Symptom severity map: symptom name -> "Légère" / "Modérée" / "Sévère"
     private val _symptomSeverities = MutableStateFlow<Map<String, String>>(
-        mapOf("Mild fatigue" to "Mild")
+        mapOf("Fatigue légère" to "Légère")
     )
     val symptomSeverities: StateFlow<Map<String, String>> = _symptomSeverities.asStateFlow()
 
@@ -626,7 +626,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
     private val _chatMessages = MutableStateFlow<List<ChatMessage>>(
         listOf(
             ChatMessage(
-                text = "Bonjour! Welcome to Maman & bébé Pregnancy Tracker. How can I support you and your baby today?",
+                text = "Bonjour ! Bienvenue sur Maman & Bébé. Comment puis-je vous accompagner aujourd'hui, vous et votre bébé ?",
                 isUser = false
             )
         )
@@ -647,9 +647,10 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -6) // 6 days before today
 
-        val dayFmt = SimpleDateFormat("d", Locale.getDefault())
-        val dayOfWeekFmt = SimpleDateFormat("EEE", Locale.getDefault())
-        val fullFmt = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val loc = activeLocale()
+        val dayFmt = SimpleDateFormat("d", loc)
+        val dayOfWeekFmt = SimpleDateFormat("EEE", loc)
+        val fullFmt = SimpleDateFormat("MMM dd, yyyy", loc)
         val todayStr = fullFmt.format(Date())
 
         for (i in 0 until 14) {
@@ -694,8 +695,8 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
                                             title = agenda.title,
                                             weekSuggested = agenda.targetWeek,
                                             dateTimestamp = System.currentTimeMillis() + (agenda.targetWeek - _currentWeekNumber.value).coerceAtLeast(1) * 7L * 24 * 3600 * 1000,
-                                            doctorName = "Dr. Laurent (OB/GYN)",
-                                            location = "Maternal Health Center",
+                                            doctorName = "Dr. Laurent (Gynécologue)",
+                                            location = "Maternité / Centre de Santé",
                                             notes = agenda.description,
                                             isCompleted = false
                                         )
@@ -824,7 +825,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             .apply()
         _isPinEnabled.value = true
         _isAppLocked.value = false
-        _pinResetStatus.value = "PIN protection activated successfully"
+        _pinResetStatus.value = "Protection par code PIN activée avec succès"
     }
 
     fun disablePin() {
@@ -834,7 +835,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             .apply()
         _isPinEnabled.value = false
         _isAppLocked.value = false
-        _pinResetStatus.value = "PIN protection disabled"
+        _pinResetStatus.value = "Protection par code PIN désactivée"
     }
 
     fun verifyPin(inputPin: String): Boolean {
@@ -865,7 +866,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
     fun requestPinResetCode() {
         val code = (100000..999999).random().toString()
         _pinResetCode.value = code
-        _pinResetStatus.value = "Reset code ($code) sent to ${_userEmail.value}"
+        _pinResetStatus.value = "Code de réinitialisation ($code) envoyé à ${_userEmail.value}"
     }
 
     fun verifyResetCodeAndResetPin(code: String, newPin: String): Boolean {
@@ -873,7 +874,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
         return if (currentCode != null && code.trim() == currentCode.trim()) {
             setPin(newPin)
             _pinResetCode.value = null
-            _pinResetStatus.value = "PIN has been reset successfully"
+            _pinResetStatus.value = "Le code PIN a été réinitialisé avec succès"
             true
         } else {
             false
@@ -895,14 +896,14 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
                 java.io.FileOutputStream(file).use { out ->
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 92, out)
                 }
-                val dateFmt = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date())
+                val dateFmt = SimpleDateFormat("MMM dd, yyyy", activeLocale()).format(Date())
                 dao.insertJournalEntry(
                     JournalEntryEntity(
                         weekNumber = week,
                         dateString = dateFmt,
                         timestamp = System.currentTimeMillis(),
-                        title = title.ifBlank { "Week $week Bump Photo" },
-                        reflection = notes.ifBlank { "Captured on $dateFmt • Week $week" },
+                        title = title.ifBlank { "Photo Ventre Semaine $week" },
+                        reflection = notes.ifBlank { "Capturée le $dateFmt • Semaine $week" },
                         photoUri = file.absolutePath
                     )
                 )
@@ -914,14 +915,14 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun saveBumpPhotoUri(uriString: String, week: Int, title: String = "", notes: String = "") {
         viewModelScope.launch {
-            val dateFmt = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date())
+            val dateFmt = SimpleDateFormat("MMM dd, yyyy", activeLocale()).format(Date())
             dao.insertJournalEntry(
                 JournalEntryEntity(
                     weekNumber = week,
                     dateString = dateFmt,
                     timestamp = System.currentTimeMillis(),
-                    title = title.ifBlank { "Week $week Bump Photo" },
-                    reflection = notes.ifBlank { "Added from gallery on $dateFmt" },
+                    title = title.ifBlank { "Photo Ventre Semaine $week" },
+                    reflection = notes.ifBlank { "Ajoutée depuis la galerie le $dateFmt" },
                     photoUri = uriString
                 )
             )
@@ -943,10 +944,10 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
     fun onHealthPermissionsResult(granted: Boolean) {
         _hasHealthPermissions.value = granted
         if (granted) {
-            _healthConnectMessage.value = "Health Connect connected securely!"
+            _healthConnectMessage.value = "Health Connect connecté avec succès !"
             loadHealthConnectData()
         } else {
-            _healthConnectMessage.value = "Health Connect permissions were not granted."
+            _healthConnectMessage.value = "Les autorisations Health Connect n'ont pas été accordées."
         }
     }
 
@@ -1068,7 +1069,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
         toggleSymptomWithSeverity(symptom)
     }
 
-    fun toggleSymptomWithSeverity(symptom: String, severity: String = "Mild") {
+    fun toggleSymptomWithSeverity(symptom: String, severity: String = "Légère") {
         val current = _todaySymptoms.value.toMutableSet()
         val severities = _symptomSeverities.value.toMutableMap()
         if (symptom in current) {
@@ -1088,7 +1089,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             val glasses = _todayWaterGlasses.value
             val mood = _todayMood.value
             val symptomsWithSeverityStr = _todaySymptoms.value.joinToString(", ") { symptom ->
-                val sev = _symptomSeverities.value[symptom] ?: "Mild"
+                val sev = _symptomSeverities.value[symptom] ?: "Légère"
                 "$symptom ($sev)"
             }
 
@@ -1112,7 +1113,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
                     syncedHealthConnect = synced
                 )
             )
-            _healthConnectMessage.value = if (synced) "Saved & synced with Health Connect!" else "Daily entry saved!"
+            _healthConnectMessage.value = if (synced) "Enregistré & synchronisé avec Health Connect !" else "Journal du jour enregistré !"
         }
     }
 
@@ -1143,11 +1144,12 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
         nursingTimerJob?.cancel()
         val duration = _nursingDurationSeconds.value
         val side = _nursingSide.value
+        val sideFr = if (side.equals("LEFT", ignoreCase = true) || side.equals("Gauche", ignoreCase = true)) "Sein gauche" else "Sein droit"
         viewModelScope.launch {
             dao.insertBabyLog(
                 BabyLogEntity(
                     logType = "NURSING",
-                    detail = "$side Breast",
+                    detail = sideFr,
                     durationSeconds = duration,
                     amountMl = 0,
                     notes = notes
@@ -1162,7 +1164,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             dao.insertBabyLog(
                 BabyLogEntity(
                     logType = "BOTTLE",
-                    detail = if (formula) "Formula" else "Breastmilk",
+                    detail = if (formula) "Lait infantile" else "Lait maternel",
                     durationSeconds = 0,
                     amountMl = amountMl,
                     notes = notes
@@ -1188,7 +1190,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             dao.insertBabyLog(
                 BabyLogEntity(
                     logType = "PUMPING",
-                    detail = "Pumping ($amountMl ml)",
+                    detail = "Tire-lait ($amountMl ml)",
                     amountMl = amountMl,
                     notes = notes
                 )
@@ -1203,7 +1205,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             var synced = false
 
             if (_hasHealthPermissions.value) {
-                val title = if (isBaby) "Baby Nap" else "Maternal Sleep"
+                val title = if (isBaby) "Sieste bébé" else "Sommeil maman"
                 val res = healthConnectManager.writeSleepSession(startTime, endTime, title)
                 synced = res.isSuccess
                 if (synced) loadHealthConnectData()
@@ -1212,13 +1214,13 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             dao.insertBabyLog(
                 BabyLogEntity(
                     logType = "SLEEP",
-                    detail = if (isBaby) "Baby Sleep ($durationMinutes min)" else "Mom Sleep ($durationMinutes min)",
+                    detail = if (isBaby) "Sommeil bébé ($durationMinutes min)" else "Sommeil maman ($durationMinutes min)",
                     durationSeconds = durationMinutes * 60,
                     notes = notes,
                     syncedHealthConnect = synced
                 )
             )
-            _healthConnectMessage.value = if (synced) "Sleep synced to Health Connect!" else "Sleep recorded!"
+            _healthConnectMessage.value = if (synced) "Sommeil synchronisé avec Health Connect !" else "Sommeil enregistré !"
         }
     }
 
@@ -1248,7 +1250,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
         title: String,
         reflection: String,
         photoUri: String? = null,
-        category: String = "Belly Bump",
+        category: String = "Ventre Rond",
         audioUri: String? = null,
         videoUri: String? = null
     ) {
@@ -1312,12 +1314,12 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
                 fos?.use {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 95, it)
                     android.os.Handler(context.mainLooper).post {
-                        android.widget.Toast.makeText(context, "Photo saved to device Gallery!", android.widget.Toast.LENGTH_SHORT).show()
+                        android.widget.Toast.makeText(context, "Photo enregistrée dans la galerie !", android.widget.Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
                 android.os.Handler(context.mainLooper).post {
-                    android.widget.Toast.makeText(context, "Failed to save photo: ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(context, "Échec de l'enregistrement : ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -1330,12 +1332,12 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
             val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
                 type = "image/jpeg"
                 putExtra(android.content.Intent.EXTRA_STREAM, uri)
-                putExtra(android.content.Intent.EXTRA_TEXT, "Maman & Bébé Memory: $caption")
+                putExtra(android.content.Intent.EXTRA_TEXT, "Souvenir Maman & Bébé : $caption")
                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            context.startActivity(android.content.Intent.createChooser(intent, "Share Photo via"))
+            context.startActivity(android.content.Intent.createChooser(intent, "Partager la photo via"))
         } catch (e: Exception) {
-            android.widget.Toast.makeText(context, "Failed to share photo: ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
+            android.widget.Toast.makeText(context, "Échec du partage : ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1360,7 +1362,7 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
 
                 if (originalBitmap == null) {
                     withContext(kotlinx.coroutines.Dispatchers.Main) {
-                        android.widget.Toast.makeText(context, "Cannot read photo bitmap to crop", android.widget.Toast.LENGTH_SHORT).show()
+                        android.widget.Toast.makeText(context, "Impossible de lire l'image à recadrer", android.widget.Toast.LENGTH_SHORT).show()
                     }
                     return@launch
                 }
@@ -1408,12 +1410,12 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
 
                 withContext(kotlinx.coroutines.Dispatchers.Main) {
                     onSuccess(croppedFile.absolutePath)
-                    android.widget.Toast.makeText(context, "Photo cropped & saved!", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(context, "Photo recadrée et enregistrée !", android.widget.Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(kotlinx.coroutines.Dispatchers.Main) {
-                    android.widget.Toast.makeText(context, "Failed to crop: ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(context, "Échec du recadrage : ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -1540,11 +1542,12 @@ class PregnancyViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             val result = assistantClient.askAssistant(
                 prompt = prompt,
-                currentWeek = _currentWeekNumber.value
+                currentWeek = _currentWeekNumber.value,
+                userLanguage = _currentLanguage.value
             )
             _isAssistantThinking.value = false
             val replyText = result.getOrElse {
-                "I am here to support you. Please make sure to discuss any medical concerns with your obstetrician or midwife."
+                "Je suis là pour vous accompagner. N'hésitez pas à consulter votre gynécologue ou votre sage-femme pour toute question médicale."
             }
             _chatMessages.value = _chatMessages.value + ChatMessage(text = replyText, isUser = false)
         }

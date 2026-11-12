@@ -99,7 +99,7 @@ fun KickCounterScreen(
         item {
             Column {
                 Text(
-                    text = "Fetal Kick Counter",
+                    text = "Compteur de Coups Fœtaux",
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = RosePrimary
@@ -107,7 +107,7 @@ fun KickCounterScreen(
                     modifier = Modifier.testTag("kick_counter_title")
                 )
                 Text(
-                    text = "Target: 10 movements within 2 hours (ACOG standard)",
+                    text = "Objectif : 10 mouvements en 2 heures (recommandation clinique)",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -155,7 +155,7 @@ fun KickCounterScreen(
                             ) {
                                 Icon(
                                     imageVector = if (isRunning) Icons.Default.Pause else Icons.Default.PlayArrow,
-                                    contentDescription = "Toggle Timer",
+                                    contentDescription = "Démarrer ou mettre en pause le chronomètre",
                                     tint = RosePrimary
                                 )
                             }
@@ -165,7 +165,7 @@ fun KickCounterScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Refresh,
-                                    contentDescription = "Reset Kick Counter",
+                                    contentDescription = "Réinitialiser le compteur",
                                     tint = MaterialTheme.colorScheme.outline
                                 )
                             }
@@ -221,7 +221,7 @@ fun KickCounterScreen(
                                     )
                                 )
                                 Text(
-                                    text = if (count >= 10) "Goal Reached!" else "TAP ON KICK",
+                                    text = if (count >= 10) "Objectif atteint !" else "APPUI À CHAQUE COUP",
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         letterSpacing = 1.sp,
@@ -254,7 +254,7 @@ fun KickCounterScreen(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Wonderful! Baby reached 10 kicks in $timeFormatted. Great reassurance!",
+                                    text = "Merveilleux ! Bébé a atteint 10 coups en $timeFormatted. Très rassurant !",
                                     style = MaterialTheme.typography.bodySmall.copy(
                                         color = SageTertiary,
                                         fontWeight = FontWeight.SemiBold
@@ -268,7 +268,7 @@ fun KickCounterScreen(
                     OutlinedTextField(
                         value = sessionNotes,
                         onValueChange = { sessionNotes = it },
-                        label = { Text("Session notes (e.g. after lunch, active rolls)") },
+                        label = { Text("Notes de séance (ex. après le déjeuner, bébé actif)") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_kick_notes"),
@@ -290,7 +290,7 @@ fun KickCounterScreen(
                         ),
                         enabled = count > 0
                     ) {
-                        Text("Save Kick Session Log")
+                        Text("Enregistrer la séance de coups")
                     }
                 }
             }
@@ -316,12 +316,12 @@ fun KickCounterScreen(
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
                         Text(
-                            text = "When to do kick counts?",
+                            text = "Quand compter les mouvements ?",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Starting around Week 28, count daily when baby is typically active (often in the evening or after eating). Lie on your left side to maximize blood flow. If you do not feel 10 movements in 2 hours, contact your care provider.",
+                            text = "À partir de la semaine 28, comptez chaque jour lorsque bébé est actif (souvent le soir ou après un repas). Allongez-vous sur le côté gauche pour optimiser le flux sanguin. Si vous ne sentez pas 10 mouvements en 2 heures, contactez votre sage-femme ou médecin.",
                             style = MaterialTheme.typography.bodySmall.copy(lineHeight = 18.sp)
                         )
                     }
@@ -332,7 +332,7 @@ fun KickCounterScreen(
         // Past Sessions Log Section
         item {
             Text(
-                text = "Recent Kick Sessions",
+                text = "Séances récentes",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.padding(top = 8.dp)
             )
@@ -346,7 +346,7 @@ fun KickCounterScreen(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Text(
-                        text = "No saved kick sessions yet. Tap the button above to begin counting baby's first session!",
+                        text = "Aucune séance enregistrée pour le moment. Appuyez sur le bouton ci-dessus pour compter les premiers mouvements !",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center
@@ -359,7 +359,7 @@ fun KickCounterScreen(
             }
         } else {
             items(kickSessions) { session ->
-                val dateStr = SimpleDateFormat("MMM dd, yyyy • hh:mm a", Locale.getDefault())
+                val dateStr = SimpleDateFormat("dd MMM yyyy • HH:mm", Locale.FRENCH)
                     .format(Date(session.timestamp))
                 val sessMinutes = session.durationSeconds / 60
                 val sessSecs = session.durationSeconds % 60
@@ -398,16 +398,16 @@ fun KickCounterScreen(
 
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = if (session.targetReached) "Goal Reached (10 kicks)" else "${session.kickCount} kicks recorded",
+                                text = if (session.targetReached) "Objectif atteint (10 coups)" else "${session.kickCount} coups enregistrés",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
                             )
                             Text(
-                                text = "Duration: ${sessMinutes}m ${sessSecs}s • $dateStr",
+                                text = "Durée : ${sessMinutes}m ${sessSecs}s • $dateStr",
                                 style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
                             )
                             if (session.notes.isNotBlank()) {
                                 Text(
-                                    text = "Notes: ${session.notes}",
+                                    text = "Notes : ${session.notes}",
                                     style = MaterialTheme.typography.bodySmall.copy(
                                         color = MaterialTheme.colorScheme.onSurface,
                                         fontStyle = androidx.compose.ui.text.font.FontStyle.Italic

@@ -186,8 +186,8 @@ fun MamanBebeApp(
 
     val locale = remember(currentLanguage) {
         when (currentLanguage) {
-            "fr" -> Locale.FRENCH
-            else -> Locale.ENGLISH
+            "en" -> Locale.ENGLISH
+            else -> Locale.FRENCH
         }
     }
 

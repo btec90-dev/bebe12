@@ -1,10 +1,10 @@
 package com.example.data.model
 
 enum class SizeTheme(val displayName: String) {
-    FRUITS("Fruits & Veggies"),
-    ANIMALS("Cute Animals"),
-    SNACKS("Snacks & Treats"),
-    SPORTS("Sports Equipment")
+    FRUITS("Fruits & Légumes"),
+    ANIMALS("Animaux Mignons"),
+    SNACKS("Gourmandises"),
+    SPORTS("Équipement Sportif")
 }
 
 data class SizeComparison(

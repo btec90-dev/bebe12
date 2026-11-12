@@ -74,15 +74,16 @@ fun ChecklistScreen(
     val items by viewModel.checklistItems.collectAsState()
     var showAddDialog by remember { mutableStateOf(false) }
     var newItemTitle by remember { mutableStateOf("") }
-    var newItemCategory by remember { mutableStateOf("Hospital Bag (Mom)") }
+    var newItemCategory by remember { mutableStateOf("Valise Maternité (Maman)") }
 
     val checkedCount = items.count { it.isChecked }
     val totalCount = items.size
 
-    val momItems = items.filter { it.category == "Hospital Bag (Mom)" }
-    val babyItems = items.filter { it.category == "Hospital Bag (Baby)" }
-    val nurseryItems = items.filter { it.category == "Nursery & Sleep" }
-    val feedingItems = items.filter { it.category.contains("Feeding") || it.category.contains("Diapering") }
+    val momItems = items.filter { it.category == "Valise Maternité (Maman)" }
+    val babyItems = items.filter { it.category == "Valise Maternité (Bébé - Jour J)" }
+    val partnerItems = items.filter { it.category == "Valise Accompagnant (Papa)" }
+    val beforeBirthItems = items.filter { it.category == "À Acheter Avant la Naissance" }
+    val afterBirthItems = items.filter { it.category == "À Acheter Après la Naissance" }
 
     val checkedPreview = items.filter { it.isChecked }.take(3).ifEmpty {
         items.take(3)
@@ -109,13 +110,13 @@ fun ChecklistScreen(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = "Retour",
                         tint = DeepEspressoPrimary
                     )
                 }
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Plan essentials & bag",
+                    text = "Essentiels & Valise",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = TextDarkEspresso
@@ -130,7 +131,7 @@ fun ChecklistScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add custom item",
+                        contentDescription = "Ajouter un article personnalisé",
                         tint = DeepEspressoPrimary
                     )
                 }
@@ -172,44 +173,53 @@ fun ChecklistScreen(
                 }
             }
 
-            // Category 1: Hospital Bag (Mom)
+            // Category 1: Valise Maternité (Maman)
             item {
                 ChecklistCategorySection(
-                    title = "Hospital Bag (Mom)",
+                    title = "Valise Maternité (Maman)",
                     items = momItems,
                     onToggle = { viewModel.toggleChecklistItem(it) }
                 )
             }
 
-            // Category 2: Hospital Bag (Baby)
+            // Category 2: Valise Maternité (Bébé - Jour J)
             item {
                 ChecklistCategorySection(
-                    title = "Hospital Bag (Baby)",
+                    title = "Valise Maternité (Bébé - Jour J)",
                     items = babyItems,
                     onToggle = { viewModel.toggleChecklistItem(it) }
                 )
             }
 
-            // Category 3: Nursery & Sleep
+            // Category 3: Valise Accompagnant (Papa)
             item {
                 ChecklistCategorySection(
-                    title = "Nursery & Sleep",
-                    items = nurseryItems,
+                    title = "Valise Accompagnant (Papa)",
+                    items = partnerItems,
                     onToggle = { viewModel.toggleChecklistItem(it) }
                 )
             }
 
-            // Category 4: Feeding & Diapering
+            // Category 4: À Acheter Avant la Naissance
             item {
                 ChecklistCategorySection(
-                    title = "Feeding & Diapering",
-                    items = feedingItems,
+                    title = "À Acheter Avant la Naissance",
+                    items = beforeBirthItems,
+                    onToggle = { viewModel.toggleChecklistItem(it) }
+                )
+            }
+
+            // Category 5: À Acheter Après la Naissance
+            item {
+                ChecklistCategorySection(
+                    title = "À Acheter Après la Naissance",
+                    items = afterBirthItems,
                     onToggle = { viewModel.toggleChecklistItem(it) }
                 )
             }
         }
 
-        // Bottom Full-width Deep Espresso Pill Button (matching Screen 4 "Save as today's outfit")
+        // Bottom Full-width Deep Espresso Pill Button
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = WarmCanvasBackground,
@@ -233,7 +243,7 @@ fun ChecklistScreen(
                     )
                 ) {
                     Text(
-                        text = "Save essentials ($checkedCount of $totalCount packed)",
+                        text = "Enregistrer ($checkedCount sur $totalCount préparés)",
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold,
                             color = Color.White
@@ -247,18 +257,24 @@ fun ChecklistScreen(
     if (showAddDialog) {
         AlertDialog(
             onDismissRequest = { showAddDialog = false },
-            title = { Text(text = "Add Essential Item", fontWeight = FontWeight.Bold, color = TextDarkEspresso) },
+            title = { Text(text = "Ajouter un article essentiel", fontWeight = FontWeight.Bold, color = TextDarkEspresso) },
             text = {
                 Column {
                     OutlinedTextField(
                         value = newItemTitle,
                         onValueChange = { newItemTitle = it },
-                        label = { Text("Item Name") },
+                        label = { Text("Nom de l'article") },
                         modifier = Modifier.fillMaxWidth().testTag("input_new_checklist_title")
                     )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text("Category:", style = MaterialTheme.typography.labelMedium)
-                    val cats = listOf("Hospital Bag (Mom)", "Hospital Bag (Baby)", "Nursery & Sleep", "Feeding & Diapering")
+                    Text("Catégorie :", style = MaterialTheme.typography.labelMedium)
+                    val cats = listOf(
+                        "Valise Maternité (Maman)",
+                        "Valise Maternité (Bébé - Jour J)",
+                        "Valise Accompagnant (Papa)",
+                        "À Acheter Avant la Naissance",
+                        "À Acheter Après la Naissance"
+                    )
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         items(cats) { cat ->
                             Box(
@@ -290,12 +306,12 @@ fun ChecklistScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary)
                 ) {
-                    Text("Add")
+                    Text("Ajouter")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showAddDialog = false }) {
-                    Text("Cancel", color = TextWarmTaupe)
+                    Text("Annuler", color = TextWarmTaupe)
                 }
             }
         )
@@ -410,7 +426,7 @@ private fun SquircleChecklistItem(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "Checked",
+                        contentDescription = "Préparé",
                         tint = Color.White,
                         modifier = Modifier.size(13.dp)
                     )
@@ -435,27 +451,26 @@ private fun SquircleChecklistItem(
 private fun getEmojiForItem(title: String): String {
     val t = title.lowercase()
     return when {
-        t.contains("id") || t.contains("insurance") || t.contains("card") -> "🪪"
-        t.contains("plan") || t.contains("birth") -> "📋"
-        t.contains("robe") || t.contains("gown") || t.contains("nightgown") -> "👘"
-        t.contains("panties") || t.contains("underwear") -> "🩲"
-        t.contains("bra") -> "👙"
-        t.contains("toiletries") || t.contains("toothbrush") -> "🪥"
-        t.contains("charger") || t.contains("phone") -> "🔌"
-        t.contains("onesie") || t.contains("sleeper") || t.contains("outfit") -> "👶"
-        t.contains("blanket") || t.contains("swaddle") -> "🧣"
-        t.contains("hat") || t.contains("cap") -> "🧢"
-        t.contains("socks") || t.contains("booties") -> "🧦"
-        t.contains("car seat") -> "🚗"
-        t.contains("diaper") || t.contains("wipes") -> "🧻"
-        t.contains("crib") || t.contains("bassinet") -> "🛏️"
-        t.contains("mattress") -> "🛌"
-        t.contains("monitor") -> "📹"
-        t.contains("noise") || t.contains("sound") -> "🔊"
-        t.contains("pump") || t.contains("breast pump") -> "🍼"
-        t.contains("bottle") -> "🍼"
-        t.contains("pacifier") -> "🍼"
-        t.contains("cream") || t.contains("balm") -> "🧴"
+        t.contains("id") || t.contains("vitale") || t.contains("mutuelle") || t.contains("livret") || t.contains("pièce") || t.contains("dossier") -> "🪪"
+        t.contains("plan") || t.contains("naissance") -> "📋"
+        t.contains("chemise") || t.contains("pyjama") || t.contains("chausson") -> "👘"
+        t.contains("culotte") || t.contains("serviette") -> "🩲"
+        t.contains("soutien") -> "👙"
+        t.contains("toilette") || t.contains("brosse") || t.contains("brumisateur") -> "🪥"
+        t.contains("chargeur") || t.contains("téléphone") || t.contains("appareil") || t.contains("smartphone") -> "🔌"
+        t.contains("body") || t.contains("tenue") || t.contains("brassière") || t.contains("vêtement") -> "👶"
+        t.contains("lange") || t.contains("cape") || t.contains("gigoteuse") || t.contains("écharpe") -> "🧣"
+        t.contains("bonnet") -> "🧢"
+        t.contains("chaussette") -> "🧦"
+        t.contains("siège auto") || t.contains("poussette") -> "🚗"
+        t.contains("couche") || t.contains("liniment") || t.contains("coton") || t.contains("compresse") -> "🧻"
+        t.contains("lit") || t.contains("berceau") -> "🛏️"
+        t.contains("matelas") || t.contains("table") -> "🛌"
+        t.contains("babyphone") || t.contains("caméra") -> "📹"
+        t.contains("veilleuse") -> "💡"
+        t.contains("tire-lait") || t.contains("biberon") || t.contains("coussin") -> "🍼"
+        t.contains("crème") || t.contains("sérum") || t.contains("gel") || t.contains("thermomètre") -> "🧴"
+        t.contains("baignoire") -> "🛁"
         else -> "✨"
     }
 }

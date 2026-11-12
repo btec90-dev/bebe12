@@ -66,12 +66,12 @@ fun RoadmapScreen(
     val achievedIds by viewModel.achievedMilestoneIds.collectAsState()
     val allMilestones = MilestoneRoadmapData.milestones24Months
 
-    var selectedDomain by remember { mutableStateOf("All") }
-    val domains = listOf("All", "Physical", "Cognitive", "Social")
+    var selectedDomain by remember { mutableStateOf("Tous") }
+    val domains = listOf("Tous", "Physique", "Cognitif", "Social")
 
     var selectedMilestone by remember { mutableStateOf<BabyMilestone?>(null) }
 
-    val filteredList = if (selectedDomain == "All") {
+    val filteredList = if (selectedDomain == "Tous") {
         allMilestones
     } else {
         allMilestones.filter { it.domain == selectedDomain }
@@ -95,7 +95,7 @@ fun RoadmapScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBack, modifier = Modifier.testTag("btn_roadmap_back").size(36.dp)) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = SoftRose)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour", tint = SoftRose)
                 }
                 Spacer(modifier = Modifier.width(6.dp))
                 Column {

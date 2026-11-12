@@ -45,7 +45,22 @@ import com.example.ui.components.VoiceNotePlayerComponent
 import com.example.ui.theme.*
 import com.example.ui.viewmodel.PregnancyViewModel
 
-private val albumCategories = listOf("All", "Belly Bump", "Ultrasound", "Baby Milestones", "Video Album 🎥", "Nursery", "Family")
+private val albumCategories = listOf("Tout", "Ventre Rond", "Échographie", "Étapes de Bébé", "Album Vidéo 🎥", "Chambre de Bébé", "Famille")
+
+private fun matchesAlbumCategory(entryCategory: String, selectedAlbum: String): Boolean {
+    if (selectedAlbum == "Tout") return true
+    if (entryCategory.equals(selectedAlbum, ignoreCase = true)) return true
+    val legacy = when (selectedAlbum) {
+        "Ventre Rond" -> "Belly Bump"
+        "Échographie" -> "Ultrasound"
+        "Étapes de Bébé" -> "Baby Milestones"
+        "Album Vidéo 🎥" -> "Video Album 🎥"
+        "Chambre de Bébé" -> "Nursery"
+        "Famille" -> "Family"
+        else -> null
+    }
+    return legacy != null && entryCategory.equals(legacy, ignoreCase = true)
+}
 
 @Composable
 fun MilestoneJournalScreen(
@@ -58,17 +73,13 @@ fun MilestoneJournalScreen(
     val fatherName by viewModel.fatherName.collectAsState()
     val context = LocalContext.current
 
-    var selectedAlbum by remember { mutableStateOf("All") }
+    var selectedAlbum by remember { mutableStateOf("Tout") }
     var showAddDialog by remember { mutableStateOf(false) }
     var entryToEdit by remember { mutableStateOf<JournalEntryEntity?>(null) }
     var entryToDelete by remember { mutableStateOf<JournalEntryEntity?>(null) }
     var entryToCrop by remember { mutableStateOf<JournalEntryEntity?>(null) }
 
-    val filteredEntries = if (selectedAlbum == "All") {
-        entries
-    } else {
-        entries.filter { it.category.equals(selectedAlbum, ignoreCase = true) }
-    }
+    val filteredEntries = entries.filter { matchesAlbumCategory(it.category, selectedAlbum) }
 
     Scaffold(
         floatingActionButton = {
@@ -78,7 +89,7 @@ fun MilestoneJournalScreen(
                 contentColor = Color.White,
                 modifier = Modifier.testTag("fab_add_journal_entry")
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Reflection / Photo / Video")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Ajouter une photo, vidéo ou note")
             }
         }
     ) { padding ->
@@ -97,7 +108,7 @@ fun MilestoneJournalScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onBack, modifier = Modifier.testTag("btn_journal_back")) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = RosePrimary)
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour", tint = RosePrimary)
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
@@ -167,7 +178,7 @@ fun MilestoneJournalScreen(
                                 .padding(32.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = if (selectedAlbum.contains("Video")) "🎬" else "📸", fontSize = 48.sp)
+                            Text(text = if (selectedAlbum.contains("Vidéo", ignoreCase = true)) "🎬" else "📸", fontSize = 48.sp)
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
                                 text = "Aucun souvenir dans '$selectedAlbum'",
@@ -205,7 +216,7 @@ fun MilestoneJournalScreen(
                                 Box(modifier = Modifier.fillMaxWidth()) {
                                     Image(
                                         painter = rememberAsyncImagePainter(model = Uri.parse(entry.photoUri)),
-                                        contentDescription = "Bump Photo",
+                                        contentDescription = "Photo souvenir",
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .height(220.dp),
@@ -260,7 +271,7 @@ fun MilestoneJournalScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Default.PlayArrow,
-                                                contentDescription = "Play Video",
+                                                contentDescription = "Lire la vidéo",
                                                 tint = Color.White,
                                                 modifier = Modifier.size(32.dp)
                                             )
@@ -363,21 +374,21 @@ fun MilestoneJournalScreen(
                                             onClick = { viewModel.savePhotoToDeviceGallery(context, entry.photoUri) },
                                             modifier = Modifier.testTag("btn_save_photo_${entry.id}")
                                         ) {
-                                            Icon(imageVector = Icons.Default.SaveAlt, contentDescription = "Save to Device", tint = RosePrimary)
+                                            Icon(imageVector = Icons.Default.SaveAlt, contentDescription = "Enregistrer sur l'appareil", tint = RosePrimary)
                                         }
 
                                         IconButton(
                                             onClick = { entryToCrop = entry },
                                             modifier = Modifier.testTag("btn_crop_photo_${entry.id}")
                                         ) {
-                                            Icon(imageVector = Icons.Default.Crop, contentDescription = "Crop Photo", tint = RosePrimary)
+                                            Icon(imageVector = Icons.Default.Crop, contentDescription = "Recadrer la photo", tint = RosePrimary)
                                         }
 
                                         IconButton(
                                             onClick = { viewModel.sharePhoto(context, entry.photoUri, "${entry.title} - Semaine ${entry.weekNumber}") },
                                             modifier = Modifier.testTag("btn_share_photo_${entry.id}")
                                         ) {
-                                            Icon(imageVector = Icons.Default.Share, contentDescription = "Share Photo", tint = RosePrimary)
+                                            Icon(imageVector = Icons.Default.Share, contentDescription = "Partager la photo", tint = RosePrimary)
                                         }
                                     }
 
@@ -385,14 +396,14 @@ fun MilestoneJournalScreen(
                                         onClick = { entryToEdit = entry },
                                         modifier = Modifier.testTag("btn_edit_entry_${entry.id}")
                                     ) {
-                                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Modifier", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                                     }
 
                                     IconButton(
                                         onClick = { entryToDelete = entry },
                                         modifier = Modifier.testTag("btn_delete_entry_${entry.id}")
                                     ) {
-                                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFD32F2F))
+                                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer", tint = Color(0xFFD32F2F))
                                     }
                                 }
                             }
@@ -410,7 +421,7 @@ fun MilestoneJournalScreen(
             defaultWeek = currentWeek,
             initialTitle = "Souvenir Semaine $currentWeek",
             initialReflection = "",
-            initialCategory = if (selectedAlbum == "All") "Belly Bump" else selectedAlbum,
+            initialCategory = if (selectedAlbum == "Tout") "Ventre Rond" else selectedAlbum,
             initialPhotoUri = null,
             initialVideoUri = null,
             initialAudioUri = null,
@@ -523,7 +534,7 @@ private fun JournalEntryDialog(
     var selectedVideoUri by remember { mutableStateOf<Uri?>(initialVideoUri?.let { Uri.parse(it) }) }
     var attachedAudioUri by remember { mutableStateOf<String?>(initialAudioUri) }
 
-    val categoriesList = listOf("Belly Bump", "Ultrasound", "Baby Milestones", "Video Album 🎥", "Nursery", "Family")
+    val categoriesList = listOf("Ventre Rond", "Échographie", "Étapes de Bébé", "Album Vidéo 🎥", "Chambre de Bébé", "Famille")
 
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -538,8 +549,8 @@ private fun JournalEntryDialog(
     ) { uri: Uri? ->
         if (uri != null) {
             selectedVideoUri = uri
-            if (category != "Video Album 🎥") {
-                category = "Video Album 🎥"
+            if (category != "Album Vidéo 🎥") {
+                category = "Album Vidéo 🎥"
             }
         }
     }

@@ -80,7 +80,7 @@ fun InteractiveAudioGrowthView(
     DisposableEffect(context) {
         val tts = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                ttsInstance?.language = Locale.getDefault()
+                ttsInstance?.language = Locale.FRENCH
             }
         }
         ttsInstance = tts
@@ -104,7 +104,7 @@ fun InteractiveAudioGrowthView(
         label = "pulse"
     )
 
-    val audioDescriptionText = "Week $currentWeek pregnancy update. Your baby is about the size of a ${currentComparison.title} ${currentComparison.emoji}, measuring approximately ${weekData.lengthCm} centimeters and weighing ${weekData.weightGrams} grams. Development highlight: ${weekData.babyDevelopment}. Maternal notes: ${weekData.momChanges}"
+    val audioDescriptionText = "Suivi de grossesse, semaine $currentWeek. Votre bébé a environ la taille d'un(e) ${currentComparison.title} ${currentComparison.emoji}, mesure près de ${weekData.lengthCm} centimètres et pèse environ ${weekData.weightGrams} grammes. Développement : ${weekData.babyDevelopment}. Pour maman : ${weekData.momChanges}"
 
     Card(
         modifier = modifier
@@ -131,7 +131,7 @@ fun InteractiveAudioGrowthView(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Audiotrack,
-                            contentDescription = "Audio Guide",
+                            contentDescription = "Guide Audio",
                             tint = DeepEspressoPrimary,
                             modifier = Modifier.size(20.dp)
                         )
@@ -139,7 +139,7 @@ fun InteractiveAudioGrowthView(
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "3D VISUAL & AUDIO GUIDE",
+                            text = "GUIDE VISUEL 3D & AUDIO",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 letterSpacing = 1.1.sp,
                                 fontWeight = FontWeight.Bold,
@@ -148,7 +148,7 @@ fun InteractiveAudioGrowthView(
                             )
                         )
                         Text(
-                            text = "Week $currentWeek Development",
+                            text = "Développement Semaine $currentWeek",
                             style = MaterialTheme.typography.titleSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextDarkEspresso,
@@ -158,7 +158,7 @@ fun InteractiveAudioGrowthView(
                     }
                 }
 
-                // Audio Play/Stop Button
+                // Bouton Lecture/Arrêt Audio
                 IconButton(
                     onClick = {
                         if (isSpeaking) {
@@ -177,7 +177,7 @@ fun InteractiveAudioGrowthView(
                 ) {
                     Icon(
                         imageVector = if (isSpeaking) Icons.Default.Stop else Icons.AutoMirrored.Filled.VolumeUp,
-                        contentDescription = "Play/Stop Audio",
+                        contentDescription = "Lire ou arrêter l'audio",
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
                     )
@@ -252,7 +252,7 @@ fun InteractiveAudioGrowthView(
                         )
                     )
                     Text(
-                        text = "Approx. ${weekData.lengthCm} cm | ${weekData.weightGrams} g",
+                        text = "Env. ${weekData.lengthCm} cm | ${weekData.weightGrams} g",
                         style = MaterialTheme.typography.bodySmall.copy(
                             color = TextWarmTaupe,
                             fontSize = 11.sp
@@ -265,7 +265,7 @@ fun InteractiveAudioGrowthView(
 
             // Size Guide Theme Selector (Fruits, Animals, Sweets, Sports)
             Text(
-                text = "Baby Size Guide Categories",
+                text = "Catégories du Guide des Tailles",
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = FontWeight.Bold,
                     color = TextWarmTaupe,
@@ -276,8 +276,8 @@ fun InteractiveAudioGrowthView(
 
             val themes = listOf(
                 SizeTheme.FRUITS to "🍓 Fruits",
-                SizeTheme.ANIMALS to "🐾 Animals",
-                SizeTheme.SNACKS to "🧁 Sweets",
+                SizeTheme.ANIMALS to "🐾 Animaux",
+                SizeTheme.SNACKS to "🧁 Gourmandises",
                 SizeTheme.SPORTS to "⚽ Sports"
             )
 
@@ -312,7 +312,7 @@ fun InteractiveAudioGrowthView(
 
             // Week-by-Week Developmental Expectation Summary
             Text(
-                text = "What to Expect in Week $currentWeek",
+                text = "À quoi s'attendre à la semaine $currentWeek",
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = FontWeight.Bold,
                     color = TextWarmTaupe,

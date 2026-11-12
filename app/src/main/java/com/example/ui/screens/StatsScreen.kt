@@ -92,7 +92,7 @@ fun StatsScreen(
         ) {
             Column {
                 Text(
-                    text = "YOUR PREGNANCY IN NUMBERS",
+                    text = "VOTRE GROSSESSE EN CHIFFRES",
                     style = MaterialTheme.typography.labelSmall.copy(
                         letterSpacing = 1.2.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -102,7 +102,7 @@ fun StatsScreen(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "Stats",
+                    text = "Statistiques",
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = TextDarkEspresso,
@@ -131,7 +131,7 @@ fun StatsScreen(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "Week $currentWeek",
+                                text = "Semaine $currentWeek",
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = FontWeight.SemiBold,
                                     color = TextDarkEspresso,
@@ -156,7 +156,7 @@ fun StatsScreen(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "$totalLogs logs saved",
+                                text = "$totalLogs entrées enregistrées",
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = FontWeight.SemiBold,
                                     color = TextDarkEspresso,
@@ -189,7 +189,7 @@ fun StatsScreen(
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
                         Text(
-                            text = "Health & Body metrics",
+                            text = "Santé & Métriques corporelles",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextDarkEspresso
@@ -201,14 +201,14 @@ fun StatsScreen(
                             horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
                             Text(
-                                text = "5 key metrics",
+                                text = "5 indicateurs clés",
                                 style = MaterialTheme.typography.titleLarge.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = DeepEspressoPrimary
                                 )
                             )
                             Text(
-                                text = if (hasHealthPerms) "synced with Health Connect" else "ready to sync",
+                                text = if (hasHealthPerms) "synchronisés avec Santé Connect" else "prêts à synchroniser",
                                 style = MaterialTheme.typography.bodySmall.copy(
                                     color = TextWarmTaupe,
                                     fontSize = 11.sp
@@ -244,35 +244,35 @@ fun StatsScreen(
                         // Breakdown items with dot, label, mini progress bar, value
                         MetricBreakdownRow(
                             dotColor = colorEspresso,
-                            label = "Weight",
+                            label = "Poids",
                             progress = 0.85f,
                             value = "${todayWeight} kg"
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         MetricBreakdownRow(
                             dotColor = colorCaramel,
-                            label = "Sleep Avg",
+                            label = "Sommeil moy.",
                             progress = 0.72f,
-                            value = String.format("%.1f hrs", avgSleepHours)
+                            value = String.format(java.util.Locale.FRENCH, "%.1f h", avgSleepHours)
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         MetricBreakdownRow(
                             dotColor = colorDenim,
-                            label = "Hydration",
+                            label = "Hydratation",
                             progress = (waterGlasses / 8f).coerceIn(0f, 1f),
                             value = "${waterGlasses * 250} ml"
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         MetricBreakdownRow(
                             dotColor = colorTaupe,
-                            label = "Fetal Kicks",
+                            label = "Coups fœtaux",
                             progress = 0.60f,
-                            value = "$totalKicks kicks"
+                            value = "$totalKicks coups"
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         MetricBreakdownRow(
                             dotColor = colorPeach,
-                            label = "Blood Pressure",
+                            label = "Tension art.",
                             progress = 0.45f,
                             value = "118 / 76"
                         )
@@ -297,7 +297,7 @@ fun StatsScreen(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = if (hasHealthPerms) "Health Connect Synced" else "Connect Android Health",
+                                text = if (hasHealthPerms) "Santé Connect synchronisé" else "Connecter Santé Connect",
                                 style = MaterialTheme.typography.labelMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = DeepEspressoPrimary
@@ -320,7 +320,7 @@ fun StatsScreen(
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
                         Text(
-                            text = "Most logged activities",
+                            text = "Activités les plus suivies",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextDarkEspresso
@@ -331,36 +331,36 @@ fun StatsScreen(
                         // Row 1: Kicks
                         MostLoggedRow(
                             emoji = "🦶",
-                            title = "Fetal movements",
+                            title = "Mouvements fœtaux",
                             progress = 0.85f,
-                            countText = "${kickSessions.size.coerceAtLeast(8)} sessions"
+                            countText = "${kickSessions.size.coerceAtLeast(8)} séances"
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
                         // Row 2: Weight logs
                         MostLoggedRow(
                             emoji = "⚖️",
-                            title = "Maternal weight",
+                            title = "Poids maternel",
                             progress = 0.65f,
-                            countText = "${syncedWeights.size.coerceAtLeast(6)} entries"
+                            countText = "${syncedWeights.size.coerceAtLeast(6)} entrées"
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
                         // Row 3: Water hydration
                         MostLoggedRow(
                             emoji = "💧",
-                            title = "Daily hydration",
+                            title = "Hydratation quotidienne",
                             progress = 0.55f,
-                            countText = "${waterGlasses} glasses"
+                            countText = "${waterGlasses} verres"
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
                         // Row 4: Daily symptoms
                         MostLoggedRow(
                             emoji = "📝",
-                            title = "Symptom check-ins",
+                            title = "Suivi des symptômes",
                             progress = 0.40f,
-                            countText = "${logs.size.coerceAtLeast(4)} days"
+                            countText = "${logs.size.coerceAtLeast(4)} jours"
                         )
                     }
                 }

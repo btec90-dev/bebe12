@@ -184,7 +184,7 @@ fun FirstTimeMomGuideScreen(
                 Spacer(modifier = Modifier.width(6.dp))
                 Column {
                     Text(
-                        text = "Guide Premier Bébé (First-Time Mom)",
+                        text = "Guide Premier Bébé • Maman",
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold,
                             color = TextDarkEspresso,

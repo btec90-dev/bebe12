@@ -142,7 +142,7 @@ fun AppointmentsScreen(
                 contentColor = Color.White,
                 modifier = Modifier.testTag("btn_add_appointment")
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add New Entry")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Ajouter une entrée")
             }
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -163,7 +163,7 @@ fun AppointmentsScreen(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = onBack, modifier = Modifier.size(34.dp)) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = RosePrimary, modifier = Modifier.size(18.dp))
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour", tint = RosePrimary, modifier = Modifier.size(18.dp))
                     }
                     Spacer(modifier = Modifier.width(6.dp))
                     Column {
@@ -256,10 +256,10 @@ fun AppointmentsScreen(
                                     contacts = exportedContacts
                                 )
                                 if (file != null) {
-                                    Toast.makeText(context, "Care directory PDF generated!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "PDF du carnet de suivi généré !", Toast.LENGTH_SHORT).show()
                                     CareDirectoryPdfExporter.sharePdf(context, file)
                                 } else {
-                                    Toast.makeText(context, "Failed to generate PDF", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Échec de la génération du PDF", Toast.LENGTH_SHORT).show()
                                 }
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = RosePrimary),
@@ -267,7 +267,7 @@ fun AppointmentsScreen(
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.testTag("btn_export_pdf_share")
                         ) {
-                            Icon(imageVector = Icons.Default.Share, contentDescription = "Export", modifier = Modifier.size(12.dp))
+                            Icon(imageVector = Icons.Default.Share, contentDescription = "Partager PDF", modifier = Modifier.size(12.dp))
                             Spacer(modifier = Modifier.width(3.dp))
                             Text(text = "PDF", fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         }
@@ -284,14 +284,14 @@ fun AppointmentsScreen(
                                 if (file != null) {
                                     CareDirectoryPdfExporter.viewPdf(context, file)
                                 } else {
-                                    Toast.makeText(context, "Failed to generate PDF", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Échec de la génération du PDF", Toast.LENGTH_SHORT).show()
                                 }
                             },
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 4.dp),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.testTag("btn_export_pdf_print")
                         ) {
-                            Icon(imageVector = Icons.Default.Print, contentDescription = "Print", modifier = Modifier.size(12.dp), tint = RosePrimary)
+                            Icon(imageVector = Icons.Default.Print, contentDescription = "Imprimer", modifier = Modifier.size(12.dp), tint = RosePrimary)
                         }
                     }
                 }
@@ -321,7 +321,7 @@ fun AppointmentsScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(appointments) { app ->
-                        val dateStr = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
+                        val dateStr = SimpleDateFormat("EEE dd MMM yyyy", Locale.FRENCH)
                             .format(Date(app.dateTimestamp))
 
                         Card(
@@ -389,13 +389,13 @@ fun AppointmentsScreen(
                                         },
                                         modifier = Modifier.size(30.dp)
                                     ) {
-                                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit Visit", tint = RosePrimary, modifier = Modifier.size(16.dp))
+                                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Modifier la visite", tint = RosePrimary, modifier = Modifier.size(16.dp))
                                     }
                                     IconButton(
                                         onClick = { viewModel.deleteAppointment(app) },
                                         modifier = Modifier.size(30.dp)
                                     ) {
-                                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Visit", tint = Color.Gray, modifier = Modifier.size(16.dp))
+                                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer la visite", tint = Color.Gray, modifier = Modifier.size(16.dp))
                                     }
                                 }
 
@@ -478,7 +478,7 @@ fun AppointmentsScreen(
                                                     .padding(horizontal = 6.dp, vertical = 2.dp)
                                             ) {
                                                 Text(
-                                                    text = contact.type,
+                                                    text = contactTypeLabelFr(contact.type),
                                                     style = MaterialTheme.typography.labelSmall.copy(
                                                         color = SageTertiary,
                                                         fontWeight = FontWeight.Bold,
@@ -508,7 +508,7 @@ fun AppointmentsScreen(
                                                 context.startActivity(intent)
                                             }
                                         ) {
-                                            Icon(imageVector = Icons.Default.Phone, contentDescription = "Call Contact", tint = SageTertiary)
+                                            Icon(imageVector = Icons.Default.Phone, contentDescription = "Appeler", tint = SageTertiary)
                                         }
                                     }
 
@@ -524,12 +524,12 @@ fun AppointmentsScreen(
                                             showContactDialog = true
                                         }
                                     ) {
-                                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit Contact", tint = RosePrimary)
+                                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Modifier le contact", tint = RosePrimary)
                                     }
                                     IconButton(
                                         onClick = { viewModel.deleteCachedContact(contact) }
                                     ) {
-                                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Contact", tint = Color.Gray)
+                                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer le contact", tint = Color.Gray)
                                     }
                                 }
 
@@ -559,37 +559,37 @@ fun AppointmentsScreen(
     if (showAppointmentDialog) {
         AlertDialog(
             onDismissRequest = { showAppointmentDialog = false },
-            title = { Text(if (editingAppointment == null) "Schedule Clinical Visit" else "Edit Clinical Visit") },
+            title = { Text(if (editingAppointment == null) "Planifier une Visite Médicale" else "Modifier la Visite Médicale") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedTextField(
                         value = appTitleInput,
                         onValueChange = { appTitleInput = it },
-                        label = { Text("Visit Title (e.g. 20-Week Anatomy Scan)") },
+                        label = { Text("Titre de la visite (ex. Échographie T2)") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = appDoctorInput,
                         onValueChange = { appDoctorInput = it },
-                        label = { Text("Preferred Doctor Name (e.g. Dr. Sarah Jenkins)") },
+                        label = { Text("Nom du médecin ou sage-femme") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = appPhoneInput,
                         onValueChange = { appPhoneInput = it },
-                        label = { Text("Doctor / Clinic Phone Number") },
+                        label = { Text("Téléphone du cabinet / clinique") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = appLocationInput,
                         onValueChange = { appLocationInput = it },
-                        label = { Text("Clinic / Hospital Location") },
+                        label = { Text("Clinique / Maternité / Lieu") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = appNotesInput,
                         onValueChange = { appNotesInput = it },
-                        label = { Text("Notes / Questions to Ask") },
+                        label = { Text("Notes / Questions à poser") },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -613,7 +613,7 @@ fun AppointmentsScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "Date: ${SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(appDateMillis))}",
+                            text = "Date : ${SimpleDateFormat("dd MMM yyyy", Locale.FRENCH).format(Date(appDateMillis))}",
                             color = RosePrimary,
                             fontWeight = FontWeight.Bold
                         )
@@ -624,8 +624,8 @@ fun AppointmentsScreen(
                 Button(
                     onClick = {
                         if (appTitleInput.isNotBlank()) {
-                            val docName = appDoctorInput.ifBlank { "Dr. Assigned" }
-                            val clinicLoc = appLocationInput.ifBlank { "Medical Center" }
+                            val docName = appDoctorInput.ifBlank { "Médecin référent" }
+                            val clinicLoc = appLocationInput.ifBlank { "Centre médical" }
                             if (editingAppointment == null) {
                                 viewModel.addAppointment(
                                     title = appTitleInput,
@@ -662,12 +662,12 @@ fun AppointmentsScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = RosePrimary)
                 ) {
-                    Text("Save Visit")
+                    Text("Enregistrer")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showAppointmentDialog = false }) {
-                    Text("Cancel")
+                    Text("Annuler")
                 }
             }
         )
@@ -677,10 +677,10 @@ fun AppointmentsScreen(
     if (showContactDialog) {
         AlertDialog(
             onDismissRequest = { showContactDialog = false },
-            title = { Text(if (editingContact == null) "Add Medical Contact" else "Edit Medical Contact") },
+            title = { Text(if (editingContact == null) "Ajouter un Contact Médical" else "Modifier le Contact Médical") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Text("Contact Type:", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                    Text("Type de contact :", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         listOf("DOCTOR", "PHARMACY", "CLINIC", "HOSPITAL").forEach { type ->
                             val isSelected = contactTypeInput == type
@@ -692,7 +692,7 @@ fun AppointmentsScreen(
                                     .padding(horizontal = 10.dp, vertical = 6.dp)
                             ) {
                                 Text(
-                                    text = type,
+                                    text = contactTypeLabelFr(type),
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         color = if (isSelected) Color.White else RosePrimary,
                                         fontWeight = FontWeight.Bold
@@ -705,25 +705,25 @@ fun AppointmentsScreen(
                     OutlinedTextField(
                         value = contactNameInput,
                         onValueChange = { contactNameInput = it },
-                        label = { Text("Name (e.g. Dr. Sarah / City Pharmacy)") },
+                        label = { Text("Nom (ex. Dr Martin / Pharmacie Centrale)") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = contactPhoneInput,
                         onValueChange = { contactPhoneInput = it },
-                        label = { Text("Phone Number") },
+                        label = { Text("Numéro de téléphone") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = contactAddressInput,
                         onValueChange = { contactAddressInput = it },
-                        label = { Text("Clinic / Hospital Address") },
+                        label = { Text("Adresse du cabinet ou de la clinique") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = contactNotesInput,
                         onValueChange = { contactNotesInput = it },
-                        label = { Text("Notes (e.g. Hours, Insurance)") },
+                        label = { Text("Notes (horaires, spécialité…)") },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -756,14 +756,22 @@ fun AppointmentsScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = RosePrimary)
                 ) {
-                    Text("Save Contact")
+                    Text("Enregistrer")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showContactDialog = false }) {
-                    Text("Cancel")
+                    Text("Annuler")
                 }
             }
         )
     }
+}
+
+private fun contactTypeLabelFr(type: String): String = when (type) {
+    "DOCTOR" -> "MÉDECIN"
+    "PHARMACY" -> "PHARMACIE"
+    "CLINIC" -> "CLINIQUE"
+    "HOSPITAL" -> "HÔPITAL"
+    else -> type
 }

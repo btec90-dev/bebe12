@@ -77,7 +77,7 @@ fun HealthConnectDialog(
         viewModel.onHealthPermissionsResult(allGranted)
     }
 
-    val dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy • hh:mm a")
+    val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy • HH:mm", Locale.FRENCH)
         .withZone(ZoneId.systemDefault())
 
     AlertDialog(
@@ -92,7 +92,7 @@ fun HealthConnectDialog(
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "Android Health Connect",
+                    text = "Android Santé Connect",
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -125,7 +125,7 @@ fun HealthConnectDialog(
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text(
-                                    text = if (hasPerms) "Secure Connection Active" else "On-Device Encrypted Health Store",
+                                    text = if (hasPerms) "Connexion Sécurisée Active" else "Stockage Santé Chiffré sur l'Appareil",
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = if (hasPerms) SageTertiary else RosePrimary
@@ -133,7 +133,7 @@ fun HealthConnectDialog(
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
-                                    text = "Maman & Bébé uses Android Health Connect to read and write pregnancy weight and sleep sessions directly on your device. Your data stays private to you.",
+                                    text = "Maman & Bébé utilise Android Santé Connect pour lire et enregistrer votre poids et vos séances de sommeil directement sur votre appareil. Vos données restent strictement privées.",
                                     style = MaterialTheme.typography.bodySmall.copy(lineHeight = 16.sp)
                                 )
                             }
@@ -146,13 +146,13 @@ fun HealthConnectDialog(
                     when (status) {
                         HealthConnectAvailability.NOT_SUPPORTED -> {
                             Text(
-                                text = "Health Connect is not supported on this device version. Local offline logging is fully enabled.",
+                                text = "Santé Connect n'est pas pris en charge sur cette version de l'appareil. La saisie locale hors ligne reste entièrement disponible.",
                                 style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.error)
                             )
                         }
                         HealthConnectAvailability.NOT_INSTALLED -> {
                             Text(
-                                text = "Health Connect app is not installed or requires an update.",
+                                text = "L'application Santé Connect n'est pas installée ou nécessite une mise à jour.",
                                 style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.error)
                             )
                         }
@@ -167,7 +167,7 @@ fun HealthConnectDialog(
                                         .testTag("btn_grant_health_connect_permissions"),
                                     colors = ButtonDefaults.buttonColors(containerColor = RosePrimary)
                                 ) {
-                                    Text("Grant Health Connect Permissions")
+                                    Text("Autoriser Santé Connect")
                                 }
                             } else {
                                 Row(
@@ -176,7 +176,7 @@ fun HealthConnectDialog(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        text = "Status: Connected & Authorized",
+                                        text = "Statut : Connecté & Autorisé",
                                         style = MaterialTheme.typography.bodyMedium.copy(
                                             color = SageTertiary,
                                             fontWeight = FontWeight.Bold
@@ -189,7 +189,7 @@ fun HealthConnectDialog(
                                     ) {
                                         Icon(imageVector = Icons.Default.Sync, contentDescription = null, modifier = Modifier.size(16.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text("Sync Now", style = MaterialTheme.typography.labelSmall)
+                                        Text("Synchroniser", style = MaterialTheme.typography.labelSmall)
                                     }
                                 }
                             }
@@ -207,7 +207,7 @@ fun HealthConnectDialog(
                         ) {
                             Column(modifier = Modifier.padding(12.dp)) {
                                 Text(
-                                    text = "Quick Sync Actions",
+                                    text = "Actions Rapides de Synchronisation",
                                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold)
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
@@ -225,11 +225,11 @@ fun HealthConnectDialog(
                                     ) {
                                         Icon(imageVector = Icons.Default.Scale, contentDescription = null, modifier = Modifier.size(16.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text("Write $currentWeight kg", style = MaterialTheme.typography.labelSmall)
+                                        Text("Enreg. $currentWeight kg", style = MaterialTheme.typography.labelSmall)
                                     }
 
                                     Button(
-                                        onClick = { viewModel.logSleepSession(480, isBaby = false, notes = "Maternal Night Sleep") },
+                                        onClick = { viewModel.logSleepSession(480, isBaby = false, notes = "Sommeil nocturne maman") },
                                         modifier = Modifier
                                             .weight(1f)
                                             .testTag("btn_sync_sleep_now"),
@@ -238,7 +238,7 @@ fun HealthConnectDialog(
                                     ) {
                                         Icon(imageVector = Icons.Default.Bedtime, contentDescription = null, modifier = Modifier.size(16.dp))
                                         Spacer(modifier = Modifier.width(4.dp))
-                                        Text("Write 8h Sleep", style = MaterialTheme.typography.labelSmall)
+                                        Text("Enreg. 8h Sommeil", style = MaterialTheme.typography.labelSmall)
                                     }
                                 }
                             }
@@ -248,7 +248,7 @@ fun HealthConnectDialog(
                     // Display Synced Weight Records from Health Connect
                     item {
                         Text(
-                            text = "Recent Weights in Health Connect (${syncedWeights.size})",
+                            text = "Poids Récents dans Santé Connect (${syncedWeights.size})",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                         )
                     }
@@ -256,7 +256,7 @@ fun HealthConnectDialog(
                     if (syncedWeights.isEmpty()) {
                         item {
                             Text(
-                                text = "No weight records in Health Connect yet. Tap 'Write Weight' to sync your first record.",
+                                text = "Aucun poids enregistré dans Santé Connect pour le moment. Appuyez sur « Enreg. » pour synchroniser.",
                                 style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline)
                             )
                         }
@@ -284,7 +284,7 @@ fun HealthConnectDialog(
                     item {
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Recent Sleep Sessions in Health Connect (${syncedSleep.size})",
+                            text = "Séances de Sommeil Récentes (${syncedSleep.size})",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                         )
                     }
@@ -292,7 +292,7 @@ fun HealthConnectDialog(
                     if (syncedSleep.isEmpty()) {
                         item {
                             Text(
-                                text = "No sleep records in Health Connect yet. Tap 'Write 8h Sleep' to record a session.",
+                                text = "Aucune séance de sommeil enregistrée dans Santé Connect pour le moment.",
                                 style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline)
                             )
                         }
@@ -324,7 +324,7 @@ fun HealthConnectDialog(
                 colors = ButtonDefaults.buttonColors(containerColor = RosePrimary),
                 modifier = Modifier.testTag("btn_close_health_dialog")
             ) {
-                Text("Done")
+                Text("Terminé")
             }
         }
     )

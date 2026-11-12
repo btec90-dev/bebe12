@@ -116,7 +116,7 @@ fun PregnancyMilestoneTimeline(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Timeline,
-                            contentDescription = "Milestone Timeline",
+                            contentDescription = "Chronologie des étapes",
                             tint = DeepEspressoPrimary,
                             modifier = Modifier.size(16.dp)
                         )
@@ -209,7 +209,7 @@ fun PregnancyMilestoneTimeline(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
-                                    contentDescription = "Passed",
+                                    contentDescription = "Validée",
                                     tint = Color.White,
                                     modifier = Modifier.size(12.dp)
                                 )

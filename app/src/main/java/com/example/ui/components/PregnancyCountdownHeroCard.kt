@@ -102,7 +102,7 @@ fun PregnancyCountdownHeroCard(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "Wk $currentWeek",
+                            text = "Sem. $currentWeek",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = CaramelPrimary,
@@ -116,7 +116,7 @@ fun PregnancyCountdownHeroCard(
 
                 Column {
                     Text(
-                        text = "Your baby is the size\nof a ${comparison.title.lowercase()}",
+                        text = "Votre bébé a la taille\nd'un(e) ${comparison.title.lowercase()}",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.SemiBold,
                             color = TextEspresso,
@@ -128,13 +128,13 @@ fun PregnancyCountdownHeroCard(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit due date",
+                            contentDescription = "Modifier la date prévue",
                             tint = CaramelPrimary,
                             modifier = Modifier.size(11.dp)
                         )
                         Spacer(modifier = Modifier.width(3.dp))
                         Text(
-                            text = "Tap to edit due date",
+                            text = "Appuyer pour modifier la DPA",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 color = TextWarmTaupe,
                                 fontSize = 10.sp
@@ -198,7 +198,7 @@ fun PregnancyCountdownHeroCard(
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        text = "Days to Go",
+                        text = "Jours restants",
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Medium,
                             color = TextWarmTaupe,

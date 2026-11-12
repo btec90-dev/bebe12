@@ -82,7 +82,7 @@ class HealthConnectManager(private val context: Context) {
     }
 
     suspend fun writeWeight(weightKg: Double, time: Instant = Instant.now()): Result<Unit> = withContext(Dispatchers.IO) {
-        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect is unavailable"))
+        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect est indisponible"))
         try {
             val zoneOffset = ZoneOffset.systemDefault().rules.getOffset(time)
             val record = WeightRecord(
@@ -99,7 +99,7 @@ class HealthConnectManager(private val context: Context) {
     }
 
     suspend fun readRecentWeights(days: Long = 30): Result<List<WeightDataPoint>> = withContext(Dispatchers.IO) {
-        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect is unavailable"))
+        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect est indisponible"))
         try {
             val startTime = Instant.now().minus(days, ChronoUnit.DAYS)
             val endTime = Instant.now()
@@ -124,9 +124,9 @@ class HealthConnectManager(private val context: Context) {
     suspend fun writeSleepSession(
         startTime: Instant,
         endTime: Instant,
-        title: String = "Sleep Session"
+        title: String = "Séance de sommeil"
     ): Result<Unit> = withContext(Dispatchers.IO) {
-        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect is unavailable"))
+        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect est indisponible"))
         try {
             val startOffset = ZoneOffset.systemDefault().rules.getOffset(startTime)
             val endOffset = ZoneOffset.systemDefault().rules.getOffset(endTime)
@@ -146,7 +146,7 @@ class HealthConnectManager(private val context: Context) {
     }
 
     suspend fun readRecentSleepSessions(days: Long = 7): Result<List<SleepDataPoint>> = withContext(Dispatchers.IO) {
-        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect is unavailable"))
+        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect est indisponible"))
         try {
             val startTime = Instant.now().minus(days, ChronoUnit.DAYS)
             val endTime = Instant.now()
@@ -159,7 +159,7 @@ class HealthConnectManager(private val context: Context) {
             val points = response.records.map { record ->
                 val duration = ChronoUnit.MINUTES.between(record.startTime, record.endTime)
                 SleepDataPoint(
-                    title = record.title ?: "Sleep Session",
+                    title = record.title ?: "Séance de sommeil",
                     startTime = record.startTime,
                     endTime = record.endTime,
                     durationMinutes = duration
@@ -172,7 +172,7 @@ class HealthConnectManager(private val context: Context) {
     }
 
     suspend fun writeHydration(volumeLiters: Double, time: Instant = Instant.now()): Result<Unit> = withContext(Dispatchers.IO) {
-        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect is unavailable"))
+        val client = healthConnectClient ?: return@withContext Result.failure(IllegalStateException("Health Connect est indisponible"))
         try {
             val zoneOffset = ZoneOffset.systemDefault().rules.getOffset(time)
             val record = HydrationRecord(

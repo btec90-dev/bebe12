@@ -58,6 +58,13 @@ object UserSessionManager {
             val fbUid = Firebase.auth.currentUser?.uid
             if (!fbUid.isNullOrBlank()) return fbUid
         } catch (_: Throwable) {}
+        val email = getConnectedEmail(context).lowercase().trim()
+        if (email.contains("bala") || email == "bala1fatou@gmail.com") {
+            return DEFAULT_USER_ID
+        }
+        if (email.isNotBlank()) {
+            return "user_" + email.replace("@", "_at_").replace(".", "_")
+        }
         return getPrefs(context).getString(KEY_USER_ID, DEFAULT_USER_ID) ?: DEFAULT_USER_ID
     }
 

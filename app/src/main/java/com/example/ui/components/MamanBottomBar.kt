@@ -78,7 +78,7 @@ fun MamanBottomBar(
             val navItems = listOf(
                 Triple(ScreenTab.TODAY, androidx.compose.ui.res.stringResource(id = com.example.R.string.tab_home), Pair(Icons.Default.Home, Icons.Outlined.Home)),
                 Triple(ScreenTab.CHECKLIST, androidx.compose.ui.res.stringResource(id = com.example.R.string.tab_plan), Pair(Icons.Default.Checklist, Icons.Outlined.Checklist)),
-                Triple(ScreenTab.IVF, "IVF", Pair(Icons.Default.Science, Icons.Outlined.Science)),
+                Triple(ScreenTab.IVF, "FIV", Pair(Icons.Default.Science, Icons.Outlined.Science)),
                 Triple(ScreenTab.HEALTH_LOG, androidx.compose.ui.res.stringResource(id = com.example.R.string.tab_log), Pair(Icons.Default.EditNote, Icons.Outlined.EditNote)),
                 Triple(ScreenTab.ASSISTANT, androidx.compose.ui.res.stringResource(id = com.example.R.string.tab_ai), Pair(Icons.Default.AutoAwesome, Icons.Outlined.AutoAwesome))
             )

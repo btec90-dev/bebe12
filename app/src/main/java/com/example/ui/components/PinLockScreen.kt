@@ -96,9 +96,9 @@ fun PinLockScreen(
         )
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Maman & Bébé Biometric Security")
-            .setSubtitle("Confirm fingerprint or face recognition to unlock")
-            .setNegativeButtonText("Use PIN")
+            .setTitle("Sécurité Biométrique Maman & Bébé")
+            .setSubtitle("Confirmez avec votre empreinte digitale ou Face ID")
+            .setNegativeButtonText("Utiliser le PIN")
             .build()
 
         try {
@@ -136,7 +136,7 @@ fun PinLockScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Lock,
-                    contentDescription = "App Locked",
+                    contentDescription = "Application verrouillée",
                     tint = DeepEspressoPrimary,
                     modifier = Modifier.size(36.dp)
                 )
@@ -145,7 +145,7 @@ fun PinLockScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Maman & Bébé Protected",
+                text = "Maman & Bébé Protégé",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold,
                     color = TextDarkEspresso
@@ -153,7 +153,7 @@ fun PinLockScreen(
             )
 
             Text(
-                text = "Enter your 4-digit PIN or use Biometric ID",
+                text = "Entrez votre code PIN à 4 chiffres ou utilisez la biométrie",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = TextWarmTaupe
                 )
@@ -161,7 +161,7 @@ fun PinLockScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Biometric Unlock Button
+            // Bouton Déverrouillage Biométrique
             OutlinedButton(
                 onClick = { launchBiometricPrompt() },
                 shape = RoundedCornerShape(18.dp),
@@ -170,7 +170,7 @@ fun PinLockScreen(
             ) {
                 Icon(imageVector = Icons.Default.Fingerprint, contentDescription = null, modifier = Modifier.size(20.dp), tint = DeepEspressoPrimary)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Unlock with Fingerprint / Face ID", fontWeight = FontWeight.Bold)
+                Text("Déverrouiller par Empreinte / Face ID", fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -203,7 +203,7 @@ fun PinLockScreen(
             if (isError) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Incorrect PIN. Try again.",
+                    text = "Code PIN incorrect. Réessayez.",
                     color = Color.Red,
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold)
                 )
@@ -251,7 +251,7 @@ fun PinLockScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.Backspace,
-                                        contentDescription = "Delete",
+                                        contentDescription = "Effacer",
                                         tint = TextDarkEspresso,
                                         modifier = Modifier.size(22.dp)
                                     )
@@ -270,7 +270,7 @@ fun PinLockScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = "Reset",
+                                        text = "Réinit.",
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             fontWeight = FontWeight.Bold,
                                             color = DeepEspressoPrimary
@@ -322,24 +322,24 @@ fun PinLockScreen(
     if (showResetDialog) {
         androidx.compose.material3.AlertDialog(
             onDismissRequest = { showResetDialog = false },
-            title = { Text("Reset PIN via Email", fontWeight = FontWeight.Bold, color = TextDarkEspresso) },
+            title = { Text("Réinitialiser le PIN par e-mail", fontWeight = FontWeight.Bold, color = TextDarkEspresso) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Text(
-                        text = "A 6-digit verification code was generated for:\n$userEmail",
+                        text = "Un code de vérification à 6 chiffres a été généré pour :\n$userEmail",
                         style = MaterialTheme.typography.bodySmall.copy(color = TextWarmTaupe)
                     )
                     OutlinedTextField(
                         value = resetCodeInput,
                         onValueChange = { resetCodeInput = it },
-                        label = { Text("6-Digit Code") },
+                        label = { Text("Code à 6 chiffres") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth().testTag("input_lock_reset_code")
                     )
                     OutlinedTextField(
                         value = newPinInput,
                         onValueChange = { if (it.length <= 4 && it.all { c -> c.isDigit() }) newPinInput = it },
-                        label = { Text("New 4-Digit PIN") },
+                        label = { Text("Nouveau code PIN (4 chiffres)") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth().testTag("input_lock_new_pin")
                     )
@@ -357,12 +357,12 @@ fun PinLockScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary)
                 ) {
-                    Text("Unlock & Save PIN")
+                    Text("Déverrouiller & Enregistrer")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showResetDialog = false }) {
-                    Text("Cancel")
+                    Text("Annuler")
                 }
             }
         )

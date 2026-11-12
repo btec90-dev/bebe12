@@ -5,199 +5,199 @@ import com.example.data.model.KnowledgeArticle
 
 object MilestoneRoadmapData {
     val milestones24Months = listOf(
-        // 0 - 2 Months
+        // 0 - 2 Mois
         BabyMilestone(
             id = "m_0_1",
-            monthRange = "0–2 Months",
+            monthRange = "0–2 Mois",
             targetMonth = 1,
-            domain = "Physical",
-            title = "Lifts head briefly during tummy time",
-            description = "Can raise head for a few seconds while lying on stomach."
+            domain = "Physique",
+            title = "Soulève brièvement la tête sur le ventre",
+            description = "Parvient à relever la tête quelques secondes pendant les moments d'éveil sur le ventre."
         ),
         BabyMilestone(
             id = "m_0_2",
-            monthRange = "0–2 Months",
+            monthRange = "0–2 Mois",
             targetMonth = 2,
             domain = "Social",
-            title = "First social smile",
-            description = "Smiles in response to mother's voice and gentle facial expressions."
+            title = "Premier sourire-réponse",
+            description = "Sourit en réponse à la voix de maman et de papa et aux expressions douces du visage."
         ),
         BabyMilestone(
             id = "m_0_3",
-            monthRange = "0–2 Months",
+            monthRange = "0–2 Mois",
             targetMonth = 2,
-            domain = "Cognitive",
-            title = "Tracks faces with eyes",
-            description = "Follows caregiver's movement across midline (~180 degrees)."
+            domain = "Cognitif",
+            title = "Suit les visages du regard",
+            description = "Suit les mouvements des parents sur près de 180 degrés."
         ),
 
-        // 3 - 4 Months
+        // 3 - 4 Mois
         BabyMilestone(
             id = "m_4_1",
-            monthRange = "3–4 Months",
+            monthRange = "3–4 Mois",
             targetMonth = 4,
-            domain = "Physical",
-            title = "Pushes up on elbows & reaches for toys",
-            description = "Maintains head control steadily and bats at hanging objects."
+            domain = "Physique",
+            title = "Prend appui sur les avant-bras & attrape les jouets",
+            description = "Maintient bien sa tête droite et cherche à toucher les objets suspendus."
         ),
         BabyMilestone(
             id = "m_4_2",
-            monthRange = "3–4 Months",
+            monthRange = "3–4 Mois",
             targetMonth = 4,
             domain = "Social",
-            title = "Chuckles and belly laughs",
-            description = "Spontaneous giggles and squeals of delight during play."
+            title = "Gazouille et rit aux éclats",
+            description = "Éclats de rire spontanés et cris de joie pendant les moments de jeu."
         ),
 
-        // 6 Months
+        // 6 Mois
         BabyMilestone(
             id = "m_6_1",
-            monthRange = "5–6 Months",
+            monthRange = "5–6 Mois",
             targetMonth = 6,
-            domain = "Physical",
-            title = "Rolls both ways (tummy to back)",
-            description = "Rolls back to tummy and tummy to back; sits with support."
+            domain = "Physique",
+            title = "Se retourne des deux côtés (dos-ventre)",
+            description = "Passe du dos au ventre et inversement ; tient assis avec un léger appui."
         ),
         BabyMilestone(
             id = "m_6_2",
-            monthRange = "5–6 Months",
+            monthRange = "5–6 Mois",
             targetMonth = 6,
-            domain = "Cognitive",
-            title = "Passes toy between hands",
-            description = "Transfers objects from one hand to the other and explores with mouth."
+            domain = "Cognitif",
+            title = "Passe un jouet d'une main à l'autre",
+            description = "Transfère les objets d'une main à l'autre et explore les textures avec la bouche."
         ),
 
-        // 9 Months
+        // 9 Mois
         BabyMilestone(
             id = "m_9_1",
-            monthRange = "7–9 Months",
+            monthRange = "7–9 Mois",
             targetMonth = 9,
-            domain = "Physical",
-            title = "Sits unsupported & crawls",
-            description = "Sturdy sitting balance; begins commando or cross-crawling."
+            domain = "Physique",
+            title = "Tient assis sans appui & se déplace à quatre pattes",
+            description = "Équilibre assis stable ; commence à ramper ou marcher à quatre pattes."
         ),
         BabyMilestone(
             id = "m_9_2",
-            monthRange = "7–9 Months",
+            monthRange = "7–9 Mois",
             targetMonth = 9,
             domain = "Social",
-            title = "Responds to own name",
-            description = "Turns head consistently when name is spoken; stranger awareness."
+            title = "Répond à son prénom",
+            description = "Tourne systématiquement la tête à l'appel de son prénom ; distingue visages familiers et inconnus."
         ),
 
-        // 12 Months
+        // 12 Mois
         BabyMilestone(
             id = "m_12_1",
-            monthRange = "10–12 Months",
+            monthRange = "10–12 Mois",
             targetMonth = 12,
-            domain = "Physical",
-            title = "Pulls to stand & cruises furniture",
-            description = "Pulls self up and takes first independent steps."
+            domain = "Physique",
+            title = "Se met debout & longe les meubles",
+            description = "Se hisse debout avec appui et tente ses premiers pas."
         ),
         BabyMilestone(
             id = "m_12_2",
-            monthRange = "10–12 Months",
+            monthRange = "10–12 Mois",
             targetMonth = 12,
-            domain = "Cognitive",
-            title = "Says first meaningful words ('Mama', 'Dada')",
-            description = "Uses simple gestures like waving bye-bye and pointing."
+            domain = "Cognitif",
+            title = "Dit ses premiers mots (« Maman », « Papa »)",
+            description = "Utilise des gestes simples comme faire au revoir de la main et pointer du doigt."
         ),
 
-        // 18 Months
+        // 18 Mois
         BabyMilestone(
             id = "m_18_1",
-            monthRange = "13–18 Months",
+            monthRange = "13–18 Mois",
             targetMonth = 18,
-            domain = "Physical",
-            title = "Walks confidently & climbs stairs with aid",
-            description = "Can carry toys while walking; scribbles with crayons."
+            domain = "Physique",
+            title = "Marche avec assurance & monte les marches avec aide",
+            description = "Peut transporter ses jouets en marchant et gribouiller au crayon."
         ),
         BabyMilestone(
             id = "m_18_2",
-            monthRange = "13–18 Months",
+            monthRange = "13–18 Mois",
             targetMonth = 18,
-            domain = "Cognitive",
-            title = "Understands 1-step commands",
-            description = "Points to familiar objects in a book when asked."
+            domain = "Cognitif",
+            title = "Comprend les consignes simples",
+            description = "Montre du doigt les objets familiers dans un livre lorsqu'on le lui demande."
         ),
 
-        // 24 Months
+        // 24 Mois
         BabyMilestone(
             id = "m_24_1",
-            monthRange = "19–24 Months",
+            monthRange = "19–24 Mois",
             targetMonth = 24,
-            domain = "Physical",
-            title = "Runs, kicks a ball, and jumps with both feet",
-            description = "Builds towers of 4+ blocks; uses a spoon independently."
+            domain = "Physique",
+            title = "Court, tape dans un ballon et saute à pieds joints",
+            description = "Empile des tours de 4 cubes ou plus et mange seul à la cuillère."
         ),
         BabyMilestone(
             id = "m_24_2",
-            monthRange = "19–24 Months",
+            monthRange = "19–24 Mois",
             targetMonth = 24,
-            domain = "Cognitive",
-            title = "2-word sentences ('more milk', 'big dog')",
-            description = "Vocabulary expands past 50+ words; imitates everyday routines."
+            domain = "Cognitif",
+            title = "Fait des phrases de 2 mots (« encore lait », « gros chien »)",
+            description = "Vocabulaire de plus de 50 mots ; imite les gestes du quotidien."
         )
     )
 
     val knowledgeArticles = listOf(
         KnowledgeArticle(
             id = "art_1",
-            category = "Vaccines",
-            title = "CDC & AAP Childhood Immunization Schedule",
-            readTime = "4 min read",
+            category = "Vaccins",
+            title = "Calendrier Vaccinal de Bébé (0 à 24 mois)",
+            readTime = "4 min de lecture",
             content = """
-                Protecting your newborn with timely vaccinations creates lifelong immune protection:
+                Protéger votre nouveau-né grâce aux vaccinations recommandées renforce son immunité dès les premiers mois :
                 
-                • Birth: Hepatitis B (HepB) dose 1.
-                • 2 Months: DTaP, Polio (IPV), Hib, Pneumococcal (PCV15), Rotavirus (RV), HepB dose 2.
-                • 4 Months: DTaP, IPV, Hib, PCV15, RV.
-                • 6 Months: DTaP, IPV, Hib, PCV15, RV, HepB dose 3, Annual Influenza.
-                • 12–15 Months: MMR (Measles, Mumps, Rubella), Varicella (Chickenpox), HepA dose 1.
+                • Naissance : BCQ (selon recommandations) et Hépatite B (si indiqué).
+                • 2 Mois : Hexavalent (DTP, Coqueluche, Hib, Hépatite B) + Pneumocoque + Rotavirus.
+                • 4 Mois : Rappel Hexavalent + Pneumocoque + Rotavirus.
+                • 5 Mois : Méningocoque B / C ou ACWY selon schéma en vigueur.
+                • 11–12 Mois : ROR (Rougeole, Oreillons, Rubéole) + rappels essentiels.
                 
-                Always review with your pediatrician at each well-child visit.
+                Faites toujours le point avec votre pédiatre ou médecin traitant lors des visites mensuelles.
             """.trimIndent()
         ),
         KnowledgeArticle(
             id = "art_2",
-            category = "1st Trimester",
-            title = "First Trimester Nutrition & Nausea Management",
-            readTime = "3 min read",
+            category = "1er Trimestre",
+            title = "Alimentation du 1er Trimestre & Gestion des Nausées",
+            readTime = "3 min de lecture",
             content = """
-                Navigating morning sickness with clinical tips:
+                Apprivoiser les nausées matinales avec des astuces simples et douces :
                 
-                • Keep crackers or dry toast on your bedside table to eat before standing up.
-                • Vitamin B6 (25mg 3x daily) paired with doxylamine provides safe, effective nausea relief.
-                • Stay hydrated with electrolytes, sparkling water with lemon, or watermelon cubes.
-                • Do not worry if your diet is simple right now; baby draws on your pre-existing nutrient stores.
+                • Gardez quelques biscuits secs ou biscottes sur la table de chevet à croquer avant de vous lever.
+                • Fractionnez vos repas : 5 à 6 petites collations valent mieux que 3 gros repas.
+                • Hydratez-vous régulièrement par petites gorgées (eau citronnée, infusion au gingembre, pastèque).
+                • Ne culpabilisez pas si votre appétit varie : bébé puise d'abord dans vos réserves existantes.
             """.trimIndent()
         ),
         KnowledgeArticle(
             id = "art_3",
-            category = "Postpartum",
-            title = "Postpartum Recovery & The 4th Trimester",
-            readTime = "5 min read",
+            category = "Post-partum",
+            title = "Récupération Post-partum & Le 4e Trimestre",
+            readTime = "5 min de lecture",
             content = """
-                Your body needs intentional healing after birth:
+                Votre corps a besoin de douceur et de repos après la naissance :
                 
-                • Lochia (postpartum bleeding) lasts 3-6 weeks, transitioning from bright red to pink and yellowish-white.
-                • Perineal care: Use a peri-bottle with warm water, witch hazel pads, and cold packs.
-                • Rest whenever the baby sleeps; minimize lifting anything heavier than your baby.
-                • Baby blues peak around days 3-5 due to plummeting hormones; if sadness persists past 2 weeks, speak with your doctor about postpartum depression.
+                • Les lochies (saignements post-accouchement) durent généralement 3 à 6 semaines et s'éclaircissent progressivement.
+                • Soin du périnée : privilégiez l'eau tiède après chaque passage aux toilettes et séchez délicatement.
+                • Reposez-vous dès que bébé dort ; évitez de porter des charges plus lourdes que votre bébé.
+                • Le baby-blues survient souvent entre le 3e et le 5e jour ; si la tristesse persiste au-delà de 2 semaines, parlez-en à votre sage-femme ou médecin.
             """.trimIndent()
         ),
         KnowledgeArticle(
             id = "art_4",
-            category = "3rd Trimester",
-            title = "Signs of Labor & The 5-1-1 Rule",
-            readTime = "3 min read",
+            category = "3e Trimestre",
+            title = "Signes du Travail & La Règle du 5-1-1",
+            readTime = "3 min de lecture",
             content = """
-                How to recognize true labor versus Braxton Hicks:
+                Reconnaître les vraies contractions de travail par rapport aux contractions de Braxton Hicks :
                 
-                • True contractions: Feel like deep menstrual cramps wrapping from back to front, becoming progressively longer, stronger, and closer together.
-                • 5-1-1 Rule: Contractions occurring every 5 minutes, lasting 1 full minute, continuing for 1 hour.
-                • Water breaking: Clear fluid release (trickle or gush); note the time, color, and odor.
-                • Call labor triage immediately if you notice bright red bleeding, decreased fetal movement, or continuous severe abdominal pain.
+                • Vraies contractions : douleurs rythmées partant souvent du bas du dos vers le bas-ventre, devenant plus longues, intenses et rapprochées.
+                • Règle du 5-1-1 : contractions toutes les 5 minutes, durant environ 1 minute chacune, pendant au moins 1 heure.
+                • Perte des eaux : écoulement clair (filet continu ou flot) ; notez l'heure et l'aspect du liquide.
+                • Contactez immédiatement la maternité en cas de saignements rouge vif, diminution nette des mouvements de bébé ou douleur abdominale intense continue.
             """.trimIndent()
         )
     )

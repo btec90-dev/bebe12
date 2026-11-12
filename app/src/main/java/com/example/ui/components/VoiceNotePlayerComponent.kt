@@ -163,7 +163,7 @@ fun VoiceNotePlayerComponent(
                     ) {
                         Icon(
                             imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                            contentDescription = if (isPlaying) "Pause" else "Play",
+                            contentDescription = if (isPlaying) "Pause" else "Lecture",
                             tint = Color.White,
                             modifier = Modifier.size(20.dp)
                         )

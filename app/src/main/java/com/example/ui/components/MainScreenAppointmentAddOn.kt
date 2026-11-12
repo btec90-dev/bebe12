@@ -74,7 +74,7 @@ fun MainScreenAppointmentAddOn(
 
     // Filter appointments for the selected calendar date
     val selectedDayAppointments = remember(selectedDate, appointments) {
-        val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.FRENCH)
         appointments.filter { app ->
             val appDateStr = sdf.format(Date(app.dateTimestamp))
             appDateStr.equals(selectedDate, ignoreCase = true)
@@ -341,7 +341,7 @@ fun AppointmentAddOnItemRow(
     onToggle: () -> Unit
 ) {
     val dateFormatted = remember(appointment.dateTimestamp) {
-        SimpleDateFormat("EEE dd MMM • HH:mm", Locale.getDefault()).format(Date(appointment.dateTimestamp))
+        SimpleDateFormat("EEE dd MMM • HH:mm", Locale.FRENCH).format(Date(appointment.dateTimestamp))
     }
 
     Box(
@@ -470,7 +470,7 @@ fun MainScreenAddAppointmentDialog(
         // Try parsing initialDateString if provided
         if (initialDateString.isNotBlank()) {
             try {
-                val parsed = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).parse(initialDateString)
+                val parsed = SimpleDateFormat("MMM dd, yyyy", Locale.FRENCH).parse(initialDateString)
                 if (parsed != null) cal.time = parsed
             } catch (_: Exception) {}
         }
@@ -481,10 +481,10 @@ fun MainScreenAddAppointmentDialog(
 
     var selectedTimestamp by remember { mutableLongStateOf(calendar.timeInMillis) }
     val displayDateStr = remember(selectedTimestamp) {
-        SimpleDateFormat("EEE dd MMMM yyyy", Locale.getDefault()).format(Date(selectedTimestamp))
+        SimpleDateFormat("EEE dd MMMM yyyy", Locale.FRENCH).format(Date(selectedTimestamp))
     }
     val displayTimeStr = remember(selectedTimestamp) {
-        SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(selectedTimestamp))
+        SimpleDateFormat("HH:mm", Locale.FRENCH).format(Date(selectedTimestamp))
     }
 
     val timeSlots = listOf("08:30", "09:30", "11:00", "14:00", "15:30", "17:00")

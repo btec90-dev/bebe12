@@ -74,11 +74,11 @@ fun UserProfileDialog(
     }
 
     val colorOptions = listOf(
-        Pair("Deep Espresso", "#2D1B10"),
-        Pair("Warm Caramel", "#9E5727"),
-        Pair("Cognac Brown", "#7A3E15"),
+        Pair("Expresso Intense", "#2D1B10"),
+        Pair("Caramel Doux", "#9E5727"),
+        Pair("Brun Cognac", "#7A3E15"),
         Pair("Terracotta", "#C86D51"),
-        Pair("Forest Olive", "#4A5D4E")
+        Pair("Olive Forêt", "#4A5D4E")
     )
 
     AlertDialog(
@@ -103,7 +103,7 @@ fun UserProfileDialog(
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "Maman Profile & Style",
+                    text = "Profil & Style de Maman",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         color = TextDarkEspresso
@@ -142,7 +142,7 @@ fun UserProfileDialog(
                         if (photoUriInput.isNotBlank()) {
                             AsyncImage(
                                 model = photoUriInput,
-                                contentDescription = "Profile Photo",
+                                contentDescription = "Photo de profil",
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.fillMaxSize()
                             )
@@ -156,7 +156,7 @@ fun UserProfileDialog(
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
-                                    text = "Add Photo",
+                                    text = "Ajouter photo",
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         color = DeepEspressoPrimary,
                                         fontSize = 9.sp,
@@ -255,7 +255,7 @@ fun UserProfileDialog(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "Title Text Color",
+                            text = "Couleur du titre",
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextDarkEspresso
@@ -362,12 +362,12 @@ fun UserProfileDialog(
                 shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = DeepEspressoPrimary)
             ) {
-                Text("Save Profile", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("Enregistrer le profil", color = Color.White, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = DeepEspressoPrimary)
+                Text("Annuler", color = DeepEspressoPrimary)
             }
         }
     )

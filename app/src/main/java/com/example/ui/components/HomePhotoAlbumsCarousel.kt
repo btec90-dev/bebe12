@@ -96,45 +96,51 @@ import com.example.ui.viewmodel.PregnancyViewModel
 
 data class HomeAlbumDef(
     val category: String,
+    val legacyCategory: String,
     val displayName: String,
     val iconEmoji: String,
     val placeholderIcon: ImageVector,
     val gradientColors: List<Color>
 )
 
-// STRICT DISPLAY ORDER: Family, Ultrasound, Belly Bump, Baby Milestones, Nursery
+// ORDRE D'AFFICHAGE STRICT : Famille, Échographie, Ventre Rond, Étapes de Bébé, Chambre de Bébé
 val OrderedHomeAlbums = listOf(
     HomeAlbumDef(
-        category = "Family",
-        displayName = "Family",
+        category = "Famille",
+        legacyCategory = "Family",
+        displayName = "Famille",
         iconEmoji = "👨‍👩‍👧",
         placeholderIcon = Icons.Default.Favorite,
         gradientColors = listOf(Color(0xFFFF9A9E), Color(0xFFFAD0C4))
     ),
     HomeAlbumDef(
-        category = "Ultrasound",
-        displayName = "Ultrasound",
+        category = "Échographie",
+        legacyCategory = "Ultrasound",
+        displayName = "Échographie",
         iconEmoji = "🩺",
         placeholderIcon = Icons.Default.MedicalServices,
         gradientColors = listOf(Color(0xFFA18CD1), Color(0xFFFBC2EB))
     ),
     HomeAlbumDef(
-        category = "Belly Bump",
-        displayName = "Belly Bump",
+        category = "Ventre Rond",
+        legacyCategory = "Belly Bump",
+        displayName = "Ventre Rond",
         iconEmoji = "🤰",
         placeholderIcon = Icons.Default.CameraAlt,
         gradientColors = listOf(Color(0xFFFF85A1), Color(0xFFFFAAA6))
     ),
     HomeAlbumDef(
-        category = "Baby Milestones",
-        displayName = "Baby Milestones",
+        category = "Étapes de Bébé",
+        legacyCategory = "Baby Milestones",
+        displayName = "Étapes de Bébé",
         iconEmoji = "👶",
         placeholderIcon = Icons.Default.Star,
         gradientColors = listOf(Color(0xFFFFD166), Color(0xFFF78C6B))
     ),
     HomeAlbumDef(
-        category = "Nursery",
-        displayName = "Nursery",
+        category = "Chambre de Bébé",
+        legacyCategory = "Nursery",
+        displayName = "Chambre",
         iconEmoji = "🧸",
         placeholderIcon = Icons.Default.Home,
         gradientColors = listOf(Color(0xFF84DCC6), Color(0xFFA5FFD6))
@@ -172,7 +178,7 @@ fun HomePhotoAlbumsCarousel(
                     Text(text = "📸", fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Photo Albums",
+                        text = "Albums Photos",
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.Bold,
                             color = TextDarkEspresso,
@@ -181,7 +187,7 @@ fun HomePhotoAlbumsCarousel(
                     )
                 }
                 Text(
-                    text = "Tap to open",
+                    text = "Appuyer pour ouvrir",
                     style = MaterialTheme.typography.labelSmall.copy(
                         color = TextWarmTaupe,
                         fontSize = 10.sp
@@ -199,7 +205,9 @@ fun HomePhotoAlbumsCarousel(
             ) {
                 items(OrderedHomeAlbums) { album ->
                     val albumPhotos = entries.filter {
-                        it.category.equals(album.category, ignoreCase = true) && !it.photoUri.isNullOrBlank()
+                        (it.category.equals(album.category, ignoreCase = true) ||
+                            it.category.equals(album.legacyCategory, ignoreCase = true)) &&
+                            !it.photoUri.isNullOrBlank()
                     }
                     val latestPhoto = albumPhotos.maxByOrNull { it.timestamp }
                     val hasPhotos = albumPhotos.isNotEmpty()
@@ -288,7 +296,7 @@ fun HomePhotoAlbumsCarousel(
                                     } else {
                                         Icon(
                                             imageVector = Icons.Default.Add,
-                                            contentDescription = "Add",
+                                            contentDescription = "Ajouter",
                                             tint = Color.White,
                                             modifier = Modifier.size(11.dp)
                                         )
@@ -313,7 +321,7 @@ fun HomePhotoAlbumsCarousel(
                         )
 
                         Text(
-                            text = if (hasPhotos) "${albumPhotos.size} photos" else "Add photo",
+                            text = if (hasPhotos) "${albumPhotos.size} photos" else "Ajouter photo",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 color = if (hasPhotos) RosePrimary else TextWarmTaupe,
                                 fontSize = 9.sp,
@@ -343,7 +351,8 @@ fun PhotoAlbumDetailDialog(
     val context = LocalContext.current
 
     val albumPhotos = entries.filter {
-        it.category.equals(album.category, ignoreCase = true)
+        it.category.equals(album.category, ignoreCase = true) ||
+            it.category.equals(album.legacyCategory, ignoreCase = true)
     }
 
     var photoToCrop by remember { mutableStateOf<JournalEntryEntity?>(null) }
@@ -359,8 +368,8 @@ fun PhotoAlbumDetailDialog(
             viewModel.saveBumpPhoto(
                 bitmap = bitmap,
                 week = currentWeek,
-                title = "${album.displayName} Photo",
-                notes = "Captured in ${album.displayName} album"
+                title = "Photo ${album.displayName}",
+                notes = "Capturée dans l'album ${album.displayName}"
             )
             // Re-categorize to this album
             val last = viewModel.journalEntries.value.lastOrNull()
@@ -377,8 +386,8 @@ fun PhotoAlbumDetailDialog(
         if (uri != null) {
             viewModel.addJournalEntry(
                 weekNumber = currentWeek,
-                title = "${album.displayName} Photo",
-                reflection = "Added to ${album.displayName} album",
+                title = "Photo ${album.displayName}",
+                reflection = "Ajoutée à l'album ${album.displayName}",
                 photoUri = uri.toString(),
                 category = album.category
             )
@@ -408,14 +417,14 @@ fun PhotoAlbumDetailDialog(
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "${album.displayName} Album",
+                                text = "Album ${album.displayName}",
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             )
                             Text(
-                                text = "${albumPhotos.size} photos & memories",
+                                text = "${albumPhotos.size} photos & souvenirs",
                                 style = MaterialTheme.typography.bodySmall.copy(color = RosePrimary, fontWeight = FontWeight.SemiBold)
                             )
                         }
@@ -427,13 +436,13 @@ fun PhotoAlbumDetailDialog(
                             onClick = { showAddDialog = true },
                             modifier = Modifier.testTag("btn_album_add_photo")
                         ) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = "Add Photo", tint = RosePrimary)
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "Ajouter une photo", tint = RosePrimary)
                         }
                         IconButton(
                             onClick = onDismiss,
                             modifier = Modifier.testTag("btn_close_album_dialog")
                         ) {
-                            Icon(imageVector = Icons.Default.Close, contentDescription = "Close", tint = Color.Gray)
+                            Icon(imageVector = Icons.Default.Close, contentDescription = "Fermer", tint = Color.Gray)
                         }
                     }
                 }
@@ -460,15 +469,16 @@ fun PhotoAlbumDetailDialog(
                                 Text(text = album.iconEmoji, fontSize = 56.sp)
                                 Spacer(modifier = Modifier.height(14.dp))
                                 Text(
-                                    text = "No ${album.displayName} Photos Yet",
+                                    text = "Aucune photo « ${album.displayName} »",
                                     style = MaterialTheme.typography.titleLarge.copy(
                                         fontWeight = FontWeight.Bold,
                                         color = TextDarkEspresso
-                                    )
+                                    ),
+                                    textAlign = TextAlign.Center
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = "Start capturing special ${album.displayName.lowercase()} moments of your pregnancy journey.",
+                                    text = "Commencez à immortaliser vos plus beaux moments (${album.displayName.lowercase()}) tout au long de votre grossesse.",
                                     style = MaterialTheme.typography.bodyMedium.copy(color = TextWarmTaupe),
                                     textAlign = TextAlign.Center
                                 )
@@ -482,7 +492,7 @@ fun PhotoAlbumDetailDialog(
                                     ) {
                                         Icon(imageVector = Icons.Default.CameraAlt, contentDescription = null, modifier = Modifier.size(16.dp))
                                         Spacer(modifier = Modifier.width(6.dp))
-                                        Text("Take Photo")
+                                        Text("Photo")
                                     }
 
                                     OutlinedButton(
@@ -495,7 +505,7 @@ fun PhotoAlbumDetailDialog(
                                     ) {
                                         Icon(imageVector = Icons.Default.PhotoLibrary, contentDescription = null, modifier = Modifier.size(16.dp), tint = RosePrimary)
                                         Spacer(modifier = Modifier.width(6.dp))
-                                        Text("Gallery", color = RosePrimary)
+                                        Text("Galerie", color = RosePrimary)
                                     }
                                 }
                             }
@@ -542,7 +552,7 @@ fun PhotoAlbumDetailDialog(
                                                     .padding(horizontal = 8.dp, vertical = 4.dp)
                                             ) {
                                                 Text(
-                                                    text = "Week ${entry.weekNumber}",
+                                                    text = "Semaine ${entry.weekNumber}",
                                                     color = Color.White,
                                                     fontSize = 11.sp,
                                                     fontWeight = FontWeight.Bold
@@ -585,9 +595,9 @@ fun PhotoAlbumDetailDialog(
                                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
                                                     modifier = Modifier.testTag("btn_crop_photo_${entry.id}")
                                                 ) {
-                                                    Icon(imageVector = Icons.Default.Crop, contentDescription = "Crop", modifier = Modifier.size(15.dp), tint = RosePrimary)
+                                                    Icon(imageVector = Icons.Default.Crop, contentDescription = "Recadrer", modifier = Modifier.size(15.dp), tint = RosePrimary)
                                                     Spacer(modifier = Modifier.width(4.dp))
-                                                    Text("Crop", fontSize = 11.sp, color = RosePrimary, fontWeight = FontWeight.Bold)
+                                                    Text("Recadrer", fontSize = 11.sp, color = RosePrimary, fontWeight = FontWeight.Bold)
                                                 }
                                             } else {
                                                 Spacer(modifier = Modifier.width(1.dp))
@@ -599,7 +609,7 @@ fun PhotoAlbumDetailDialog(
                                                     IconButton(
                                                         onClick = { viewModel.savePhotoToDeviceGallery(context, entry.photoUri) }
                                                     ) {
-                                                        Icon(imageVector = Icons.Default.SaveAlt, contentDescription = "Save to Gallery", tint = RosePrimary)
+                                                        Icon(imageVector = Icons.Default.SaveAlt, contentDescription = "Enregistrer dans la galerie", tint = RosePrimary)
                                                     }
 
                                                     // Share Photo
@@ -607,7 +617,7 @@ fun PhotoAlbumDetailDialog(
                                                         onClick = { viewModel.sharePhoto(context, entry.photoUri, "${entry.title} - ${album.displayName}") },
                                                         modifier = Modifier.testTag("btn_share_${entry.id}")
                                                     ) {
-                                                        Icon(imageVector = Icons.Default.Share, contentDescription = "Share", tint = RosePrimary)
+                                                        Icon(imageVector = Icons.Default.Share, contentDescription = "Partager", tint = RosePrimary)
                                                     }
                                                 }
 
@@ -616,7 +626,7 @@ fun PhotoAlbumDetailDialog(
                                                     onClick = { photoToEdit = entry },
                                                     modifier = Modifier.testTag("btn_edit_${entry.id}")
                                                 ) {
-                                                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                                                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Modifier", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                                                 }
 
                                                 // Delete Entry
@@ -624,7 +634,7 @@ fun PhotoAlbumDetailDialog(
                                                     onClick = { photoToDelete = entry },
                                                     modifier = Modifier.testTag("btn_delete_${entry.id}")
                                                 ) {
-                                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFD32F2F))
+                                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Supprimer", tint = Color(0xFFD32F2F))
                                                 }
                                             }
                                         }
@@ -661,25 +671,25 @@ fun PhotoAlbumDetailDialog(
 
         AlertDialog(
             onDismissRequest = { photoToEdit = null },
-            title = { Text("Edit ${album.displayName} Photo") },
+            title = { Text("Modifier la photo (${album.displayName})") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedTextField(
                         value = titleInput,
                         onValueChange = { titleInput = it },
-                        label = { Text("Photo Title") },
+                        label = { Text("Titre de la photo") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = weekInput,
                         onValueChange = { weekInput = it },
-                        label = { Text("Pregnancy Week (1-42)") },
+                        label = { Text("Semaine de grossesse (1-42)") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = reflectionInput,
                         onValueChange = { reflectionInput = it },
-                        label = { Text("Notes / Caption") },
+                        label = { Text("Notes / Légende") },
                         modifier = Modifier.fillMaxWidth(),
                         minLines = 3
                     )
@@ -700,12 +710,12 @@ fun PhotoAlbumDetailDialog(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = RosePrimary)
                 ) {
-                    Text("Save Changes")
+                    Text("Enregistrer")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { photoToEdit = null }) {
-                    Text("Cancel")
+                    Text("Annuler")
                 }
             }
         )
@@ -716,8 +726,8 @@ fun PhotoAlbumDetailDialog(
         val deleting = photoToDelete!!
         AlertDialog(
             onDismissRequest = { photoToDelete = null },
-            title = { Text("Delete Photo") },
-            text = { Text("Are you sure you want to delete '${deleting.title}' from your ${album.displayName} album?") },
+            title = { Text("Supprimer la photo") },
+            text = { Text("Voulez-vous vraiment supprimer « ${deleting.title} » de votre album ${album.displayName} ?") },
             confirmButton = {
                 Button(
                     onClick = {
@@ -726,12 +736,12 @@ fun PhotoAlbumDetailDialog(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
                 ) {
-                    Text("Delete")
+                    Text("Supprimer")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { photoToDelete = null }) {
-                    Text("Cancel")
+                    Text("Annuler")
                 }
             }
         )
@@ -741,8 +751,8 @@ fun PhotoAlbumDetailDialog(
     if (showAddDialog) {
         AlertDialog(
             onDismissRequest = { showAddDialog = false },
-            title = { Text("Add to ${album.displayName} Album") },
-            text = { Text("Choose how you would like to add a new memory to this album:") },
+            title = { Text("Ajouter à l'album ${album.displayName}") },
+            text = { Text("Choisissez comment ajouter un nouveau souvenir à cet album :") },
             confirmButton = {
                 Button(
                     onClick = {
@@ -753,7 +763,7 @@ fun PhotoAlbumDetailDialog(
                 ) {
                     Icon(imageVector = Icons.Default.CameraAlt, contentDescription = null, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Camera")
+                    Text("Appareil photo")
                 }
             },
             dismissButton = {
@@ -767,7 +777,7 @@ fun PhotoAlbumDetailDialog(
                 ) {
                     Icon(imageVector = Icons.Default.PhotoLibrary, contentDescription = null, modifier = Modifier.size(16.dp), tint = RosePrimary)
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Gallery", color = RosePrimary)
+                    Text("Galerie", color = RosePrimary)
                 }
             }
         )
@@ -775,7 +785,7 @@ fun PhotoAlbumDetailDialog(
 }
 
 /**
- * Interactive Crop & Rotate Tool Dialog
+ * Outil interactif de recadrage et de rotation
  */
 @Composable
 fun PhotoCropDialog(
@@ -794,7 +804,7 @@ fun PhotoCropDialog(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(imageVector = Icons.Default.Crop, contentDescription = null, tint = RosePrimary)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Crop & Rotate Photo", fontWeight = FontWeight.Bold)
+                Text("Recadrer & Pivoter", fontWeight = FontWeight.Bold)
             }
         },
         text = {
@@ -815,7 +825,7 @@ fun PhotoCropDialog(
                         painter = rememberAsyncImagePainter(
                             model = if (photoUri.startsWith("/")) java.io.File(photoUri) else Uri.parse(photoUri)
                         ),
-                        contentDescription = "Crop Preview",
+                        contentDescription = "Aperçu du recadrage",
                         modifier = Modifier
                             .fillMaxSize()
                             .rotate(rotationAngle),
@@ -826,13 +836,13 @@ fun PhotoCropDialog(
                 Spacer(modifier = Modifier.height(14.dp))
 
                 // Aspect Ratio Selector Chips
-                Text("Aspect Ratio Crop:", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                Text("Format de recadrage :", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(6.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    listOf("1:1" to "Square", "4:5" to "Portrait", "16:9" to "Wide", "ORIGINAL" to "Fit").forEach { (ratioKey, label) ->
+                    listOf("1:1" to "Carré", "4:5" to "Portrait", "16:9" to "Large", "ORIGINAL" to "Original").forEach { (ratioKey, label) ->
                         val isSelected = selectedRatio == ratioKey
                         Box(
                             modifier = Modifier
@@ -866,7 +876,7 @@ fun PhotoCropDialog(
                 ) {
                     Icon(imageVector = Icons.AutoMirrored.Filled.RotateRight, contentDescription = null, tint = DeepEspressoPrimary, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Rotate 90° (${rotationAngle.toInt()}°)", color = DeepEspressoPrimary, fontWeight = FontWeight.Bold)
+                    Text("Pivoter de 90° (${rotationAngle.toInt()}°)", color = DeepEspressoPrimary, fontWeight = FontWeight.Bold)
                 }
             }
         },
@@ -885,12 +895,12 @@ fun PhotoCropDialog(
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = RosePrimary)
             ) {
-                Text("Apply & Save")
+                Text("Appliquer & Enregistrer")
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text("Annuler")
             }
         }
     )
